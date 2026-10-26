@@ -1,45 +1,45 @@
 /**
- * Los textos de la placa, en español e inglés (ADR-0008). Ningún texto visible se escribe en un
+ * Los textos del hub, en español e inglés (ADR-0008). Ningún texto visible se escribe en un
  * componente: sale de acá. `en` está tipado con las claves de `es`, así que a un idioma no le puede
- * faltar una clave sin que falle `tsc`. La voz es la del encargado del bar (PRODUCT.md).
+ * faltar una clave sin que falle `tsc`. La voz es la de PRODUCT.md.
  */
 
 export type Idioma = 'es' | 'en';
 export const IDIOMAS: readonly Idioma[] = ['es', 'en'];
 
 const es = {
-  'placa.titulo': '{n} EN 1',
-  'placa.lista': 'Juegos',
-  'placa.vacia': 'TODAVÍA NO HAY JUEGOS. VOLVÉ MAÑANA.',
-  'arranque.placa': 'PLACA MULTIJUEGO V1.0',
-  'arranque.ram': 'CHEQUEO DE RAM ....... OK',
-  'arranque.catalogo': 'LEYENDO EL CATÁLOGO ...',
-  'senal.titulo': 'SIN SEÑAL',
-  'senal.detalle': 'ALGUIEN PISÓ EL CABLE. PROBÁ EN UN RATO.',
-  'pie.flechas': 'Flechas arriba y abajo:',
-  'pie.elegir': 'ELEGIR',
-  'pie.enter': 'ENTER',
-  'pie.jugar': 'JUGAR',
-  'pie.tactil': 'TOCÁ UN JUEGO Y ADENTRO',
+  'hub.marca': 'nicolasdalessandro.dev',
+  'hub.titulo': 'Todo lo que está andando',
+  'hub.conteo': '{n} proyectos',
+  'hub.conteo.uno': 'un proyecto',
+  'hub.proyectos': 'Proyectos',
+  'hub.atajo.antes': 'Apretá',
+  'hub.atajo.rango': '{desde}–{hasta}',
+  'hub.atajo.despues': 'y entrás directo',
+  'hub.cargando': 'Buscando lo que está andando…',
+  'hub.sin-lista': 'No pude leer la lista de proyectos. Probá en un rato.',
+  'hub.vacio': 'Todavía no hay nada publicado. Volvé en unos días.',
+  'hub.captura': 'captura de prueba',
+  'hub.pie': 'La lista se arma sola con lo que corre en el servidor.',
 } as const;
 
 export type ClaveDeTexto = keyof typeof es;
 export type Textos = Record<ClaveDeTexto, string>;
 
 const en: Textos = {
-  'placa.titulo': '{n} IN 1',
-  'placa.lista': 'Games',
-  'placa.vacia': 'NO GAMES YET. COME BACK TOMORROW.',
-  'arranque.placa': 'MULTIGAME BOARD V1.0',
-  'arranque.ram': 'RAM CHECK ............ OK',
-  'arranque.catalogo': 'READING THE CATALOG ...',
-  'senal.titulo': 'NO SIGNAL',
-  'senal.detalle': 'SOMEBODY TRIPPED ON THE CABLE. TRY AGAIN SOON.',
-  'pie.flechas': 'Up and down arrows:',
-  'pie.elegir': 'SELECT',
-  'pie.enter': 'ENTER',
-  'pie.jugar': 'PLAY',
-  'pie.tactil': 'TAP A GAME AND YOU’RE IN',
+  'hub.marca': 'nicolasdalessandro.dev',
+  'hub.titulo': 'Everything that’s up and running',
+  'hub.conteo': '{n} projects',
+  'hub.conteo.uno': 'one project',
+  'hub.proyectos': 'Projects',
+  'hub.atajo.antes': 'Press',
+  'hub.atajo.rango': '{desde}–{hasta}',
+  'hub.atajo.despues': 'to jump straight in',
+  'hub.cargando': 'Looking up what’s running…',
+  'hub.sin-lista': 'Couldn’t read the project list. Try again in a bit.',
+  'hub.vacio': 'Nothing’s live yet. Check back in a few days.',
+  'hub.captura': 'test capture',
+  'hub.pie': 'This list builds itself from whatever runs on the server.',
 };
 
 export const TEXTOS: Record<Idioma, Textos> = {es, en};
@@ -56,7 +56,7 @@ export function texto(
 }
 
 /**
- * El primer idioma de las preferencias del navegador que la placa conoce. Si no conoce ninguno,
+ * El primer idioma de las preferencias del navegador que el hub conoce. Si no conoce ninguno,
  * inglés; si el navegador no dice nada, español.
  */
 export function idiomaPreferido(preferencias: readonly string[]): Idioma {

@@ -314,3 +314,67 @@ Queda para la revisión de H5.
 queda elegida) y H8 («VOLVISTE»). Las dos están en el contrato y no entraban en H3 sin agrandarlo.
 
 **Sha:** `e26546b`
+
+## H9 — La grilla reemplaza a la placa: un recuadro por ficha visible, y la tecla del número entra · 2026-10-26
+
+Antes del test, la decisión: [ADR-0011](adr/0011-el-hub-es-una-grilla-de-proyectos.md) (commit
+`731274c`), con el contrato de dirección nuevo en `.impeccable/surfaces/index-html.md`.
+
+**Archivos:** `src/hub/Hub.tsx` (nuevo: el catálogo, el encabezado con el conteo, los estados y el
+atajo de la tecla), `src/hub/Recuadro.tsx` (nuevo: preview, nombre, descripción, host y tecla, con la
+luz que sigue al puntero), `src/hub/hub.css` (nuevo), `src/hub/movimiento.ts` y
+`src/hub/vistas-de-prueba.ts` (nuevos), `src/catalogo/pedir-catalogo.ts` (nuevo: el pedido de
+`/catalogo.json` que antes vivía en la placa), `src/estilos/base.css` (los tokens de la grilla),
+`src/main.tsx`, `src/i18n/textos.ts` (las claves `hub.*` reemplazan a las de la placa),
+`public/prueba/vistas/` (las capturas de prueba de los seis sitios, con su procedencia al lado),
+`tests/hub.test.tsx`. Se borran `src/placa/` y sus tests (`tests/placa.test.tsx`,
+`tests/cursor.test.tsx`), y las tipografías de la placa (Martian Mono y Dela Gothic One); entran Geist
+y Geist Mono.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin el código. Falla en `tsc`: no existe el componente del hub ni
+sus textos.
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/hub.test.tsx(7,19): error TS2307: Cannot find module '../src/hub/Hub.tsx' or its corresponding type declarations.
+tests/hub.test.tsx(45,42): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.proyectos"' can't be used to index type 'Textos'.
+  Property 'hub.proyectos' does not exist on type 'Textos'.
+tests/hub.test.tsx(62,62): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.cargando"' can't be used to index type 'Textos'.
+  Property 'hub.cargando' does not exist on type 'Textos'.
+tests/hub.test.tsx(114,36): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.sin-lista"' can't be used to index type 'Textos'.
+  Property 'hub.sin-lista' does not exist on type 'Textos'.
+tests/hub.test.tsx(121,36): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.sin-lista"' can't be used to index type 'Textos'.
+  Property 'hub.sin-lista' does not exist on type 'Textos'.
+tests/hub.test.tsx(128,36): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.vacio"' can't be used to index type 'Textos'.
+  Property 'hub.vacio' does not exist on type 'Textos'.
+tests/hub.test.tsx(141,44): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.proyectos"' can't be used to index type 'Textos'.
+  Property 'hub.proyectos' does not exist on type 'Textos'.
+tests/hub.test.tsx(146,41): error TS7053: Element implicitly has an 'any' type because expression of type '"hub.captura"' can't be used to index type 'Textos'.
+  Property 'hub.captura' does not exist on type 'Textos'.
+EXIT=2
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  3 passed (3)
+      Tests  40 passed (40)
+dist/index.html                                                   0.38 kB │ gzip:  0.26 kB
+✓ built in 84ms
+EXIT=0
+```
+
+**Revisión visual** (Chrome sin cabeza por CDP, 1440×900 y 390×844 con emulación táctil): la grilla
+de tres columnas en escritorio y de una en el celular, con las seis capturas de prueba marcadas. En
+el celular la imagen de abajo no había cargado por la carga diferida, que se sacó (son seis imágenes
+de unos 20 KB). La pista de teclado se esconde en pantallas táctiles.
+
+**Lo que no se pudo ver:** el loop de `vista`, porque ninguna app lo sirve todavía.

@@ -96,7 +96,7 @@ La placa no convenció, y la galería del mundo para caminar tampoco. El hub pas
 recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo está en
 `.impeccable/surfaces/index-html.md`.
 
-- [ ] **H9 — La grilla reemplaza a la placa: un recuadro por ficha visible, y la tecla del número
+- [x] **H9 — La grilla reemplaza a la placa: un recuadro por ficha visible, y la tecla del número
       entra.** *Depende de H1.*
       *Test (jsdom):* mientras `fetch` no contesta, el hub está cargando y no hay recuadros; con el
       catálogo de ejemplo, el encabezado dice cuántos proyectos hay y hay un link por ficha visible,

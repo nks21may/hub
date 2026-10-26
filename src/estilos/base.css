@@ -1,59 +1,57 @@
 /*
- * Los tokens de la placa. Salen del contrato de dirección (.impeccable/surfaces/index-html.md)
- * hasta que el documentador escriba DESIGN.md (H5).
+ * Los tokens del hub. Salen del contrato de dirección (.impeccable/surfaces/index-html.md) hasta
+ * que el documentador escriba DESIGN.md (H5): fondo casi negro, superficies apenas más claras con
+ * borde fino, texto blanco y gris lavanda, y la aurora de índigo, violeta y verde agua.
  */
 :root {
-  /* La pantalla: azul de menú, títulos amarillos, texto blanco de fósforo. */
-  --azul-menu: #0a1a8c;
-  --azul-hondo: #040b52;
-  --amarillo: #ffe81a;
-  --blanco-fosforo: #f2f4ff;
-  --rojo-cursor: #e4002b;
-  --negro-crt: #04060c;
-  --gris-arranque: #aeb4c8;
+  --fondo: #08090b;
+  --superficie: rgb(255 255 255 / 0.028);
+  --superficie-alta: rgb(255 255 255 / 0.05);
+  --borde: rgb(255 255 255 / 0.08);
+  --borde-fuerte: rgb(255 255 255 / 0.18);
+  --filo: rgb(255 255 255 / 0.07);
+  --texto: #eceef3;
+  --texto-2: #a6a4bc;
+  --texto-3: #8a88a0;
+  --acento: #8b7cf6;
+  --velo: rgb(8 9 11 / 0.74);
 
-  /* El logotipo: bandas duras de arcoíris, el único degradé de la placa. */
-  --arcoiris-1: #ff4a3d;
-  --arcoiris-2: #ff9f1a;
-  --arcoiris-3: #ffe81a;
-  --arcoiris-4: #3fd46b;
-  --arcoiris-5: #33c6ff;
+  --aurora-indigo: #3d4bd1;
+  --aurora-violeta: #7a45d6;
+  --aurora-agua: #17a597;
 
-  /* El mueble: terciado pintado de negro, y el bisel de plástico del monitor. */
-  --mueble: #15110d;
-  --bisel: #0a0a0b;
+  --letra: 'Geist Variable', system-ui, sans-serif;
+  --letra-mono: 'Geist Mono Variable', ui-monospace, monospace;
 
-  --letra-pantalla: 'Martian Mono Variable', ui-monospace, monospace;
-  --letra-logo: 'Dela Gothic One', 'Martian Mono Variable', sans-serif;
-
-  /* Cuánto mide de ancho un carácter de la letra de pantalla, en em, a font-stretch 112.5% (medido
-     en el navegador: 0.70 a 100%, 0.75 a 112.5%). Con esto, 1ch = 1 celda. */
-  --avance: 0.75;
-
-  --marco: clamp(10px, 2.5vmin, 32px);
-  --borde-bisel: clamp(8px, 2.2vmin, 28px);
+  --radio: 14px;
+  --margen: clamp(16px, 4vw, 48px);
 
   color-scheme: dark;
+  scrollbar-color: #2b2a36 transparent;
 }
 
 html,
 body {
   margin: 0;
-  background: var(--mueble);
-  color: var(--blanco-fosforo);
+  background: var(--fondo);
+  color: var(--texto);
 }
 
 body {
-  font-family: var(--letra-pantalla);
+  font-family: var(--letra);
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--amarillo);
-  color: var(--azul-menu);
+  background: rgb(139 124 246 / 0.38);
+  color: var(--texto);
 }
 
 :focus-visible {
-  outline: 2px solid var(--amarillo);
-  outline-offset: 2px;
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
 }
