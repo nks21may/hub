@@ -15,6 +15,7 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0005](0005-entra-lo-que-cualquiera-puede-usar.md) | Entra lo que cualquiera puede usar sin pedir permiso; lo apagado no se muestra | aceptado |
 | [0006](0006-el-concepto-es-una-sala-de-fichines.md) | El concepto es una sala de fichines | aceptado |
 | [0007](0007-frontend-disenado-con-impeccable.md) | El frontend se diseña con la skill `impeccable` | aceptado |
+| [0008](0008-espanol-e-ingles.md) | Español e inglés | aceptado |
 
 ## Cuándo escribir uno
 

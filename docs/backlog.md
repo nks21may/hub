@@ -49,7 +49,8 @@ npm run gate
 
 - [ ] **H1 — El formato de la ficha y la lectura del catálogo.** *Depende de H0.*
       **Antes del test, el ADR del formato:** qué campos lleva una ficha, cuáles son obligatorios,
-      cómo se marca `oculto` y cómo viene el `apagado` que agrega el deploy. Es el contrato con
+      cómo vienen sus textos en español e inglés ([ADR-0008](adr/0008-espanol-e-ingles.md)), cómo
+      se marca `oculto` y cómo viene el `apagado` que agrega el deploy. Es el contrato con
       `infra` ([ADR-0003](adr/0003-el-catalogo-sale-de-las-fichas-de-infra.md)).
       *Test:* `leerCatalogo` del catálogo de ejemplo devuelve las máquinas visibles, sin las
       `oculto` ni las apagadas; una ficha sin `url`, o con una `url` que no es `https`, se descarta

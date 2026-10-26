@@ -34,6 +34,9 @@ aunque los tests pasen.
 7. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`. Un color, una
    tipografía o un espaciado que no sale de ahí es un hallazgo de review.
    [ADR-0007](docs/adr/0007-frontend-disenado-con-impeccable.md)
+8. **Español e inglés: ningún texto visible se escribe en un componente**, todo sale del
+   diccionario, y las fichas traen sus textos en los dos idiomas.
+   [ADR-0008](docs/adr/0008-espanol-e-ingles.md)
 
 ## Convenciones
 
