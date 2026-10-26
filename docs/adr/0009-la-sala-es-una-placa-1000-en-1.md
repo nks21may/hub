@@ -1,6 +1,6 @@
 # ADR-0009 — La sala es el menú de una placa multijuego «1000 en 1»
 
-- **Estado:** aceptado
+- **Estado:** reemplazado por [ADR-0011](0011-el-hub-es-una-grilla-de-proyectos.md)
 - **Fecha:** 2026-10-26
 - **Decide:** qué forma y qué mundo visual tiene la sala dentro del concepto de fichines
 

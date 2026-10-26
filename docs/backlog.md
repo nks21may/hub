@@ -88,7 +88,33 @@ npm run gate
       va pegada en la bitácora.
       **Se espera rojo:** el test no encuentra `deploy/nginx.conf`.
       Ver [ADR-0004](adr/0004-el-catalogo-llega-en-runtime.md).
-- [ ] **H5 — La revisión final de `impeccable` y `DESIGN.md`.** *Depende de H3.*
+---
+
+## Fase 2 — La grilla ([ADR-0011](adr/0011-el-hub-es-una-grilla-de-proyectos.md))
+
+La placa no convenció, y la galería del mundo para caminar tampoco. El hub pasa a ser una grilla de
+recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo está en
+`.impeccable/surfaces/index-html.md`.
+
+- [ ] **H9 — La grilla reemplaza a la placa: un recuadro por ficha visible, y la tecla del número
+      entra.** *Depende de H1.*
+      *Test (jsdom):* mientras `fetch` no contesta, el hub está cargando y no hay recuadros; con el
+      catálogo de ejemplo, el encabezado dice cuántos proyectos hay y hay un link por ficha visible,
+      en orden de número, con su nombre, su descripción en el idioma y su host; la tecla del número
+      entra a ese proyecto, y una tecla sin proyecto no hace nada; con `fetch` fallando o con
+      basura, el hub dice que no pudo leer la lista, sin recuadros ni excepción; sin fichas, dice que
+      todavía no hay nada. Una ficha con `vista` muestra el loop; sin `vista`, la captura de prueba
+      marcada como tal o un relleno con el nombre. Los textos salen del diccionario, en los dos
+      idiomas. El código y los tests de la placa se borran.
+      **Se espera rojo:** falla el import del componente del hub.
+- [ ] **H10 — La aurora de fondo.** *Depende de H9.*
+      Manchas de color que se mueven lento detrás de la grilla, sin quitarle contraste a los
+      recuadros.
+      *Test (jsdom):* la aurora está fuera del árbol de accesibilidad; con
+      `prefers-reduced-motion`, queda marcada como quieta.
+      **Se espera rojo:** falla el import del componente de la aurora.
+
+- [ ] **H5 — La revisión final de `impeccable` y `DESIGN.md`.** *Depende de H10.*
       Capturas de escritorio y celular en `.impeccable/review/`, el detector de `impeccable`, el
       revisor final contra el contrato de dirección y, con su veredicto, el documentador que
       escribe `DESIGN.md` y `.impeccable/design.json` desde lo construido.
@@ -96,28 +122,16 @@ npm run gate
       `src/`, y falla si aparece un color que no está entre los tokens.
       **Se espera rojo:** el test no encuentra `.impeccable/design.json`.
       Ver [ADR-0007](adr/0007-frontend-disenado-con-impeccable.md).
-- [ ] **H6 — La perilla de volumen y los sonidos de la placa.** *Depende de H3.*
-      Aparte del primer viewport del contrato, apareció en H2: la perilla va en el mueble, debajo del
-      vidrio. Los sonidos se generan por código (Web Audio), como los de neonduel: no hay archivos.
-      *Test (jsdom):* la placa arranca muda; girar la perilla (o subirla con el teclado) la prende y
-      mover el cursor hace sonar el bip; con la perilla en cero no se crea ningún sonido.
-      **Se espera rojo:** no hay perilla.
-      Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
-- [ ] **H7 — En el celular, la fila que pasa por la línea del cursor queda elegida.** *Depende de
-      H3.* Está en el primer viewport del contrato y quedó afuera de H3: hoy en el celular el cursor
-      sólo se mueve con el foco, y un toque entra directo. Hace falta que la lista pueda llevar cada
-      fila hasta la línea del cursor, aunque sean seis.
-      *Test (jsdom, IntersectionObserver simulado):* cuando la fila 04 cruza la línea del cursor, el
-      cursor y la vista previa pasan a la 04; un toque en una fila sigue entrando a ese juego.
-      **Se espera rojo:** el cursor sigue en 01.
-      Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
-- [ ] **H8 — La fila de la que volviste te recibe con «VOLVISTE».** *Depende de H3.* Es una de las
-      disciplinas del contrato (el lugar donde quedaste se marca al volver).
-      *Test (jsdom):* después de entrar a un juego, al volver a montar la placa el cursor arranca en
-      esa fila y la fila dice VOLVISTE en el diccionario de los dos idiomas; si ese juego ya no
-      está, arranca en 01.
-      **Se espera rojo:** el cursor arranca en 01.
-      Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
+
+
+## Descartados por ADR-0011
+
+Eran de la placa. Quedan anotados para que nadie los busque.
+
+- **H6 — La perilla de volumen y los sonidos de la placa.**
+- **H7 — En el celular, la fila que pasa por la línea del cursor queda elegida.**
+- **H8 — La fila de la que volviste te recibe con «VOLVISTE».** La idea de marcar el último
+  proyecto visitado puede volver en la grilla, como ítem nuevo.
 
 ---
 

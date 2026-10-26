@@ -1,5 +1,12 @@
 # Los tres conceptos del hub
 
+> **Cómo terminó (2026-10-26).** La sala de fichines se construyó como placa 1000 en 1 y no
+> convenció ("se ve muy retro y no me representa"). El mundo para caminar se prototipó como una
+> galería del centro de Córdoba (rama `claude/prueba-mundo-e9ba37`) y tampoco. El hub es una grilla
+> de recuadros con su vista previa, sin metáfora
+> ([ADR-0011](adr/0011-el-hub-es-una-grilla-de-proyectos.md)). Lo que sigue queda como historia y
+> como cantera de easter eggs.
+
 Salieron del grill del 2026-10-26. Interesaron tres: se hace la **sala de fichines**
 ([ADR-0006](adr/0006-el-concepto-es-una-sala-de-fichines.md)) y los otros dos quedan acá, con el
 mismo nivel de detalle, para poder volver a ellos sin rehacer la discusión.
@@ -15,7 +22,7 @@ Ninguno usa la tele (es `museo`) ni la ficha técnica (es `portfolio4`).
 
 ---
 
-## A. Sala de fichines — el elegido
+## A. Sala de fichines — construida y descartada
 
 > **Forma final:** en la ronda de dirección de `impeccable`, la sala tomó la forma del menú de una
 > placa multijuego «1000 en 1». Cada proyecto es un juego de la placa, no una máquina aparte

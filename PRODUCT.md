@@ -47,8 +47,9 @@ Es la cara informal y jugable de los sitios propios: `portfolio4` es la ficha t�
 
 ## Capabilities and Constraints
 
-- **Sala de fichines:** cada proyecto es una máquina ([ADR-0006](docs/adr/0006-el-concepto-es-una-sala-de-fichines.md)).
-  Entrar cuesta un click o un Enter, y la sala se recorre entera con el teclado.
+- **Grilla de proyectos** ([ADR-0011](docs/adr/0011-el-hub-es-una-grilla-de-proyectos.md)): un
+  recuadro con su vista previa por proyecto. Entrar cuesta un click o la tecla de su número, y la
+  grilla se recorre entera con el teclado.
 - **Entra lo usable** ([ADR-0005](docs/adr/0005-entra-lo-que-cualquiera-puede-usar.md)): lo que
   cualquiera puede usar sin pedir permiso. Lo `oculto` no está, y lo apagado no se muestra.
 - **Público y sin login** ([ADR-0002](docs/adr/0002-el-hub-es-publico.md)).
@@ -68,6 +69,13 @@ Es la cara informal y jugable de los sitios propios: `portfolio4` es la ficha t�
   IBM Plex Mono, filas etiqueta/valor) ni la tele de `museo`.
 - **Nada de arcade de neón y pixel art genérico**: es el riesgo conocido de la metáfora
   ([ADR-0006](docs/adr/0006-el-concepto-es-una-sala-de-fichines.md)).
+- **Nada retro**: ni CRT, ni pixel art, ni neón, ni arcoíris. Lo sumó el usuario el 2026-10-26,
+  después de ver la placa terminada ("se ve muy retro y no me representa").
+- **Que se sienta del dueño y tenga gracia**: lo propio sale de Córdoba capital y su estilo
+  cordobés, de los juegos que hace y del oficio de construirlos (el usuario, 2026-10-26).
+- **Lo convencional, bien hecho**: después de descartar la placa y la galería, el usuario eligió una
+  grilla de recuadros sin metáfora, con la terminación de Linear como vara y una aurora de fondo
+  (2026-10-26). La gracia vive en los textos y en los detalles, no en un disfraz.
 
 ## Evidence on Hand
 
@@ -89,8 +97,8 @@ Es la cara informal y jugable de los sitios propios: `portfolio4` es la ficha t�
 
 ## Accessibility & Inclusion
 
-- Toda la sala se usa con el teclado: el foco se ve, las flechas recorren las máquinas y Enter
-  entra.
-- Cada máquina es un link con el nombre del proyecto, legible por un lector de pantalla.
+- Todo el hub se usa con el teclado: el foco se ve, Tab recorre los proyectos, Enter entra y la
+  tecla del número entra directo.
+- Cada recuadro es un link con el nombre del proyecto, legible por un lector de pantalla.
 - Lo que se mueve solo (el modo demo, las animaciones) respeta `prefers-reduced-motion`.
 - Se usa con el dedo en el celular, sin teclado.

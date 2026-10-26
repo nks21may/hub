@@ -5,83 +5,64 @@ primary_target: "index.html"
 related_targets: ["src/main.tsx"]
 ---
 
-# La sala
+# El hub
 
 ## Alcance y modo
 
-La única pantalla del hub: la sala con todas las máquinas. Modo **Experience**: el visitante está
-adentro de la cosa, y la cosa es una placa multijuego.
+La única pantalla del hub: la grilla de proyectos. Modo **Experience**: lo que se muestra son los
+proyectos mismos, y la interfaz se corre del medio.
 
 ## Para quién y para qué
 
 - El dueño entra todos los días a llegar rápido a un proyecto; amigos de Discord desde el celular;
-  gente que viene del portfolio a curiosear.
-- La acción es una sola: elegir una máquina y entrar, en un click o una tecla.
-- El contenido son las fichas de `/catalogo.json`. La pantalla de cada máquina muestra **un loop
-  real del proyecto** (elegido por el usuario el 2026-10-26).
-- Sonido: **muda, con una perilla de volumen** visible que lo prende (elegido por el usuario).
-- Lo que el usuario dijo que lo haría sentir mal: que parezca un template, que sea lento de usar,
-  que sea neón y pixel art, que no tenga gracia.
+  gente del portfolio que curiosea.
+- La acción es una sola: entrar a un proyecto, en un click o con la tecla de su número.
+- El contenido son las fichas de `/catalogo.json`. Cada recuadro muestra la vista previa del
+  proyecto: el loop de ADR-0010 cuando la app lo sirva; mientras tanto, una captura de prueba
+  marcada como tal.
+- Lo que el usuario descartó (2026-10-26): la placa 1000 en 1 (retro, una lista, no lo representa)
+  y la galería del centro del mundo para caminar. Pidió "un hub simple con los proyectos con
+  recuadros" y un fondo animado "como el de las páginas de IA". Vara de terminación: Linear.
 
 ## Dirección elegida
 
-**La placa 1000 en 1**: el menú de una placa multijuego trucha de bar. El número del título es la
-cantidad real de máquinas del catálogo: hoy "6 EN 1", y mañana "7 EN 1" sin tocar este repo.
+**La grilla, con la terminación de Linear**: la forma estándar de la categoría, ejecutada sin ironía
+y sin rarezas metidas de contrabando. Lo propio sale del contenido (previews reales, el conteo que
+sale de la VPS) y del cuidado: bordes, luz, foco y movimiento.
 
-**Traducción del compromiso de marca.** `PRODUCT.md` prohíbe el arcade de neón y pixel art
-genérico, y esta placa es la dirección que más cerca le queda. Se traduce así: la letra de la
-placa (un bitmap de 8×8) pasa a ser una mono vectorial sobre una grilla de caracteres estricta;
-no hay fuentes pixel, ni sprites pixelados, ni bloom, ni scanlines de filtro. El CRT es un objeto
-físico, con vidrio, curvatura y reflejo, y no un efecto encima de la página.
-
-**Disciplinas que se trajo de las direcciones descartadas:**
-
-- *De la escena ASCII:* todo el texto de pantalla vive en una grilla fija de caracteres, como el
-  tilemap de la placa; nada se tipea libre.
-- *De la mesa de corte:* el estado es una marca y no un color. Una máquina caída tiene un cartel de
-  cartón escrito con fibrón y pegado con cinta sobre el vidrio, y la fila de la que volviste te
-  recibe con «VOLVISTE».
-- *Del ciclorama:* la sala tiene estados con nombre: ARRANCANDO (el chequeo de RAM de la placa
-  mientras llega el catálogo), MENÚ, y SIN SEÑAL (catálogo ausente o roto).
-- *De la billetera de pasajes:* lo caído no se borra, se sella: queda en la lista con su cartel.
-- *De la doble página de Bazaar:* un solo elemento vivo por vez. Sólo la fila con el cursor va en
-  video inverso, y sólo su vista previa se mueve.
-- *Del borde de nube:* el único degradé es el logotipo arcoíris del título, y no sale de ahí.
-
-**El momento que se recuerda:** el título dice cuántas máquinas hay de verdad, y las truchas
-mentían. Hay un truco que convierte la placa en su versión trucha ("9999 EN 1", con SURF, SURF 2 y
-SURF TURBO), presentado como chiste a la vista y no como dato.
+**El momento que se recuerda:** las seis previews juntas, de un vistazo, sobre una aurora que
+respira, y el número de cada uno a una tecla de distancia.
 
 ## Sin decidir
 
-- Las tipografías concretas: la mono de la pantalla, el logotipo y la letra de fibrón. Se deciden
-  en el build, fuera de la lista de defaults prohibidos.
-- De dónde salen los loops. La ficha vive en `infra` y el video tiene que vivir en algún lado: en
-  cada app, en `infra` o en este repo. Lo resuelve el ADR del formato de la ficha (H1).
-- Qué trucos entran primero, y si el estado en vivo (caído) se muestra desde el arranque.
+- El nombre del hub y su subdominio.
+- Qué easter eggs entran, ahora sin metáfora.
+- Si se muestra el estado en vivo de cada proyecto.
 
 ## Direction contract
 
-THESIS: La sala es el menú de una placa multijuego trucha de bar, «6 EN 1», y el número lo cuenta la
-VPS. Rechaza la grilla de tarjetas con disfraz de arcade y la sala oscura de neón.
+THESIS: El hub es la grilla de todo lo que corre en nicolasdalessandro.dev: un recuadro con su
+vista previa por proyecto, y un click o una tecla para entrar. Rechaza la metáfora (la placa, la
+galería) y la grilla de plantilla sin terminación.
 
-OWN-WORLD: Pantalla toda en azul de menú, con títulos amarillos, texto blanco y el cursor como una
-barra roja en video inverso. Todo el texto de pantalla en una mono vectorial sobre una grilla fija.
-El único degradé es el logotipo arcoíris. Afuera de la pantalla, el vidrio curvo del CRT, el mueble
-de terciado pintado y carteles de cartón con fibrón pegados con cinta.
+OWN-WORLD: Fondo casi negro con una aurora de manchas índigo, violeta y verde agua que se mueven
+lento, más intensa arriba. Recuadros de superficie apenas más clara, borde de 1px blanco al 8%,
+radio de 14px, un filo de luz arriba y una luz radial que sigue al mouse. Geist para todo el texto
+y Geist Mono sólo para hosts y números. Texto blanco al 92%, lo secundario en gris lavanda. El
+número de cada proyecto como una tecla chica en su recuadro.
 
-STORY: En un vistazo entendés que es todo lo publicado; el cursor muestra cada proyecto andando;
-Enter y estás adentro; el que se queda encuentra trucos.
+STORY: De un vistazo ves todo lo publicado con su preview, reconocés el proyecto por la imagen, y
+con un click o su número estás adentro.
 
-FIRST VIEWPORT: El CRT llena el viewport, enmarcado por el mueble. Arriba, «6 EN 1» al ancho de la
-pantalla. A la izquierda, la lista numerada con el cursor en 01; a la derecha, la vista previa 4:3
-con el loop y la ficha en dos líneas. Al pie: «↑↓ ELEGIR · ENTER JUGAR». Debajo del vidrio, la
-perilla de volumen. En el celular: la vista previa arriba, la lista abajo, la fila que pasa por la
-línea del cursor queda elegida, y un toque entra. Interacción firma: el cursor salta de fila sin
-easing, la vista previa corta con ≤80 ms de estática, y al entrar la imagen colapsa a una línea en
-≤200 ms; con movimiento reducido, corte seco.
+FIRST VIEWPORT: Arriba a la izquierda, «nicolasdalessandro.dev» chico y el título con el conteo
+real; a la derecha, la pista «1–6 entra directo». Debajo, la grilla: tres columnas en escritorio,
+dos en tablet y una en el celular, con preview 4:3 arriba, el nombre, la descripción en dos líneas
+y el host en mono. En 1440×900 se ve la primera fila entera y asoma la segunda. La aurora queda
+detrás. Interacción firma: con hover o foco, el borde se aclara, la preview se acerca un 3% y una
+luz radial sigue al cursor dentro del recuadro. Con movimiento reducido, la aurora queda quieta y no
+hay zoom.
 
-FORM: La placa 1000 en 1, el candidato 1 de mi lista ordenada, elegido por el usuario como la carta
-IMPECCABLE’S PICK. Seed 789feae5.
+FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a, elegida por el usuario con
+sus palabras después de descartar la placa y la galería. Vara: Linear.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

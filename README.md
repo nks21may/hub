@@ -1,14 +1,15 @@
 # Hub
 
-La sala de fichines de los proyectos de `nicolasdalessandro.dev`: una página pública donde cada
-proyecto publicado en la VPS es una máquina, y entrar a uno cuesta un click o una tecla.
+El hub de los proyectos de `nicolasdalessandro.dev`: una página pública con un recuadro por cada
+proyecto publicado en la VPS, y entrar a uno cuesta un click o una tecla.
 
 La lista de proyectos no se escribe acá. Cada stack de [`infra`](../infra) lleva su ficha `x-hub`,
 el deploy de allá las junta en un `catalogo.json` y la sala lo pide en runtime. Sitio estático en
 TypeScript + Vite + React, servido por nginx en la VPS, como `nonograma`.
 
-Los conceptos que se evaluaron, el elegido y los dos que quedaron guardados, están en
-[docs/conceptos.md](docs/conceptos.md).
+Los conceptos que se evaluaron, los que se probaron y por qué terminó siendo una grilla están en
+[docs/conceptos.md](docs/conceptos.md) y en
+[ADR-0011](docs/adr/0011-el-hub-es-una-grilla-de-proyectos.md).
 
 ## Arranque rápido
 
