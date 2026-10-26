@@ -59,7 +59,7 @@ npm run gate
       **Se espera rojo:** falla el import del módulo del catálogo, que no existe.
       Ver [ADR-0004](adr/0004-el-catalogo-llega-en-runtime.md) y
       [ADR-0005](adr/0005-entra-lo-que-cualquiera-puede-usar.md).
-- [ ] **H2 — La placa lista un juego por ficha visible, y el título los cuenta.** *Depende de H1.*
+- [x] **H2 — La placa lista un juego por ficha visible, y el título los cuenta.** *Depende de H1.*
       Se construye contra el contrato de dirección (`.impeccable/surfaces/index-html.md`).
       *Test (jsdom):* mientras `fetch` no contesta, la placa está en ARRANCANDO; con el catálogo de
       ejemplo, el título dice «N EN 1» con N igual a las fichas visibles, y hay una fila numerada
@@ -72,14 +72,18 @@ npm run gate
       *Test (jsdom, user-event):* el cursor arranca en 01; ↑ y ↓ lo mueven de a una fila, sin pasarse
       de las puntas; la vista previa muestra la ficha de la fila con el cursor; cada fila es un link
       a la `url` de su ficha, y Enter abre la del cursor. Con `prefers-reduced-motion`, no hay
-      animación de entrada.
+      animación de entrada. Una ficha sin `vista` muestra el relleno propio de la placa
+      ([ADR-0010](adr/0010-formato-de-la-ficha-y-del-catalogo.md)). El pie de la pantalla dice cómo
+      elegir y jugar, con las teclas dibujadas y no como glifos Unicode. La lista pasa de centrada
+      (H2) a la columna izquierda del contrato.
       **Se espera rojo:** las flechas no mueven el cursor.
       Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
 - [ ] **H4 — La imagen Docker, como la de nonograma.** *Depende de H2.*
       `Dockerfile` de dos etapas (el gate en el build, `nginx-unprivileged` al final),
       `deploy/nginx.conf` y la CI que publica `ghcr.io/nks21may/hub` para ARM.
       *Test:* un test del gate lee `deploy/nginx.conf` y verifica que `/catalogo.json` se sirve con
-      `no-cache` y que la CSP deja pedirlo (`connect-src 'self'`). Fuera del gate, `docker build`
+      `no-cache`, que la CSP deja pedirlo (`connect-src 'self'`) y que deja ver los loops de las
+      apps (`media-src https://*.nicolasdalessandro.dev`, ADR-0010). Fuera del gate, `docker build`
       termina y `docker run` con un catálogo montado sirve la portada y `/catalogo.json`; la salida
       va pegada en la bitácora.
       **Se espera rojo:** el test no encuentra `deploy/nginx.conf`.
@@ -92,6 +96,13 @@ npm run gate
       `src/`, y falla si aparece un color que no está entre los tokens.
       **Se espera rojo:** el test no encuentra `.impeccable/design.json`.
       Ver [ADR-0007](adr/0007-frontend-disenado-con-impeccable.md).
+- [ ] **H6 — La perilla de volumen y los sonidos de la placa.** *Depende de H3.*
+      Aparte del primer viewport del contrato, apareció en H2: la perilla va en el mueble, debajo del
+      vidrio. Los sonidos se generan por código (Web Audio), como los de neonduel: no hay archivos.
+      *Test (jsdom):* la placa arranca muda; girar la perilla (o subirla con el teclado) la prende y
+      mover el cursor hace sonar el bip; con la perilla en cero no se crea ningún sonido.
+      **Se espera rojo:** no hay perilla.
+      Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
 
 ---
 
@@ -101,6 +112,8 @@ Ideas que todavía no son trabajo tomable: les falta una decisión del usuario o
 dato. Van **sin checkbox** para que el loop no las tome ni las cuente.
 
 - **El subdominio.** `hub.`, `sala.`, `fichines.` u otro. Falta que lo elija el usuario.
+- **Un selector de idioma en el mueble.** Hoy el idioma sale del navegador (`idiomaPreferido`, H2).
+  Falta decidir si además hace falta cambiarlo a mano.
 - **Los loops de los seis proyectos.** Los sirve cada app en su propio host
   ([ADR-0010](adr/0010-formato-de-la-ficha-y-del-catalogo.md)): hay que grabarlos y sumar el
   `vista.mp4` en cada repo, y es trabajo de esos repos, no de éste. Hasta entonces, las fichas van

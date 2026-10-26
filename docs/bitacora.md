@@ -147,3 +147,78 @@ fecha real de publicación. Sirven para el ejemplo; las de verdad se escriben en
 `infra`.
 
 **Sha:** `fca7bc8`
+
+---
+
+## H2 — La placa lista un juego por ficha visible, y el título los cuenta · 2026-10-26
+
+**Archivos:** `src/placa/Placa.tsx`, `src/placa/placa.css`, `src/i18n/textos.ts`,
+`src/estilos/base.css`, `src/main.tsx`, `vite.config.ts` (sirve `ejemplos/catalogo.json` en
+`/catalogo.json`, sólo en desarrollo), `tests/placa.test.tsx`, `package.json` y `package-lock.json`
+(las letras: Martian Mono para la pantalla y Dela Gothic One para el logo), `.claude/launch.json`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin los módulos:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/placa.test.tsx(5,39): error TS2307: Cannot find module '../src/i18n/textos.ts' or its corresponding type declarations.
+tests/placa.test.tsx(6,21): error TS2307: Cannot find module '../src/placa/Placa.tsx' or its corresponding type declarations.
+EXIT=2
+```
+
+En el medio hubo un rojo que no era del código: en jsdom, `new URL(…, import.meta.url)` no es una
+URL `file:` y `readFileSync` la rechaza (`TypeError: The URL must be of scheme file`). El test lee
+el ejemplo desde `process.cwd()`.
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+
+
+ RUN  v5.0.5 P:/hub
+
+
+ Test Files  3 passed (3)
+      Tests  42 passed (42)
+   Start at  13:22:31
+   Duration  881ms (environment 62%, tests 22%, import 12%, transform 3%, worker 1%)
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 21 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                     0.38 kB │ gzip:  0.26 kB
+dist/assets/martian-mono-cyrillic-ext-wdth-normal-BFx_pHPN.woff2    4.81 kB
+dist/assets/dela-gothic-one-latin-400-normal-AgyGD05y.woff2        13.80 kB
+dist/assets/martian-mono-cyrillic-wdth-normal-Dgr-UBxV.woff2       17.20 kB
+dist/assets/dela-gothic-one-latin-400-normal-qxqiosUh.woff         17.44 kB
+dist/assets/martian-mono-latin-ext-wdth-normal-DeTdBbNh.woff2      24.66 kB
+dist/assets/martian-mono-latin-wdth-normal-1TqSgyfh.woff2          38.49 kB
+dist/assets/index-DLPFA_D5.css                                      5.76 kB │ gzip:  2.14 kB
+dist/assets/index-2ROAhsZz.js                                     224.60 kB │ gzip: 70.63 kB
+
+✓ built in 81ms
+EXIT=0
+```
+
+**Revisión visual** (navegador del panel, `npm run dev`): a 1440×900, el monitor horizontal de
+40×30 celdas con «6 EN 1» y las seis filas; a 375×812, el monitor vertical de 30 columnas. SIN
+SEÑAL se vio inyectando su marcado en la página. ARRANCANDO no se pudo capturar, porque el cursor
+que titila no deja terminar la captura: queda para la revisión de H5. El avance de Martian Mono se
+midió en el navegador (0,70 em a 100 %, 0,75 em a 112,5 %), y la pantalla usa 112,5 %.
+
+**Lo que apareció y fue al backlog:** la perilla de volumen (H6), y si hace falta un selector de
+idioma (parkeado).
+
+**Sha:** `d26ff15`
