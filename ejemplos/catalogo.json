@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "generado": "2026-10-26T00:00:00Z",
+  "stacks": [
+    {
+      "stack": "bhop-surf",
+      "apagado": false,
+      "hub": {
+        "nombre": "Surf & Bhop Daily",
+        "url": "https://surf.nicolasdalessandro.dev/",
+        "desde": "2026-09-06",
+        "descripcion": {
+          "es": "Surf y bunnyhop estilo Source, con una pista nueva cada día y ranking.",
+          "en": "Source-style surf and bhop, with a new track every day and leaderboards."
+        }
+      }
+    },
+    {
+      "stack": "bot_discord",
+      "apagado": false,
+      "hub": {
+        "nombre": "Audio",
+        "url": "https://audio.nicolasdalessandro.dev/",
+        "desde": "2026-06-28",
+        "descripcion": {
+          "es": "Pasa el audio de una pestaña de Chrome a un canal de voz de Discord.",
+          "en": "Pipes the audio of a Chrome tab into a Discord voice channel."
+        }
+      }
+    },
+    {
+      "stack": "minecraft",
+      "apagado": true,
+      "hub": {
+        "oculto": "whitelist: sólo entran amigos"
+      }
+    },
+    {
+      "stack": "museo",
+      "apagado": false,
+      "hub": {
+        "nombre": "Museo",
+        "url": "https://museo.nicolasdalessandro.dev/",
+        "desde": "2026-09-25",
+        "descripcion": {
+          "es": "Shaders de un tuit corriendo en vivo, que se recorren como canales de tele.",
+          "en": "Tweet-sized shaders running live, browsed like TV channels."
+        }
+      }
+    },
+    {
+      "stack": "neonduel",
+      "apagado": false,
+      "hub": {
+        "nombre": "Neonduel",
+        "url": "https://neonduel.nicolasdalessandro.dev/",
+        "desde": "2026-08-31",
+        "descripcion": {
+          "es": "Shooter 3D uno contra uno en el navegador, con movimiento de Counter-Strike.",
+          "en": "A 1v1 browser 3D shooter with Counter-Strike movement."
+        }
+      }
+    },
+    {
+      "stack": "nonograma",
+      "apagado": false,
+      "hub": {
+        "nombre": "Nonograma",
+        "url": "https://nonograma.nicolasdalessandro.dev/",
+        "desde": "2026-10-18",
+        "descripcion": {
+          "es": "Nonogramas sin fin, de dibujos de pixel art y grillas aleatorias.",
+          "en": "Endless nonograms, from pixel-art drawings and random grids."
+        }
+      }
+    },
+    {
+      "stack": "portafolio",
+      "apagado": false,
+      "hub": {
+        "nombre": "Portfolio",
+        "url": "https://nicolasdalessandro.dev/",
+        "desde": "2026-08-30",
+        "descripcion": {
+          "es": "Quién soy, qué hice y con qué: la versión seria.",
+          "en": "Who I am, what I've built and with what: the serious version."
+        }
+      }
+    }
+  ]
+}

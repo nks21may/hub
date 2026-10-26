@@ -41,6 +41,9 @@ aunque los tests pasen.
 8. **Español e inglés: ningún texto visible se escribe en un componente**, todo sale del
    diccionario, y las fichas traen sus textos en los dos idiomas.
    [ADR-0008](docs/adr/0008-espanol-e-ingles.md)
+9. **La ficha y el catálogo tienen el formato de ADR-0010, que es un contrato con `infra`.** Sumar
+   un campo opcional es compatible; cualquier otro cambio sube `version`. Cada app sirve su propio
+   loop. [ADR-0010](docs/adr/0010-formato-de-la-ficha-y-del-catalogo.md)
 
 ## Convenciones
 

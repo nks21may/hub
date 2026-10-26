@@ -17,6 +17,7 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0007](0007-frontend-disenado-con-impeccable.md) | El frontend se diseña con la skill `impeccable` | aceptado |
 | [0008](0008-espanol-e-ingles.md) | Español e inglés | aceptado |
 | [0009](0009-la-sala-es-una-placa-1000-en-1.md) | La sala es el menú de una placa multijuego «1000 en 1» | aceptado |
+| [0010](0010-formato-de-la-ficha-y-del-catalogo.md) | El formato de la ficha `x-hub` y de `catalogo.json`; cada app sirve su loop | aceptado |
 
 ## Cuándo escribir uno
 
