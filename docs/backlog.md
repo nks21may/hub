@@ -68,7 +68,7 @@ npm run gate
       **Se espera rojo:** falla el import del componente de la placa.
       Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md) y
       [ADR-0008](adr/0008-espanol-e-ingles.md).
-- [ ] **H3 — El cursor, la vista previa y entrar con un click o un Enter.** *Depende de H2.*
+- [x] **H3 — El cursor, la vista previa y entrar con un click o un Enter.** *Depende de H2.*
       *Test (jsdom, user-event):* el cursor arranca en 01; ↑ y ↓ lo mueven de a una fila, sin pasarse
       de las puntas; la vista previa muestra la ficha de la fila con el cursor; cada fila es un link
       a la `url` de su ficha, y Enter abre la del cursor. Con `prefers-reduced-motion`, no hay
@@ -102,6 +102,21 @@ npm run gate
       *Test (jsdom):* la placa arranca muda; girar la perilla (o subirla con el teclado) la prende y
       mover el cursor hace sonar el bip; con la perilla en cero no se crea ningún sonido.
       **Se espera rojo:** no hay perilla.
+      Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
+- [ ] **H7 — En el celular, la fila que pasa por la línea del cursor queda elegida.** *Depende de
+      H3.* Está en el primer viewport del contrato y quedó afuera de H3: hoy en el celular el cursor
+      sólo se mueve con el foco, y un toque entra directo. Hace falta que la lista pueda llevar cada
+      fila hasta la línea del cursor, aunque sean seis.
+      *Test (jsdom, IntersectionObserver simulado):* cuando la fila 04 cruza la línea del cursor, el
+      cursor y la vista previa pasan a la 04; un toque en una fila sigue entrando a ese juego.
+      **Se espera rojo:** el cursor sigue en 01.
+      Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
+- [ ] **H8 — La fila de la que volviste te recibe con «VOLVISTE».** *Depende de H3.* Es una de las
+      disciplinas del contrato (el lugar donde quedaste se marca al volver).
+      *Test (jsdom):* después de entrar a un juego, al volver a montar la placa el cursor arranca en
+      esa fila y la fila dice VOLVISTE en el diccionario de los dos idiomas; si ese juego ya no
+      está, arranca en 01.
+      **Se espera rojo:** el cursor arranca en 01.
       Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
 
 ---

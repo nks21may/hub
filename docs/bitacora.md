@@ -222,3 +222,95 @@ midió en el navegador (0,70 em a 100 %, 0,75 em a 112,5 %), y la pantalla usa 1
 idioma (parkeado).
 
 **Sha:** `d26ff15`
+
+---
+
+## H3 — El cursor, la vista previa y entrar con un click o un Enter · 2026-10-26
+
+**Archivos:** `src/placa/Menu.tsx` (nuevo: el menú con el cursor, la ficha y el pie),
+`src/placa/Vista.tsx` (nuevo: el loop o el relleno, y la estática de 80 ms), `src/placa/comun.ts`
+(nuevo), `src/placa/Placa.tsx` (la prop `navegar` y la pantalla que se apaga),
+`src/placa/placa.css` (la grilla pasa a 48×36 y a una capa `.imagen` que colapsa al entrar),
+`src/i18n/textos.ts` (las claves del pie), `tests/cursor.test.tsx`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin el código. Falla en `tsc`, antes que el comportamiento: la placa
+no acepta `navegar` y el diccionario no tiene las claves del pie.
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/cursor.test.tsx(35,33): error TS2322: Type '{ idioma: "es" | "en"; navegar: Mock<Procedure>; }' is not assignable to type 'IntrinsicAttributes & { idioma: Idioma; }'.
+  Property 'navegar' does not exist on type 'IntrinsicAttributes & { idioma: Idioma; }'.
+tests/cursor.test.tsx(119,51): error TS2322: Type '{ idioma: "es"; navegar: Mock<Procedure>; }' is not assignable to type 'IntrinsicAttributes & { idioma: Idioma; }'.
+  Property 'navegar' does not exist on type 'IntrinsicAttributes & { idioma: Idioma; }'.
+tests/cursor.test.tsx(158,51): error TS2322: Type '{ idioma: "es"; navegar: Mock<Procedure>; }' is not assignable to type 'IntrinsicAttributes & { idioma: Idioma; }'.
+  Property 'navegar' does not exist on type 'IntrinsicAttributes & { idioma: Idioma; }'.
+tests/cursor.test.tsx(167,51): error TS2322: Type '{ idioma: "es"; navegar: Mock<Procedure>; }' is not assignable to type 'IntrinsicAttributes & { idioma: Idioma; }'.
+  Property 'navegar' does not exist on type 'IntrinsicAttributes & { idioma: Idioma; }'.
+tests/cursor.test.tsx(184,39): error TS7053: Element implicitly has an 'any' type because expression of type '"pie.elegir"' can't be used to index type 'Textos'.
+  Property 'pie.elegir' does not exist on type 'Textos'.
+tests/cursor.test.tsx(185,39): error TS7053: Element implicitly has an 'any' type because expression of type '"pie.jugar"' can't be used to index type 'Textos'.
+  Property 'pie.jugar' does not exist on type 'Textos'.
+EXIT=2
+```
+
+Después del rojo, y antes de escribir el código, el test del pie dejó de buscar `contentinfo`: un
+`<footer>` adentro de `<main>` no es ese landmark, así que el test busca los textos del pie.
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+
+
+ RUN  v5.0.5 P:/hub
+
+
+ Test Files  4 passed (4)
+      Tests  54 passed (54)
+   Start at  13:45:10
+   Duration  1.71s (environment 47%, tests 40%, import 11%, transform 1%, worker 1%)
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 24 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                     0.38 kB │ gzip:  0.26 kB
+dist/assets/martian-mono-cyrillic-ext-wdth-normal-BFx_pHPN.woff2    4.81 kB
+dist/assets/dela-gothic-one-latin-400-normal-AgyGD05y.woff2        13.80 kB
+dist/assets/martian-mono-cyrillic-wdth-normal-Dgr-UBxV.woff2       17.20 kB
+dist/assets/dela-gothic-one-latin-400-normal-qxqiosUh.woff         17.44 kB
+dist/assets/martian-mono-latin-ext-wdth-normal-DeTdBbNh.woff2      24.66 kB
+dist/assets/martian-mono-latin-wdth-normal-1TqSgyfh.woff2          38.49 kB
+dist/assets/index-hP6g3bZG.css                                      8.26 kB │ gzip:  2.79 kB
+dist/assets/index-CCl2zsaj.js                                     228.70 kB │ gzip: 72.01 kB
+
+✓ built in 87ms
+EXIT=0
+```
+
+**Revisión visual** (navegador del panel, `npm run dev`):
+
+- 375×812 y el panel en vertical (454×845): la vista previa arriba con la carátula del juego, la
+  ficha, y la lista con el cursor en rojo. El pie táctil sólo aparece con puntero grueso. La ficha
+  de cuatro líneas pisaba la lista, y se le dio una fila más.
+- 1200×750: la lista a la izquierda, la vista previa a la derecha, la ficha y las teclas abajo. El
+  panel captura el viewport emulado achicado en una esquina; las medidas se leyeron con
+  `getBoundingClientRect` (pantalla de 1087×815 centrada a 1440×900, letra de 30 px).
+
+**Lo que no se pudo ver:** la estática de 80 ms y el apagado de 180 ms, por ser movimiento corto.
+Queda para la revisión de H5.
+
+**Lo que apareció y fue al backlog:** H7 (en el celular, la fila que cruza la línea del cursor
+queda elegida) y H8 («VOLVISTE»). Las dos están en el contrato y no entraban en H3 sin agrandarlo.
+
+**Sha:** `e26546b`
