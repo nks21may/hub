@@ -79,5 +79,4 @@ EXIT=0
 **Nota:** H0 lo dejó armado la sesión de preparación, no una iteración del
 loop. La primera iteración real del loop es **H1**.
 
-**Sha:** pendiente: el commit de H0 no puede contener su propio sha. Lo completa el commit
-siguiente.
+**Sha:** `d602c9f`
