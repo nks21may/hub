@@ -17,6 +17,8 @@
     "gate": "tsc --noEmit && npm run lint && vitest run && vite build"
   },
   "dependencies": {
+    "@fontsource-variable/martian-mono": "^5.3.0",
+    "@fontsource/dela-gothic-one": "^5.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

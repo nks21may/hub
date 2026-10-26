@@ -1,0 +1,59 @@
+/*
+ * Los tokens de la placa. Salen del contrato de dirección (.impeccable/surfaces/index-html.md)
+ * hasta que el documentador escriba DESIGN.md (H5).
+ */
+:root {
+  /* La pantalla: azul de menú, títulos amarillos, texto blanco de fósforo. */
+  --azul-menu: #0a1a8c;
+  --azul-hondo: #040b52;
+  --amarillo: #ffe81a;
+  --blanco-fosforo: #f2f4ff;
+  --rojo-cursor: #e4002b;
+  --negro-crt: #04060c;
+  --gris-arranque: #aeb4c8;
+
+  /* El logotipo: bandas duras de arcoíris, el único degradé de la placa. */
+  --arcoiris-1: #ff4a3d;
+  --arcoiris-2: #ff9f1a;
+  --arcoiris-3: #ffe81a;
+  --arcoiris-4: #3fd46b;
+  --arcoiris-5: #33c6ff;
+
+  /* El mueble: terciado pintado de negro, y el bisel de plástico del monitor. */
+  --mueble: #15110d;
+  --bisel: #0a0a0b;
+
+  --letra-pantalla: 'Martian Mono Variable', ui-monospace, monospace;
+  --letra-logo: 'Dela Gothic One', 'Martian Mono Variable', sans-serif;
+
+  /* Cuánto mide de ancho un carácter de la letra de pantalla, en em, a font-stretch 112.5% (medido
+     en el navegador: 0.70 a 100%, 0.75 a 112.5%). Con esto, 1ch = 1 celda. */
+  --avance: 0.75;
+
+  --marco: clamp(10px, 2.5vmin, 32px);
+  --borde-bisel: clamp(8px, 2.2vmin, 28px);
+
+  color-scheme: dark;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--mueble);
+  color: var(--blanco-fosforo);
+}
+
+body {
+  font-family: var(--letra-pantalla);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--amarillo);
+  color: var(--azul-menu);
+}
+
+:focus-visible {
+  outline: 2px solid var(--amarillo);
+  outline-offset: 2px;
+}
