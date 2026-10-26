@@ -13,9 +13,10 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0003](0003-el-catalogo-sale-de-las-fichas-de-infra.md) | El catálogo sale de las fichas `x-hub` de `infra`, y su gate las exige | aceptado |
 | [0004](0004-el-catalogo-llega-en-runtime.md) | El catálogo llega en runtime: el deploy de `infra` arma `catalogo.json` y el hub lo pide | aceptado |
 | [0005](0005-entra-lo-que-cualquiera-puede-usar.md) | Entra lo que cualquiera puede usar sin pedir permiso; lo apagado no se muestra | aceptado |
-| [0006](0006-el-concepto-es-una-sala-de-fichines.md) | El concepto es una sala de fichines | aceptado |
+| [0006](0006-el-concepto-es-una-sala-de-fichines.md) | El concepto es una sala de fichines | aceptado; su forma la reemplaza 0009 |
 | [0007](0007-frontend-disenado-con-impeccable.md) | El frontend se diseña con la skill `impeccable` | aceptado |
 | [0008](0008-espanol-e-ingles.md) | Español e inglés | aceptado |
+| [0009](0009-la-sala-es-una-placa-1000-en-1.md) | La sala es el menú de una placa multijuego «1000 en 1» | aceptado |
 
 ## Cuándo escribir uno
 

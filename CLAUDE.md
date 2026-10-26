@@ -29,9 +29,13 @@ aunque los tests pasen.
 5. **La sala muestra sólo lo que cualquiera puede usar sin pedir permiso.** Lo demás lleva
    `oculto` con su motivo, y un stack apagado no se muestra aunque tenga ficha.
    [ADR-0005](docs/adr/0005-entra-lo-que-cualquiera-puede-usar.md)
-6. **Cada proyecto es una máquina de la sala, y entrar a una cuesta un click o una tecla**, nunca
-   más. [ADR-0006](docs/adr/0006-el-concepto-es-una-sala-de-fichines.md)
-7. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`. Un color, una
+6. **La sala es el menú de una placa 1000 en 1: cada proyecto es un juego de la placa, y entrar a
+   uno cuesta un click o una tecla**, nunca más. El título dice «N EN 1» con N real. Nada de fuentes
+   pixel, sprites pixelados, bloom ni scanlines de filtro.
+   [ADR-0006](docs/adr/0006-el-concepto-es-una-sala-de-fichines.md),
+   [ADR-0009](docs/adr/0009-la-sala-es-una-placa-1000-en-1.md)
+7. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`; hasta que exista
+   `DESIGN.md`, del contrato de dirección en `.impeccable/surfaces/index-html.md`. Un color, una
    tipografía o un espaciado que no sale de ahí es un hallazgo de review.
    [ADR-0007](docs/adr/0007-frontend-disenado-con-impeccable.md)
 8. **Español e inglés: ningún texto visible se escribe en un componente**, todo sale del

@@ -6,3 +6,6 @@ coverage/
 .env.local
 .vite/
 logs/
+
+# Las páginas de decisión de impeccable: son de la sesión, no del repo.
+.impeccable/questions/

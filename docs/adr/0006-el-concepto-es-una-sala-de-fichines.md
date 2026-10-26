@@ -1,6 +1,6 @@
 # ADR-0006 — El concepto es una sala de fichines
 
-- **Estado:** aceptado
+- **Estado:** aceptado; la forma "una máquina por proyecto" la reemplaza [ADR-0009](0009-la-sala-es-una-placa-1000-en-1.md)
 - **Fecha:** 2026-10-26
 - **Decide:** qué metáfora organiza el hub
 

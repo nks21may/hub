@@ -17,6 +17,11 @@ Ninguno usa la tele (es `museo`) ni la ficha técnica (es `portfolio4`).
 
 ## A. Sala de fichines — el elegido
 
+> **Forma final:** en la ronda de dirección de `impeccable`, la sala tomó la forma del menú de una
+> placa multijuego «1000 en 1». Cada proyecto es un juego de la placa, no una máquina aparte
+> ([ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md)). Lo que sigue es el concepto tal como se
+> evaluó.
+
 **La idea.** Una sala con una máquina por proyecto. Se recorre la fila, la máquina con el foco se
 prende, y con un click o un Enter se juega.
 
