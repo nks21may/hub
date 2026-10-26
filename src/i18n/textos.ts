@@ -16,6 +16,11 @@ const es = {
   'arranque.catalogo': 'LEYENDO EL CATÁLOGO ...',
   'senal.titulo': 'SIN SEÑAL',
   'senal.detalle': 'ALGUIEN PISÓ EL CABLE. PROBÁ EN UN RATO.',
+  'pie.flechas': 'Flechas arriba y abajo:',
+  'pie.elegir': 'ELEGIR',
+  'pie.enter': 'ENTER',
+  'pie.jugar': 'JUGAR',
+  'pie.tactil': 'TOCÁ UN JUEGO Y ADENTRO',
 } as const;
 
 export type ClaveDeTexto = keyof typeof es;
@@ -30,6 +35,11 @@ const en: Textos = {
   'arranque.catalogo': 'READING THE CATALOG ...',
   'senal.titulo': 'NO SIGNAL',
   'senal.detalle': 'SOMEBODY TRIPPED ON THE CABLE. TRY AGAIN SOON.',
+  'pie.flechas': 'Up and down arrows:',
+  'pie.elegir': 'SELECT',
+  'pie.enter': 'ENTER',
+  'pie.jugar': 'PLAY',
+  'pie.tactil': 'TAP A GAME AND YOU’RE IN',
 };
 
 export const TEXTOS: Record<Idioma, Textos> = {es, en};
