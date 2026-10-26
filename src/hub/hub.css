@@ -7,6 +7,88 @@
   isolation: isolate;
 }
 
+/* La aurora: arriba de todo, detrás del encabezado, y se apaga hacia la grilla. */
+.aurora {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 0;
+  height: min(110vh, 1100px);
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 30%, transparent 92%);
+}
+
+.aurora__mancha {
+  position: absolute;
+  width: 72vmax;
+  height: 72vmax;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  will-change: transform;
+  animation: deriva 28s ease-in-out infinite alternate;
+}
+
+.aurora__mancha--indigo {
+  top: -42vmax;
+  left: -18vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--aurora-indigo) 62%, transparent),
+    transparent
+  );
+}
+
+.aurora__mancha--violeta {
+  top: -46vmax;
+  right: -22vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--aurora-violeta) 58%, transparent),
+    transparent
+  );
+  animation-duration: 34s;
+  animation-direction: alternate-reverse;
+}
+
+.aurora__mancha--agua {
+  top: -30vmax;
+  left: 22vw;
+  width: 54vmax;
+  height: 54vmax;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--aurora-agua) 42%, transparent),
+    transparent
+  );
+  animation-name: deriva-agua;
+  animation-duration: 40s;
+}
+
+@keyframes deriva {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8vmax, 4vmax, 0) scale(1.08);
+  }
+  to {
+    transform: translate3d(-4vmax, 7vmax, 0) scale(0.94);
+  }
+}
+
+@keyframes deriva-agua {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.9);
+  }
+  to {
+    transform: translate3d(-12vmax, 6vmax, 0) scale(1.12);
+  }
+}
+
+.aurora[data-quieta='true'] .aurora__mancha {
+  animation: none;
+}
+
 .hub__contenido {
   position: relative;
   z-index: 1;
@@ -83,7 +165,8 @@
 
 /* En una pantalla táctil no hay teclado que apretar. */
 @media (hover: none) and (pointer: coarse) {
-  .encabezado__atajo {
+  .encabezado__atajo,
+  .recuadro__tecla {
     display: none;
   }
 }
@@ -276,6 +359,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .aurora__mancha {
+    animation: none;
+  }
+
   .recuadro,
   .recuadro::before,
   .recuadro__vista img,

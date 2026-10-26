@@ -5,8 +5,8 @@
  */
 :root {
   --fondo: #08090b;
-  --superficie: rgb(255 255 255 / 0.028);
-  --superficie-alta: rgb(255 255 255 / 0.05);
+  --superficie: rgb(16 17 22 / 0.8);
+  --superficie-alta: rgb(23 24 30 / 0.88);
   --borde: rgb(255 255 255 / 0.08);
   --borde-fuerte: rgb(255 255 255 / 0.18);
   --filo: rgb(255 255 255 / 0.07);
@@ -14,7 +14,7 @@
   --texto-2: #a6a4bc;
   --texto-3: #8a88a0;
   --acento: #8b7cf6;
-  --velo: rgb(8 9 11 / 0.74);
+  --velo: rgb(8 9 11 / 0.86);
 
   --aurora-indigo: #3d4bd1;
   --aurora-violeta: #7a45d6;

@@ -378,3 +378,42 @@ el celular la imagen de abajo no había cargado por la carga diferida, que se sa
 de unos 20 KB). La pista de teclado se esconde en pantallas táctiles.
 
 **Lo que no se pudo ver:** el loop de `vista`, porque ninguna app lo sirve todavía.
+
+## H10 — La aurora de fondo · 2026-10-26
+
+**Archivos:** `src/hub/Aurora.tsx` (nuevo), `src/hub/Hub.tsx` (la aurora detrás del contenido),
+`src/hub/hub.css` (las tres manchas, su deriva y la máscara que las apaga hacia la grilla),
+`src/estilos/base.css` (los recuadros pasan a una superficie casi opaca, para que la aurora no les
+quite contraste), `tests/aurora.test.tsx`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin el código:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/aurora.test.tsx(4,22): error TS2307: Cannot find module '../src/hub/Aurora.tsx' or its corresponding type declarations.
+EXIT=2
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  4 passed (4)
+      Tests  42 passed (42)
+✓ built in 82ms
+EXIT=0
+```
+
+**Revisión visual** (Chrome sin cabeza por CDP, 1440×900 y 390×844 táctil): la aurora queda arriba,
+detrás del título, y se apaga antes de la segunda fila. En el celular se esconden la pista de
+teclado y las teclas de los recuadros, que ahí no sirven.
+
+**Lo que no se pudo ver:** la deriva, porque una captura es quieta. Dura de 28 a 40 segundos por
+vuelta y sólo mueve `transform`.

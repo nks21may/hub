@@ -107,7 +107,7 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       marcada como tal o un relleno con el nombre. Los textos salen del diccionario, en los dos
       idiomas. El código y los tests de la placa se borran.
       **Se espera rojo:** falla el import del componente del hub.
-- [ ] **H10 — La aurora de fondo.** *Depende de H9.*
+- [x] **H10 — La aurora de fondo.** *Depende de H9.*
       Manchas de color que se mueven lento detrás de la grilla, sin quitarle contraste a los
       recuadros.
       *Test (jsdom):* la aurora está fuera del árbol de accesibilidad; con
