@@ -80,3 +80,70 @@ EXIT=0
 loop. La primera iteración real del loop es **H1**.
 
 **Sha:** `d602c9f`
+
+---
+
+## H1 — El formato de la ficha y la lectura del catálogo · 2026-10-26
+
+**Archivos:** `docs/adr/0010-formato-de-la-ficha-y-del-catalogo.md` (el ADR, antes del test),
+`docs/adr/README.md`, `CLAUDE.md` (regla 9), `ejemplos/catalogo.json`, `tests/catalogo.test.ts`,
+`src/catalogo/tipos.ts`, `src/catalogo/leer-catalogo.ts`.
+
+**Decisiones del usuario para el ADR:** el loop lo sirve cada app, y la placa ordena por fecha de
+publicación (`desde`) con números estables.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin el módulo:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/catalogo.test.ts(3,28): error TS2307: Cannot find module '../src/catalogo/leer-catalogo.ts' or its corresponding type declarations.
+tests/catalogo.test.ts(4,28): error TS2307: Cannot find module '../src/catalogo/tipos.ts' or its corresponding type declarations.
+tests/catalogo.test.ts(35,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/catalogo.test.ts(42,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/catalogo.test.ts(60,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/catalogo.test.ts(70,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/catalogo.test.ts(89,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+tests/catalogo.test.ts(146,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+EXIT=2
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+
+
+ RUN  v5.0.5 P:/hub
+
+
+ Test Files  2 passed (2)
+      Tests  29 passed (29)
+   Start at  13:03:44
+   Duration  133ms (transform 50%, tests 22%, import 20%, worker 7%)
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 14 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  0.31 kB │ gzip:  0.22 kB
+dist/assets/index-CkS-kbAU.js  219.50 kB │ gzip: 68.58 kB
+
+✓ built in 64ms
+EXIT=0
+```
+
+**Nota:** las fechas `desde` de `ejemplos/catalogo.json` son el primer commit de cada app, no la
+fecha real de publicación. Sirven para el ejemplo; las de verdad se escriben en las fichas de
+`infra`.
+
+**Sha:** `fca7bc8`

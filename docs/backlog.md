@@ -47,7 +47,7 @@ npm run gate
 
 ## Fase 1 — Catálogo y sala
 
-- [ ] **H1 — El formato de la ficha y la lectura del catálogo.** *Depende de H0.*
+- [x] **H1 — El formato de la ficha y la lectura del catálogo.** *Depende de H0.*
       **Antes del test, el ADR del formato:** qué campos lleva una ficha, cuáles son obligatorios,
       cómo vienen sus textos en español e inglés ([ADR-0008](adr/0008-espanol-e-ingles.md)), cómo
       se marca `oculto` y cómo viene el `apagado` que agrega el deploy. Es el contrato con
@@ -101,9 +101,10 @@ Ideas que todavía no son trabajo tomable: les falta una decisión del usuario o
 dato. Van **sin checkbox** para que el loop no las tome ni las cuente.
 
 - **El subdominio.** `hub.`, `sala.`, `fichines.` u otro. Falta que lo elija el usuario.
-- **Los loops de los seis proyectos.** Hay que grabarlos, y dónde viven (en cada app, en `infra` o
-  en este repo) lo decide el ADR del formato de la ficha, en H1. Hasta entonces, el catálogo de
-  ejemplo usa loops sintéticos marcados como tales.
+- **Los loops de los seis proyectos.** Los sirve cada app en su propio host
+  ([ADR-0010](adr/0010-formato-de-la-ficha-y-del-catalogo.md)): hay que grabarlos y sumar el
+  `vista.mp4` en cada repo, y es trabajo de esos repos, no de éste. Hasta entonces, las fichas van
+  sin `vista` y la placa muestra su relleno.
 - **Los easter eggs.** Es la rama del grill que falta: cuáles, cuántos al principio, y si C y D
   vuelven como modos escondidos ([docs/conceptos.md](conceptos.md)).
 - **El estado en vivo** (caído / *healthy*) en la sala. [ADR-0004](adr/0004-el-catalogo-llega-en-runtime.md)
@@ -112,5 +113,7 @@ dato. Van **sin checkbox** para que el loop no las tome ni las cuente.
   su lista viviría en este repo: falta decidirlo, porque choca con la regla 3 del `CLAUDE.md`.
 - **Proyectos fuera de la VPS** (itch.io, un repo suelto). Mismo choque que el anterior.
 - **Del lado de `infra`** (se escribe en su backlog, no acá): el `x-hub` en cada stack que expone
-  algo, el chequeo en su gate, el `catalogo.json` que arma el deploy, y el stack del hub con su
-  puerto, su regla del túnel y su CNAME.
+  algo, con el formato de [ADR-0010](adr/0010-formato-de-la-ficha-y-del-catalogo.md) (las fichas de
+  `ejemplos/catalogo.json` sirven de punto de partida, pero sus fechas `desde` son aproximadas), el
+  chequeo en su gate, el `catalogo.json` que arma el deploy, y el stack del hub con su puerto, su
+  regla del túnel y su CNAME.
