@@ -26,9 +26,12 @@ aunque los tests pasen.
 4. **El catálogo se pide en runtime a `/catalogo.json`; la imagen no lo trae horneado.** Si falta,
    viene roto o trae una ficha que no valida, la sala sigue andando.
    [ADR-0004](docs/adr/0004-el-catalogo-llega-en-runtime.md)
-5. **Cada proyecto es una máquina de la sala, y entrar a una cuesta un click o una tecla**, nunca
+5. **La sala muestra sólo lo que cualquiera puede usar sin pedir permiso.** Lo demás lleva
+   `oculto` con su motivo, y un stack apagado no se muestra aunque tenga ficha.
+   [ADR-0005](docs/adr/0005-entra-lo-que-cualquiera-puede-usar.md)
+6. **Cada proyecto es una máquina de la sala, y entrar a una cuesta un click o una tecla**, nunca
    más. [ADR-0006](docs/adr/0006-el-concepto-es-una-sala-de-fichines.md)
-6. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`. Un color, una
+7. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`. Un color, una
    tipografía o un espaciado que no sale de ahí es un hallazgo de review.
    [ADR-0007](docs/adr/0007-frontend-disenado-con-impeccable.md)
 

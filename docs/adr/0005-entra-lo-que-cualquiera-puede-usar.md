@@ -1,6 +1,6 @@
 # ADR-0005 — Entra lo que cualquiera puede usar sin pedir permiso; lo apagado no se muestra
 
-- **Estado:** propuesto
+- **Estado:** aceptado (propuesto el 2026-10-26; confirmado por el usuario el 2026-10-26)
 - **Fecha:** 2026-10-26
 - **Decide:** qué stacks con ficha aparecen en la sala y cuáles quedan `oculto`
 
