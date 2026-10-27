@@ -148,7 +148,7 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       no rompe si no hay `canvas`.
       **Se espera rojo:** falla el import del módulo de las partículas.
 
-- [ ] **H13 — El polvo del cielo deriva siempre hacia abajo a la izquierda.** *Depende de H12.* Lo
+- [x] **H13 — El polvo del cielo deriva siempre hacia abajo a la izquierda.** *Depende de H12.* Lo
       pidió el usuario comparando con la referencia ([ADR-0013](adr/0013-el-polvo-deriva-siempre.md)).
       *Test:* (node) `derivar` mueve las motas hacia abajo a la izquierda, a unos 35°, sin el mouse;
       depende del tiempo y no de los cuadros; las más grandes van más rápido; la que sale por un borde

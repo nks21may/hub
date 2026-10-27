@@ -698,3 +698,62 @@ encender el polvo en Chrome sin cabeza.
 de tokens no ve porque sólo lee CSS; se sacó, y el color sale siempre de `--particula`.
 
 **Sha:** `b73fb4f`
+
+## H13 — El polvo del cielo deriva siempre hacia abajo a la izquierda · 2026-10-27
+
+Lo pidió el usuario comparando con la referencia: "en el de ejemplo las partículas se van moviendo
+infinitamente hacia abajo a la izquierda con cierto ángulo". Antes del test, la decisión:
+[ADR-0013](adr/0013-el-polvo-deriva-siempre.md) (commit `d81bec3`), que suma la deriva a ADR-0012 y
+reemplaza su "se detiene cuando todo se apagó", porque ahora el canvas se dibuja en cada cuadro.
+
+**Archivos:** `src/hub/particulas.ts` (`derivar`: abajo a la izquierda a 35°, 16 px/s para una mota
+media, de la mitad a una vez y media según el tamaño, y la que sale por un borde entra por el
+opuesto), `src/hub/Fondo.tsx` (con movimiento, el paso a paso arranca al montar y no se detiene; el
+mouse sólo deja su posición), `tests/particulas.test.ts`, `tests/fondo.test.tsx` (un canvas 2D de
+mentira para ver que pide cuadros sin mouse y que con movimiento reducido no los pide), `DESIGN.md`,
+`.impeccable/design.json`, el contrato de dirección y las capturas de `.impeccable/review/`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código (`npx vitest run tests/particulas.test.ts tests/fondo.test.tsx`):
+
+```
+     × sin el mouse, el polvo baja solo hacia la izquierda, a unos 35° de la horizontal 2ms
+     × depende del tiempo y no de los cuadros: dos medios segundos llegan adonde llega uno entero 0ms
+     × las motas más grandes van más rápido, como si estuvieran más cerca 0ms
+     × la que sale por un borde entra por el opuesto 0ms
+     × después de mucho rato sigue habiendo polvo en toda la ventana 0ms
+     × con movimiento, el polvo se anima solo, sin que nadie mueva el mouse 40ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected "vi.fn()" to be called at least once
+TypeError: derivar is not a function
+ Test Files  2 failed (2)
+      Tests  6 failed | 11 passed (17)
+EXIT=1
+```
+
+El test de movimiento reducido pasó desde el principio: es una guarda para que la deriva no lo rompa.
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  8 passed (8)
+      Tests  73 passed (73)
+✓ built in 82ms
+EXIT=0
+```
+
+**Revisión en el navegador.** En el panel, el canvas recibía 2 cuadros por segundo: el panel sin foco
+frena `requestAnimationFrame`, y dibujar 600 motas cuesta 0,3 ms, así que no es el polvo. Medido en
+Chrome sin cabeza a 1280×800, comparando el canvas con un segundo de diferencia: el polvo se corre
+13 px a la izquierda y 9 px hacia abajo (35°), que es lo que da una mota media. La captura de escritorio
+lleva un recorrido del mouse y 0,7 s de deriva: la estela se ve corrida abajo a la izquierda del
+camino.
+
+**Detector:** `[]`.
+
+**Sha:** `33bf8bc`
