@@ -1,6 +1,6 @@
 ---
 name: hub de nicolasdalessandro.dev
-description: La grilla de todo lo que corre en nicolasdalessandro.dev, sobre un cielo azul cuyo polvo se enciende con el mouse.
+description: La grilla de todo lo que corre en nicolasdalessandro.dev, sobre un cielo azul cuyo polvo deriva solo y se enciende con el mouse.
 colors:
   fondo: "#050a1c"
   superficie: "rgb(9 14 32 / 0.8)"
@@ -107,12 +107,12 @@ components:
 
 El hub es la forma estándar de la categoría (una grilla de recuadros, uno por proyecto, cada uno con su vista previa) ejecutada sin ironía y con la terminación de Linear como vara. No hay metáfora ni disfraz: lo propio sale del contenido, que son las previews reales y el conteo que llega de la VPS, y del cuidado en los bordes, la luz, el foco y el movimiento.
 
-El mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la izquierda que sube a un azul francia arriba a la derecha, con tres luces grandes (azul, índigo y una clara) que derivan lento, un grano fino y un polvo de motas claras. El mouse corre las luces un poco, cada una a su profundidad, y enciende el polvo por donde pasa: las motas se agrandan, llevan un halo tenue, dejan estela y se apagan solas. Encima, superficies navy traslúcidas con un borde de 1px; el azul vive en el cielo y en los grises del texto, y el color fuerte lo siguen poniendo las capturas de los proyectos.
+El mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la izquierda que sube a un azul francia arriba a la derecha, con tres luces grandes (azul, índigo y una clara) que derivan lento, un grano fino y un polvo de motas claras que deriva solo hacia abajo a la izquierda. El mouse corre las luces un poco, cada una a su profundidad, y enciende el polvo por donde pasa: las motas se agrandan, llevan un halo tenue, dejan estela y se apagan solas. Encima, superficies navy traslúcidas con un borde de 1px; el azul vive en el cielo y en los grises del texto, y el color fuerte lo siguen poniendo las capturas de los proyectos.
 
-La interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con movimiento reducido o con el dedo, el cielo queda quieto y el polvo, tenue y sin reaccionar; con movimiento reducido tampoco hay zoom.
+La interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con el dedo el polvo deriva pero no reacciona. Con movimiento reducido el cielo queda quieto, el polvo tenue y sin reaccionar, y no hay zoom.
 
 **Key Characteristics:**
-- Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que se enciende por donde pasa el puntero.
+- Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que deriva solo y se enciende por donde pasa el puntero.
 - Recuadros navy traslúcidos de radio 14px con borde blanco al 8% y un filo de luz interior arriba.
 - Geist para todo el texto; Geist Mono sólo para hosts, números y el dominio.
 - Un único acento azul claro, reservado al foco y la selección.
@@ -227,8 +227,8 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Degradé:** `linear-gradient(205deg)` de `cielo-azul` al 42% sobre `fondo` hasta `fondo` al 72%, con un `radial-gradient(120% 90% at 0% 100%)` de `fondo` que oscurece la esquina inferior izquierda.
 - **Luces:** dos de clamp(560px, 70vw, 1200px) (azul arriba a la derecha, índigo a la izquierda) y una clara de clamp(320px, 34vw, 620px) arriba a la derecha, en `screen`. Derivan en 30s, 38s (al revés) y 26s, `ease-in-out` y alternadas. El mouse las corre con `translate` hasta 32px en x y 22px en y, cada una a su profundidad (1, -0,7 y 1,5).
 - **Grano:** `feTurbulence` fractal (frecuencia 0,85, dos octavas) desaturado, al 6% en `overlay`, para que el degradé no haga escalones.
-- **Polvo:** un canvas 2D con una mota cada 28px (el 62% de las celdas, corrida al azar, con semilla fija: el mismo cielo en cada visita). El mouse enciende las motas a menos de 190px según cuánto se mueve, las agranda hasta el doble y las empuja hasta 8px hacia afuera; una mota encendida lleva un halo de 2,6 veces su radio al 8% de su energía y se apaga con τ de 1,2 s. Mientras hay movimiento, las motas en reposo titilan un poco. El puntero se suaviza con τ de 0,12 s. El dibujo se detiene cuando todo se apagó.
-- **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo no reacciona.
+- **Polvo:** un canvas 2D con una mota cada 28px (el 62% de las celdas, corrida al azar, con semilla fija: el mismo cielo en cada visita). El mouse enciende las motas a menos de 190px según cuánto se mueve, las agranda hasta el doble y las empuja hasta 8px hacia afuera; una mota encendida lleva un halo de 2,6 veces su radio al 8% de su energía y se apaga con τ de 1,2 s. Las motas derivan solas hacia abajo a la izquierda, a 35° de la horizontal y a 8–24 px/s según su tamaño (las grandes, más rápido); la que sale por un borde entra por el opuesto, y la estela deriva con ellas. Las motas en reposo titilan un poco. El puntero se suaviza con τ de 0,12 s. El canvas se dibuja en cada cuadro mientras la pestaña está a la vista (ADR-0013).
+- **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo deriva pero no reacciona.
 
 ## Do's and Don'ts
 

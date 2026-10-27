@@ -1,9 +1,9 @@
 import {describe, expect, it} from 'vitest';
 import type {Particula} from '../src/hub/particulas.ts';
-import {apagar, azarConSemilla, empuje, encender, sembrar} from '../src/hub/particulas.ts';
+import {apagar, azarConSemilla, derivar, empuje, encender, sembrar} from '../src/hub/particulas.ts';
 
-function una(x: number, y: number): Particula {
-  return {x, y, tam: 1, base: 0.05, energia: 0, fase: 0};
+function una(x: number, y: number, tam = 1): Particula {
+  return {x, y, tam, base: 0.05, energia: 0, fase: 0};
 }
 
 describe('el polvo del cielo', () => {
@@ -70,5 +70,61 @@ describe('el polvo del cielo', () => {
     expect(arriba.y).toBeLessThan(0);
     expect(empuje(una(900, 900), {x: 100, y: 100})).toEqual({x: 0, y: 0});
     expect(empuje(una(130, 100), undefined)).toEqual({x: 0, y: 0});
+  });
+});
+
+describe('la deriva del polvo', () => {
+  it('sin el mouse, el polvo baja solo hacia la izquierda, a unos 35° de la horizontal', () => {
+    const p = una(500, 300);
+    derivar([p], 1, 1000, 800);
+    const izquierda = 500 - p.x;
+    const abajo = p.y - 300;
+    expect(izquierda).toBeGreaterThan(0);
+    expect(abajo).toBeGreaterThan(0);
+    const angulo = (Math.atan2(abajo, izquierda) * 180) / Math.PI;
+    expect(angulo).toBeGreaterThan(25);
+    expect(angulo).toBeLessThan(45);
+  });
+
+  it('depende del tiempo y no de los cuadros: dos medios segundos llegan adonde llega uno entero', () => {
+    const entera = una(500, 300);
+    const enDos = una(500, 300);
+    derivar([entera], 1, 1000, 800);
+    derivar([enDos], 0.5, 1000, 800);
+    derivar([enDos], 0.5, 1000, 800);
+    expect(enDos.x).toBeCloseTo(entera.x);
+    expect(enDos.y).toBeCloseTo(entera.y);
+  });
+
+  it('las motas más grandes van más rápido, como si estuvieran más cerca', () => {
+    const chica = una(500, 300, 0.5);
+    const grande = una(500, 300, 1.6);
+    derivar([chica, grande], 1, 1000, 800);
+    expect(500 - grande.x).toBeGreaterThan(500 - chica.x);
+    expect(grande.y - 300).toBeGreaterThan(chica.y - 300);
+  });
+
+  it('la que sale por un borde entra por el opuesto', () => {
+    const p = una(2, 798);
+    derivar([p], 1, 1000, 800);
+    expect(p.x).toBeGreaterThan(900);
+    expect(p.x).toBeLessThanOrEqual(1010);
+    expect(p.y).toBeLessThan(50);
+    expect(p.y).toBeGreaterThanOrEqual(-10);
+  });
+
+  it('después de mucho rato sigue habiendo polvo en toda la ventana', () => {
+    const polvo = sembrar(800, 600, azarConSemilla(3));
+    const cuantas = polvo.length;
+    for (let segundo = 0; segundo < 600; segundo++) derivar(polvo, 1, 800, 600);
+    expect(polvo).toHaveLength(cuantas);
+    for (const p of polvo) {
+      expect(p.x).toBeGreaterThanOrEqual(-10);
+      expect(p.x).toBeLessThanOrEqual(810);
+      expect(p.y).toBeGreaterThanOrEqual(-10);
+      expect(p.y).toBeLessThanOrEqual(610);
+    }
+    const cuadrantes = new Set(polvo.map((p) => `${p.x < 400 ? 'i' : 'd'}${p.y < 300 ? 'a' : 'b'}`));
+    expect(cuadrantes.size).toBe(4);
   });
 });

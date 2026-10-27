@@ -1,7 +1,7 @@
 import {useEffect, useRef} from 'react';
 import {sinMovimiento} from './movimiento.ts';
 import type {Particula} from './particulas.ts';
-import {apagar, azarConSemilla, empuje, encender, sembrar} from './particulas.ts';
+import {apagar, azarConSemilla, derivar, empuje, encender, sembrar} from './particulas.ts';
 import type {Punto} from './puntero.ts';
 import {acercar, paralaje} from './puntero.ts';
 
@@ -9,14 +9,13 @@ import {acercar, paralaje} from './puntero.ts';
 const SEMILLA = 2026;
 /** Cuánto tiene que moverse el mouse en un cuadro, en píxeles, para encender del todo. */
 const MOVIMIENTO_PLENO = 6;
-/** Cuánto sigue el paso a paso después del último movimiento, en milisegundos. */
-const INERCIA_MS = 400;
 
 /**
  * El cielo del fondo (ADR-0012): un navy casi negro con luces grandes de azul y de índigo que
- * derivan lento, un grano fino y un polvo de motas que se encienden por donde pasa el mouse, dejan
- * estela y se apagan solas. Es decorado: queda fuera del árbol de accesibilidad. Con movimiento
- * reducido, o con el dedo, el polvo se ve tenue y quieto.
+ * derivan lento, un grano fino y un polvo de motas que deriva solo hacia abajo a la izquierda
+ * (ADR-0013) y se enciende por donde pasa el mouse, deja estela y se apaga solo. Es decorado: queda
+ * fuera del árbol de accesibilidad. Con el dedo el polvo deriva pero no reacciona; con movimiento
+ * reducido se ve tenue y quieto.
  */
 export function Fondo() {
   const quieto = sinMovimiento();
@@ -35,7 +34,6 @@ export function Fondo() {
     let color = '';
     let cursor: Punto | undefined;
     let suave: Punto | undefined;
-    let ultimoMovimiento = 0;
     let cuadro = 0;
     let antes = 0;
 
@@ -86,6 +84,7 @@ export function Fondo() {
     function paso(ahora: number) {
       const segundos = Math.min((ahora - antes) / 1000, 0.1);
       antes = ahora;
+      derivar(particulas, segundos, ancho, alto);
       if (cursor) {
         const previo = suave ?? cursor;
         suave = acercar(previo, cursor, segundos);
@@ -96,20 +95,14 @@ export function Fondo() {
         cielo.current?.style.setProperty('--py', corrimiento.y.toFixed(3));
       }
       apagar(particulas, segundos);
-      const encendidas = particulas.some((p) => p.energia > 0);
-      const moviendose = ahora - ultimoMovimiento < INERCIA_MS;
-      cuadro = encendidas || moviendose ? requestAnimationFrame(paso) : 0;
       dibujar(ahora);
+      // Sin pestaña a la vista el navegador deja de pedir cuadros: la deriva se pausa sola.
+      cuadro = requestAnimationFrame(paso);
     }
 
     function alMover(evento: PointerEvent) {
       if (evento.pointerType === 'touch') return;
       cursor = {x: evento.clientX, y: evento.clientY};
-      ultimoMovimiento = performance.now();
-      if (!cuadro) {
-        antes = ultimoMovimiento;
-        cuadro = requestAnimationFrame(paso);
-      }
     }
 
     function alSalir(evento: MouseEvent) {
@@ -123,6 +116,8 @@ export function Fondo() {
     if (!quieto) {
       window.addEventListener('pointermove', alMover);
       document.addEventListener('mouseout', alSalir);
+      antes = performance.now();
+      cuadro = requestAnimationFrame(paso);
     }
     return () => {
       window.removeEventListener('resize', medir);

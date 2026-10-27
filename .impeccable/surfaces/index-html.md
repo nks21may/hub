@@ -47,8 +47,8 @@ galería) y la grilla de plantilla sin terminación.
 
 OWN-WORLD: Un cielo azul fijo detrás de todo (ADR-0012): navy casi negro abajo a la izquierda,
 azul francia arriba a la derecha, luces grandes de azul y de índigo que derivan lento y que el
-mouse corre un poco, un grano fino y un polvo de motas claras que se encienden por donde pasa el
-mouse, dejan estela y se apagan solas. La referencia es el fondo de deepmind.google, sin su
+mouse corre un poco, un grano fino y un polvo de motas claras que deriva solo hacia abajo a la
+izquierda (ADR-0013) y se enciende por donde pasa el mouse, deja estela y se apaga solo. La referencia es el fondo de deepmind.google, sin su
 estrella. Nada de neón. Recuadros de superficie apenas más clara, borde de 1px blanco al 8%,
 radio de 14px, un filo de luz arriba y una luz radial que sigue al mouse; la preview asentada con un
 anillo interior doble (2px oscuro y 1px claro) y un velo abajo. Geist para todo el texto
@@ -63,7 +63,7 @@ FIRST VIEWPORT: Arriba a la izquierda, el título con el conteo real; a la derec
 dos en tablet y una en el celular, con preview 4:3 arriba, el nombre, la descripción en dos líneas
 y el host en mono. En 1440×900 se ve la primera fila entera y asoma la segunda. El cielo queda
 detrás, fijo. Interacción firma: con hover o foco, el borde se aclara, la preview se acerca un 3% y una
-luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo se enciende por donde
+luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo deriva solo, se enciende por donde
 pasa el mouse y las luces del cielo se corren. Con movimiento reducido, el cielo queda quieto, el
 polvo no reacciona y no hay zoom.
 

@@ -16,6 +16,26 @@ function movimientoReducido(reducido: boolean): void {
   );
 }
 
+/** Un canvas 2D de mentira, y el pedido de cuadros espiado: devuelve el espía. */
+function conCanvas() {
+  const contexto = {
+    setTransform: vi.fn(),
+    clearRect: vi.fn(),
+    beginPath: vi.fn(),
+    arc: vi.fn(),
+    fill: vi.fn(),
+    fillStyle: '',
+    globalAlpha: 1,
+  };
+  vi.mocked(HTMLCanvasElement.prototype.getContext).mockReturnValue(
+    contexto as unknown as CanvasRenderingContext2D,
+  );
+  const cuadros = vi.fn(() => 1);
+  vi.stubGlobal('requestAnimationFrame', cuadros);
+  vi.stubGlobal('cancelAnimationFrame', vi.fn());
+  return cuadros;
+}
+
 // jsdom no trae canvas: getContext devuelve null, como en un navegador sin 2D.
 beforeEach(() => {
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
@@ -41,6 +61,21 @@ describe('el cielo del fondo', () => {
     movimientoReducido(true);
     const {container} = render(<Fondo />);
     expect(container.firstElementChild?.getAttribute('data-quieto')).toBe('true');
+  });
+
+  it('con movimiento, el polvo se anima solo, sin que nadie mueva el mouse', () => {
+    movimientoReducido(false);
+    const cuadros = conCanvas();
+    render(<Fondo />);
+    expect(cuadros).toHaveBeenCalled();
+  });
+
+  it('con movimiento reducido, el polvo se dibuja una vez y no pide cuadros', () => {
+    movimientoReducido(true);
+    const cuadros = conCanvas();
+    render(<Fondo />);
+    window.dispatchEvent(new MouseEvent('pointermove', {clientX: 200, clientY: 100}));
+    expect(cuadros).not.toHaveBeenCalled();
   });
 
   it('sin canvas, como en jsdom, no rompe: el mouse se mueve y no pasa nada', () => {

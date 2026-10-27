@@ -21,6 +21,12 @@ export const RADIO = 190;
 const TAU_APAGADO = 1.2;
 /** Cuánto corre el mouse a una mota que tiene encima, en píxeles. */
 const FUERZA = 8;
+/** Hacia dónde deriva el polvo: abajo a la izquierda, a 35° de la horizontal (ADR-0013). */
+const ANGULO_DERIVA = (35 * Math.PI) / 180;
+/** A cuántos píxeles por segundo deriva una mota de tamaño medio. */
+const VELOCIDAD = 16;
+/** Cuánto sale una mota por un borde antes de entrar por el opuesto: así no aparece de golpe. */
+const MARGEN = 4;
 
 /** Un azar con semilla (mulberry32): el mismo cielo en cada visita. */
 export function azarConSemilla(semilla: number): () => number {
@@ -81,6 +87,28 @@ export function apagar(particulas: Particula[], segundos: number): void {
     p.energia *= factor;
     if (p.energia < 0.001) p.energia = 0;
   }
+}
+
+/**
+ * El polvo deriva solo, abajo a la izquierda, sin el mouse. Las motas grandes van más rápido, como si
+ * estuvieran más cerca, y la que sale por un borde entra por el opuesto.
+ */
+export function derivar(particulas: Particula[], segundos: number, ancho: number, alto: number): void {
+  const paso = Math.max(segundos, 0) * VELOCIDAD;
+  const haciaX = -Math.cos(ANGULO_DERIVA);
+  const haciaY = Math.sin(ANGULO_DERIVA);
+  for (const p of particulas) {
+    // De la mota más chica (0,5) a la más grande (1,6), la velocidad va de la mitad a una vez y media.
+    const cercania = 0.5 + (p.tam - 0.5) / 1.1;
+    p.x = envolver(p.x + haciaX * paso * cercania, ancho);
+    p.y = envolver(p.y + haciaY * paso * cercania, alto);
+  }
+}
+
+/** Lleva una coordenada de vuelta a la ventana, con su margen, por el lado opuesto. */
+function envolver(valor: number, largo: number): number {
+  const total = largo + MARGEN * 2;
+  return ((((valor + MARGEN) % total) + total) % total) - MARGEN;
 }
 
 /** Cuánto corre el mouse a una mota: hacia afuera, más cuanto más cerca, nada si está lejos. */
