@@ -1,6 +1,6 @@
 # ADR-0011 — El hub es una grilla de proyectos, cada uno con su vista previa
 
-- **Estado:** aceptado
+- **Estado:** aceptado; el fondo (la aurora) y la marca de las capturas los reemplaza [ADR-0012](0012-el-fondo-es-un-cielo-de-particulas.md)
 - **Fecha:** 2026-10-26
 - **Decide:** qué forma y qué mundo visual tiene el hub; reemplaza a ADR-0006 y ADR-0009
 

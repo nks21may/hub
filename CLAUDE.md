@@ -31,8 +31,10 @@ aunque los tests pasen.
    [ADR-0005](docs/adr/0005-entra-lo-que-cualquiera-puede-usar.md)
 6. **El hub es una grilla de recuadros, uno por proyecto, con su vista previa, y entrar a uno
    cuesta un click o una tecla** (su número), nunca más. El encabezado cuenta los proyectos de
-   verdad. El fondo es una aurora que se queda quieta con movimiento reducido. Nada retro.
-   [ADR-0011](docs/adr/0011-el-hub-es-una-grilla-de-proyectos.md)
+   verdad. El fondo es un cielo azul con partículas que se encienden con el mouse, y queda quieto
+   con movimiento reducido. Nada retro.
+   [ADR-0011](docs/adr/0011-el-hub-es-una-grilla-de-proyectos.md),
+   [ADR-0012](docs/adr/0012-el-fondo-es-un-cielo-de-particulas.md)
 7. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`; hasta que exista
    `DESIGN.md`, del contrato de dirección en `.impeccable/surfaces/index-html.md`. Un color, una
    tipografía o un espaciado que no sale de ahí es un hallazgo de review.

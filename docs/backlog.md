@@ -136,6 +136,18 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       `paralaje` da cero en el centro y ±1 en los bordes.
       **Se espera rojo:** falla el import del módulo del puntero.
 
+- [ ] **H12 — El fondo es un cielo azul con partículas que se encienden con el mouse.** *Depende de
+      H11.* La referencia del usuario es el fondo de deepmind.google, sin su estrella
+      ([ADR-0012](adr/0012-el-fondo-es-un-cielo-de-particulas.md)). Reemplaza la aurora y la luz del
+      cursor de H11. `DESIGN.md` y `.impeccable/design.json` se reescriben en el mismo commit.
+      *Test:* (node) `sembrar` llena la ventana de partículas, más cuanto más grande, ninguna afuera,
+      y siempre las mismas con la misma semilla; `encender` prende las cercanas al mouse según cuánto
+      se movió, más cuanto más cerca, y no toca las lejanas; `apagar` las apaga con el tiempo, con
+      estela y sin bajar de cero; `empuje` corre las cercanas hacia afuera y no mueve las lejanas.
+      (jsdom) el cielo queda fuera del árbol de accesibilidad, queda quieto con movimiento reducido y
+      no rompe si no hay `canvas`.
+      **Se espera rojo:** falla el import del módulo de las partículas.
+
 ## Descartados por ADR-0011
 
 Eran de la placa. Quedan anotados para que nadie los busque.
