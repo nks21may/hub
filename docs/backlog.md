@@ -136,7 +136,7 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       `paralaje` da cero en el centro y ±1 en los bordes.
       **Se espera rojo:** falla el import del módulo del puntero.
 
-- [ ] **H12 — El fondo es un cielo azul con partículas que se encienden con el mouse.** *Depende de
+- [x] **H12 — El fondo es un cielo azul con partículas que se encienden con el mouse.** *Depende de
       H11.* La referencia del usuario es el fondo de deepmind.google, sin su estrella
       ([ADR-0012](adr/0012-el-fondo-es-un-cielo-de-particulas.md)). Reemplaza la aurora y la luz del
       cursor de H11. `DESIGN.md` y `.impeccable/design.json` se reescriben en el mismo commit.

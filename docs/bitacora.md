@@ -632,3 +632,69 @@ ADR aceptado: es un detalle de pantalla barato de revertir. Las capturas siguen 
 prueba, y su procedencia sigue en los `.webp.json` de al lado.
 
 **Sha:** `d9990b5`
+
+## H12 — El fondo es un cielo azul con partículas que se encienden con el mouse · 2026-10-27
+
+Lo pidió el usuario con una referencia: "el fondo me lo imagino más como el de deepmind.google". Antes
+del test, la decisión: [ADR-0012](adr/0012-el-fondo-es-un-cielo-de-particulas.md) (commit
+`30d6649`), que reemplaza la aurora de ADR-0011 y actualiza la regla 6 del `CLAUDE.md`.
+
+**Qué es el fondo de DeepMind**, mirado en el navegador del panel: no es un video, es un `canvas`
+(`<abc-canvas>`). Es un campo azul granulado, de un navy casi negro a un azul francia, con un polvo de
+partículas finas que se encienden alrededor del mouse y dejan estela. Arriba lleva la estrella de
+Gemini, que no se toma.
+
+**Archivos:** `src/hub/particulas.ts` (nuevo: `sembrar` con una semilla fija, `encender`, `apagar` y
+`empuje`), `src/hub/Fondo.tsx` (nuevo: el cielo con sus tres luces, el canvas del polvo y el grano;
+reemplaza a `src/hub/Aurora.tsx`), `src/hub/hub.css` (el cielo fijo detrás de todo, sin la aurora ni
+la luz del cursor de H11), `src/estilos/base.css` (la paleta pasa a azul: `--fondo` `#050a1c`, las
+superficies navy, los grises azulados, el acento `#8fb4ff`, `--cielo-azul`, `--cielo-indigo`,
+`--cielo-claro` y `--particula`), `src/hub/Hub.tsx`, `index.html` y `public/favicon.svg`,
+`tests/particulas.test.ts` (nuevo), `tests/fondo.test.tsx` (era `aurora.test.tsx`) y
+`tests/hub.test.tsx` (los dos silencian `getContext`, que jsdom no trae). También `DESIGN.md` y
+`.impeccable/design.json`, reescritos por el documentador de impeccable desde el build, y el contrato
+de dirección y las capturas de `.impeccable/review/`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/fondo.test.tsx(4,21): error TS2307: Cannot find module '../src/hub/Fondo.tsx' or its corresponding type declarations.
+tests/particulas.test.ts(2,30): error TS2307: Cannot find module '../src/hub/particulas.ts' or its corresponding type declarations.
+tests/particulas.test.ts(3,65): error TS2307: Cannot find module '../src/hub/particulas.ts' or its corresponding type declarations.
+tests/particulas.test.ts(23,44): error TS7006: Parameter 'p' implicitly has an 'any' type.
+EXIT=2
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  8 passed (8)
+      Tests  66 passed (66)
+✓ built in 90ms
+EXIT=0
+```
+
+**Revisión en el navegador.** La primera versión encendía el polvo, pero se veía poco: el brillo
+máximo cerca del recorrido llegaba a 128 de 255, porque las motas son tan chicas que no cubren un
+píxel entero. Se agrandaron al encenderse, se les sumó un halo tenue, el radio del mouse pasó a 190px
+con una caída más suave y la estela a τ de 1,2 s. Con un recorrido de 40 cuadros por la franja del
+título, quedan 260 píxeles con alfa mayor a 150 (antes, 0), sin errores en la consola.
+
+También apareció que el canvas medía la ventana con la barra de scroll incluida (768 px contra 753
+visibles) y quedaba un poco aplastado: ahora mide su propia caja. La captura de escritorio se tomó
+con un recorrido del mouse hecho desde la página, porque los eventos de mouse de CDP no llegaban a
+encender el polvo en Chrome sin cabeza.
+
+**Detector:** `[]`. El documentador avisó de un `'#fff'` de reserva suelto en `Fondo.tsx`, que el test
+de tokens no ve porque sólo lee CSS; se sacó, y el color sale siempre de `--particula`.
+
+**Sha:** `b73fb4f`
