@@ -417,3 +417,79 @@ teclado y las teclas de los recuadros, que ahí no sirven.
 
 **Lo que no se pudo ver:** la deriva, porque una captura es quieta. Dura de 28 a 40 segundos por
 vuelta y sólo mueve `transform`.
+
+## H4 — La imagen Docker, como la de nonograma · 2026-10-27
+
+**Archivos:** `deploy/nginx.conf` (nuevo: el map de Cache-Control, la CSP con `media-src` para los
+loops y el `location = /catalogo.json` que sirve el directorio montado), `Dockerfile` (nuevo: el
+gate en la etapa de node y `nginx-unprivileged` al final), `.dockerignore` (nuevo),
+`.github/workflows/publicar.yml` (nuevo: publica `ghcr.io/nks21may/hub` desde un runner arm en cada
+push a `main`), `tests/despliegue.test.ts` (nuevo).
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin el conf:
+
+```
+
+> hub@0.0.0 gate
+
+ FAIL  tests/despliegue.test.ts [ tests/despliegue.test.ts ]
+Error: ENOENT: no such file or directory, open 'P:\hub\.claude\worktrees\prueba-mundo-e9ba37\deploy\nginx.conf'
+ Test Files  1 failed | 4 passed (5)
+      Tests  42 passed (42)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  5 passed (5)
+      Tests  47 passed (47)
+✓ built in 204ms
+EXIT=0
+```
+
+**Fuera del gate.** `docker build -t hub:local .` (el gate corre adentro de la imagen):
+
+```
+#12 4.906  Test Files  5 passed (5)
+#12 4.906       Tests  47 passed (47)
+#12 5.270 ✓ built in 148ms
+#15 naming to docker.io/library/hub:local done
+BUILD EXIT=0
+```
+
+`docker run` con el catálogo de ejemplo montado como directorio en `/usr/share/nginx/catalogo`:
+
+```
+portada: 200 text/html; charset=utf-8
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self'; media-src https://nicolasdalessandro.dev https://*.nicolasdalessandro.dev; connect-src 'self' https://cloudflareinsights.com
+Cache-Control: no-cache
+assets: 200
+Cache-Control: public, max-age=31536000, immutable
+```
+
+Sin montar nada:
+
+```
+sin montar, /catalogo.json: 404
+sin montar, portada: 200
+```
+
+En el navegador del panel, contra el contenedor y con la CSP de producción: seis recuadros, seis
+imágenes, Geist cargada, la aurora animando y ningún mensaje en la consola.
+
+**Lo que apareció:** el portfolio vive en el dominio pelado (`nicolasdalessandro.dev`), que
+`https://*.nicolasdalessandro.dev` no cubre. La CSP lleva los dos para cuando el portfolio sirva su
+loop. El repo del hub todavía no tiene remoto: el workflow publica cuando exista `nks21may/hub` en
+GitHub.
+
+**Sha:** `2a428b0`

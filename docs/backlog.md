@@ -78,7 +78,7 @@ npm run gate
       (H2) a la columna izquierda del contrato.
       **Se espera rojo:** las flechas no mueven el cursor.
       Ver [ADR-0009](adr/0009-la-sala-es-una-placa-1000-en-1.md).
-- [ ] **H4 — La imagen Docker, como la de nonograma.** *Depende de H2.*
+- [x] **H4 — La imagen Docker, como la de nonograma.** *Depende de H2.*
       `Dockerfile` de dos etapas (el gate en el build, `nginx-unprivileged` al final),
       `deploy/nginx.conf` y la CI que publica `ghcr.io/nks21may/hub` para ARM.
       *Test:* un test del gate lee `deploy/nginx.conf` y verifica que `/catalogo.json` se sirve con
