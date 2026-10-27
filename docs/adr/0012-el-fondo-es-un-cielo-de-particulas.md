@@ -1,6 +1,7 @@
 # ADR-0012 — El fondo es un cielo azul con partículas que se encienden con el mouse
 
-- **Estado:** aceptado
+- **Estado:** aceptado; [ADR-0013](0013-el-polvo-deriva-siempre.md) le suma la deriva del polvo y
+  reemplaza su "se detiene cuando todo se apagó"
 - **Fecha:** 2026-10-27
 - **Decide:** cómo es el fondo del hub; reemplaza la parte de ADR-0011 que lo definía como una aurora
 

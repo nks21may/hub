@@ -19,7 +19,8 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0009](0009-la-sala-es-una-placa-1000-en-1.md) | La sala es el menú de una placa multijuego «1000 en 1» | reemplazado por 0011 |
 | [0010](0010-formato-de-la-ficha-y-del-catalogo.md) | El formato de la ficha `x-hub` y de `catalogo.json`; cada app sirve su loop | aceptado |
 | [0011](0011-el-hub-es-una-grilla-de-proyectos.md) | El hub es una grilla de proyectos con su vista previa, sobre una aurora | aceptado; su fondo lo reemplaza 0012 |
-| [0012](0012-el-fondo-es-un-cielo-de-particulas.md) | El fondo es un cielo azul con partículas que se encienden con el mouse | aceptado |
+| [0012](0012-el-fondo-es-un-cielo-de-particulas.md) | El fondo es un cielo azul con partículas que se encienden con el mouse | aceptado; 0013 le suma la deriva |
+| [0013](0013-el-polvo-deriva-siempre.md) | El polvo del cielo deriva siempre hacia abajo a la izquierda | aceptado |
 
 ## Cuándo escribir uno
 
