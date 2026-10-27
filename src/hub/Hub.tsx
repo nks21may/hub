@@ -3,7 +3,7 @@ import {pedirCatalogo} from '../catalogo/pedir-catalogo.ts';
 import type {Maquina} from '../catalogo/tipos.ts';
 import type {Idioma} from '../i18n/textos.ts';
 import {texto} from '../i18n/textos.ts';
-import {Aurora} from './Aurora.tsx';
+import {Fondo} from './Fondo.tsx';
 import {Recuadro} from './Recuadro.tsx';
 import './hub.css';
 
@@ -69,7 +69,7 @@ export function Hub({idioma, navegar = irA}: Props) {
 
   return (
     <div className="hub">
-      <Aurora />
+      <Fondo />
       <main className="hub__contenido">
         <header className="encabezado">
           <h1 className="encabezado__titulo">

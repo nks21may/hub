@@ -1,31 +1,31 @@
 /*
- * Los tokens del hub. Salen del contrato de dirección (.impeccable/surfaces/index-html.md) hasta
- * que el documentador escriba DESIGN.md (H5): fondo casi negro, superficies apenas más claras con
- * borde fino, texto blanco y gris lavanda, y la aurora apagada de índigo, violeta y verde agua.
+ * Los tokens del hub, documentados en DESIGN.md: un cielo navy casi negro con luces de azul y de
+ * índigo (ADR-0012), superficies apenas más claras con borde fino, texto blanco y gris azulado, y el
+ * polvo claro que enciende el mouse.
  */
 :root {
-  --fondo: #08090b;
-  --superficie: rgb(16 17 22 / 0.8);
-  --superficie-alta: rgb(23 24 30 / 0.88);
+  --fondo: #050a1c;
+  --superficie: rgb(9 14 32 / 0.8);
+  --superficie-alta: rgb(15 22 46 / 0.88);
   --borde: rgb(255 255 255 / 0.08);
   --borde-fuerte: rgb(255 255 255 / 0.18);
   --filo: rgb(255 255 255 / 0.07);
-  --texto: #eceef3;
-  --texto-2: #a6a4bc;
-  --texto-3: #8a88a0;
-  --acento: #9b94d6;
-  --hueco: #0e0f13;
+  --texto: #eef1f8;
+  --texto-2: #b9c0dc;
+  --texto-3: #8f98bb;
+  --acento: #8fb4ff;
+  --hueco: #0a1126;
   --luz: rgb(255 255 255 / 0.075);
-  --seleccion: rgb(155 148 214 / 0.35);
-  --brillo-cursor: rgb(172 168 226 / 0.1);
-  --barra: #2b2a36;
+  --seleccion: rgb(143 180 255 / 0.35);
+  --barra: #1c2440;
   --anillo: rgb(255 255 255 / 0.06);
-  --anillo-oscuro: rgb(8 9 11 / 0.6);
-  --sombra-vista: rgb(8 9 11 / 0.32);
+  --anillo-oscuro: rgb(5 10 28 / 0.6);
+  --sombra-vista: rgb(5 10 28 / 0.32);
 
-  --aurora-indigo: #3a4596;
-  --aurora-violeta: #5e4596;
-  --aurora-agua: #23736d;
+  --cielo-azul: #1f56c3;
+  --cielo-indigo: #15287a;
+  --cielo-claro: #4a8fe6;
+  --particula: #d6e4ff;
 
   --letra: 'Geist Variable', system-ui, sans-serif;
   --letra-mono: 'Geist Mono Variable', ui-monospace, monospace;

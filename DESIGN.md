@@ -1,28 +1,28 @@
 ---
 name: hub de nicolasdalessandro.dev
-description: La grilla de todo lo que corre en nicolasdalessandro.dev, sobre una aurora quieta o lenta.
+description: La grilla de todo lo que corre en nicolasdalessandro.dev, sobre un cielo azul cuyo polvo se enciende con el mouse.
 colors:
-  fondo: "#08090b"
-  superficie: "rgb(16 17 22 / 0.8)"
-  superficie-alta: "rgb(23 24 30 / 0.88)"
+  fondo: "#050a1c"
+  superficie: "rgb(9 14 32 / 0.8)"
+  superficie-alta: "rgb(15 22 46 / 0.88)"
   borde: "rgb(255 255 255 / 0.08)"
   borde-fuerte: "rgb(255 255 255 / 0.18)"
   filo: "rgb(255 255 255 / 0.07)"
-  texto: "#eceef3"
-  texto-2: "#a6a4bc"
-  texto-3: "#8a88a0"
-  acento: "#9b94d6"
-  hueco: "#0e0f13"
+  texto: "#eef1f8"
+  texto-2: "#b9c0dc"
+  texto-3: "#8f98bb"
+  acento: "#8fb4ff"
+  hueco: "#0a1126"
   luz: "rgb(255 255 255 / 0.075)"
-  seleccion: "rgb(155 148 214 / 0.35)"
-  brillo-cursor: "rgb(172 168 226 / 0.1)"
-  barra: "#2b2a36"
+  seleccion: "rgb(143 180 255 / 0.35)"
+  barra: "#1c2440"
   anillo: "rgb(255 255 255 / 0.06)"
-  anillo-oscuro: "rgb(8 9 11 / 0.6)"
-  sombra-vista: "rgb(8 9 11 / 0.32)"
-  aurora-indigo: "#3a4596"
-  aurora-violeta: "#5e4596"
-  aurora-agua: "#23736d"
+  anillo-oscuro: "rgb(5 10 28 / 0.6)"
+  sombra-vista: "rgb(5 10 28 / 0.32)"
+  cielo-azul: "#1f56c3"
+  cielo-indigo: "#15287a"
+  cielo-claro: "#4a8fe6"
+  particula: "#d6e4ff"
 typography:
   display:
     fontFamily: "Geist Variable, system-ui, sans-serif"
@@ -107,48 +107,54 @@ components:
 
 El hub es la forma estándar de la categoría (una grilla de recuadros, uno por proyecto, cada uno con su vista previa) ejecutada sin ironía y con la terminación de Linear como vara. No hay metáfora ni disfraz: lo propio sale del contenido, que son las previews reales y el conteo que llega de la VPS, y del cuidado en los bordes, la luz, el foco y el movimiento.
 
-El mundo es oscuro y denso en información pero callado: fondo casi negro, superficies traslúcidas apenas más claras con un borde de 1px, y arriba de todo una aurora de tres manchas apagadas (índigo, violeta y verde agua) que deriva lento, se apaga hacia la grilla y lleva un grano fino para que el degradé no haga escalones. El mouse corre las manchas un poco, cada una a su profundidad, y lleva una luz suave por toda la página. Nada de neón: el color fuerte lo ponen las capturas de los proyectos, no el cromo ni el fondo.
+El mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la izquierda que sube a un azul francia arriba a la derecha, con tres luces grandes (azul, índigo y una clara) que derivan lento, un grano fino y un polvo de motas claras. El mouse corre las luces un poco, cada una a su profundidad, y enciende el polvo por donde pasa: las motas se agrandan, llevan un halo tenue, dejan estela y se apagan solas. Encima, superficies navy traslúcidas con un borde de 1px; el azul vive en el cielo y en los grises del texto, y el color fuerte lo siguen poniendo las capturas de los proyectos.
 
-La interacción firma es una sola y se repite en cada recuadro: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. El fondo responde al mouse con la luz que lo sigue y el paralaje de la aurora. Con movimiento reducido la aurora queda quieta, no sigue al mouse y no hay zoom.
+La interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con movimiento reducido o con el dedo, el cielo queda quieto y el polvo, tenue y sin reaccionar; con movimiento reducido tampoco hay zoom.
 
 **Key Characteristics:**
-- Fondo casi negro con una aurora apagada en la franja superior, enmascarada hacia abajo, que el mouse corre y sobre la que deja una luz suave.
-- Recuadros traslúcidos de radio 14px con borde blanco al 8% y un filo de luz interior arriba.
+- Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que se enciende por donde pasa el puntero.
+- Recuadros navy traslúcidos de radio 14px con borde blanco al 8% y un filo de luz interior arriba.
 - Geist para todo el texto; Geist Mono sólo para hosts, números y el dominio.
-- Un único acento violeta, reservado al foco y la selección.
+- Un único acento azul claro, reservado al foco y la selección.
 - Cada proyecto tiene su número como una tecla chica junto al nombre.
 
 ## Colors
 
-Una paleta casi monocroma, fría y lavanda. El color saturado vive sólo en las capturas; la aurora es apagada.
+Una paleta fría y azul: un cielo saturado detrás y un cromo navy casi monocromo delante; el color fuerte de primer plano vive en las capturas.
 
 ### Primary
-- **Violeta lavanda** (`acento`): el anillo de foco (`outline` de 2px con 3px de separación, 4px en el recuadro) y, al 35%, el fondo de la selección de texto (`seleccion`). No pinta botones, links ni títulos.
+- **Azul hielo** (`acento`): el anillo de foco (`outline` de 2px con 3px de separación, 4px en el recuadro) y, al 35%, el fondo de la selección de texto (`seleccion`). No pinta botones, links ni títulos.
 
 ### Secondary
-- **Índigo de aurora** (`aurora-indigo`), **Violeta de aurora** (`aurora-violeta`) y **Verde agua de aurora** (`aurora-agua`): sólo las manchas del fondo, apagadas y mezcladas al 50%, 46% y 32% con transparente, en `mix-blend-mode: screen`. Son también los tres cuadrados del favicon, junto a uno de `texto` sobre `fondo`.
+- **Azul de cielo** (`cielo-azul`): la luz grande de arriba a la derecha, mezclada al 72% con transparente, y la mitad azul del degradé del cielo (42% sobre `fondo`, a 205°).
+- **Índigo de cielo** (`cielo-indigo`): la luz grande de la izquierda, al 70%.
+- **Azul claro de cielo** (`cielo-claro`): la luz chica y más brillante de la esquina superior derecha, al 48%.
+
+Las tres luces van en `mix-blend-mode: screen` y son también tres cuadrados del favicon, junto a uno de `texto` sobre `fondo`.
+
+### Tertiary
+- **Polvo** (`particula`): el color de las motas del canvas, que lo lee de la propiedad `color` del canvas. En reposo se ven al 4–14% de opacidad (unas pocas, al 26–36%); encendidas llegan a opacidad plena.
 
 ### Neutral
-- **Negro tinta** (`fondo`): el fondo de la página, el `theme-color` y la base del favicon.
-- **Pizarra traslúcida** (`superficie`): el recuadro en reposo y el esqueleto mientras carga.
-- **Pizarra alta** (`superficie-alta`): el recuadro con hover o foco, y el fondo de la tecla.
+- **Navy noche** (`fondo`): el fondo de la página, la base y la esquina inferior izquierda del cielo, el `theme-color` y la base del favicon.
+- **Navy traslúcido** (`superficie`): el recuadro en reposo y el esqueleto mientras carga.
+- **Navy alto** (`superficie-alta`): el recuadro con hover o foco, y el fondo de la tecla.
 - **Hueco** (`hueco`): el fondo del área de la preview, visible mientras carga la imagen o detrás del nombre de relleno.
 - **Borde** (`borde`): el contorno de recuadros y esqueletos, el corte entre preview y texto y la línea del pie.
 - **Borde fuerte** (`borde-fuerte`): el borde con hover o foco, y el contorno de la tecla.
 - **Filo** (`filo`): la línea de luz interior de 1px en el canto superior del recuadro.
-- **Luz** (`luz`): el centro de la luz radial de 380px que sigue al puntero.
-- **Brillo del cursor** (`brillo-cursor`): el centro de la luz de 560px que sigue al mouse por el fondo de toda la página.
+- **Luz** (`luz`): el centro de la luz radial de 380px que sigue al puntero dentro del recuadro.
 - **Anillo** (`anillo`) y **Anillo oscuro** (`anillo-oscuro`): el asiento de la preview, un anillo interior oscuro de 2px y uno claro de 1px por fuera.
 - **Sombra de la vista** (`sombra-vista`): el velo que oscurece el último 28% de la preview.
 - **Barra** (`barra`): el pulgar de la barra de scroll.
 - **Blanco frío** (`texto`): títulos, nombres de proyecto y la tecla.
-- **Gris lavanda** (`texto-2`): el conteo, la pista del atajo, las descripciones, los avisos y el dominio del pie.
-- **Gris lavanda apagado** (`texto-3`): los hosts.
+- **Gris azulado** (`texto-2`): el conteo, la pista del atajo, las descripciones, los avisos, el nombre de relleno y el dominio del pie.
+- **Gris azulado apagado** (`texto-3`): los hosts.
 
 ### Named Rules
-**The Acento Solo Rule.** El violeta lavanda marca dónde está el foco y qué está seleccionado, nada más. Un elemento que lo usa como decoración le roba la señal al teclado.
+**The Acento Solo Rule.** El azul hielo marca dónde está el foco y qué está seleccionado, nada más. Un elemento que lo usa como decoración le roba la señal al teclado.
 
-**The Color Ajeno Rule.** El cromo del hub es neutro; el color fuerte lo traen las previews de los proyectos, y la aurora acompaña apagada. Ningún recuadro, título ni etiqueta se tiñe para competir con una captura.
+**The Cielo Detrás Rule.** El azul saturado es del cielo y se queda detrás: arriba a la derecha brilla, abajo a la izquierda vuelve a `fondo`, y todo lo que está delante es navy traslúcido con texto blanco y gris azulado. Ningún recuadro, título ni etiqueta se tiñe de azul para competir con una captura.
 
 ## Typography
 
@@ -160,12 +166,12 @@ Una paleta casi monocroma, fría y lavanda. El color saturado vive sólo en las 
 
 ### Hierarchy
 - **Display** (600, clamp(34px, 5vw, 56px), 1.04, -0.035em, máximo 16ch, `text-wrap: balance`): el título del hub, una vez por página.
-- **Headline** (400, clamp(16px, 1.6vw, 19px), 1.3, -0.01em, en `texto-2`): el conteo real de proyectos, dentro del h1 y debajo del título.
+- **Headline** (400, clamp(16px, 1.6vw, 19px), 1.3, -0.01em, en `texto-2`): el conteo real de proyectos, dentro del h1 y 14px debajo del título.
 - **Title** (600, 17px, 1.3, -0.015em): el nombre de cada proyecto.
 - **Body** (400, 16px, 1.5): el texto base y los avisos de carga, falta o vacío.
 - **Body chico** (400, 14.5px, 1.5, en `texto-2`): la descripción del recuadro, cortada a dos líneas. La pista del atajo va a 14px.
 - **Relleno** (600, 26px, -0.025em, en `texto-2`): el nombre de un proyecto sin preview, centrado en el área 4:3.
-- **Mono host** (12.5px, en `texto-3`): el host del recuadro; el dominio del pie va en la misma mono a 13px.
+- **Mono host** (12.5px, en `texto-3`): el host del recuadro; el dominio del pie va en la misma mono a 13px, en `texto-2`.
 - **Mono tecla** (12px, cifras tabulares, interlineado 1): el número dentro de la tecla.
 
 ### Named Rules
@@ -173,7 +179,7 @@ Una paleta casi monocroma, fría y lavanda. El color saturado vive sólo en las 
 
 ## Layout
 
-Una columna centrada de hasta 1240px con margen lateral fluido (`margen`), arriba el encabezado y abajo la grilla, con el pie separado por una línea de 1px.
+Una columna centrada de hasta 1240px con margen lateral fluido (`margen`), arriba el encabezado y abajo la grilla, con el pie separado por una línea de 1px. El cielo no participa del flujo: está fijo a la ventana y la columna pasa por encima al hacer scroll.
 
 - **Encabezado:** flex con wrap, alineado abajo: el título con el conteo a la izquierda y la pista del atajo a la derecha. Separaciones de 20px vertical y 40px horizontal, y clamp(28px, 4.5vw, 48px) hasta la grilla. No hay etiqueta encima del título.
 - **Contenido:** padding superior clamp(32px, 7vw, 88px) e inferior clamp(40px, 6vw, 72px).
@@ -184,7 +190,7 @@ Una columna centrada de hasta 1240px con margen lateral fluido (`margen`), arrib
 
 ## Elevation & Depth
 
-El hub es plano con capas tonales: la profundidad sale de superficies traslúcidas un tono más claras que el fondo y de luces interiores, no de sombras proyectadas. Nada flota sobre la grilla ni proyecta sombra hacia afuera.
+Hay dos planos. Atrás, el cielo, que es el único lugar con profundidad atmosférica: luces en `screen`, grano en `overlay` y un polvo que tiene luz propia. Adelante, todo es plano con capas tonales: la profundidad sale de superficies navy traslúcidas un tono más claras que el fondo y de luces interiores, no de sombras proyectadas. Nada flota sobre la grilla ni proyecta sombra hacia afuera.
 
 ### Shadow Vocabulary
 - **Filo** (`box-shadow: inset 0 1px 0 var(--filo)`): el canto de luz arriba de cada recuadro.
@@ -192,11 +198,11 @@ El hub es plano con capas tonales: la profundidad sale de superficies traslúcid
 - **Luz de puntero** (`radial-gradient(380px circle at var(--luz-x) var(--luz-y), var(--luz), transparent 62%)`): aparece con hover o foco en 0.25s.
 
 ### Named Rules
-**The Plano Con Luz Rule.** La profundidad se dice con tono y con luz interior. Si un elemento nuevo pide una sombra hacia afuera, va otro tono de superficie.
+**The Plano Con Luz Rule.** Delante del cielo, la profundidad se dice con tono y con luz interior. Si un elemento nuevo pide una sombra hacia afuera, va otro tono de superficie.
 
 ## Shapes
 
-Esquinas suaves y consistentes: 14px (`recuadro`) en recuadros y esqueletos, y la preview recorta su anillo a 13px arriba para seguir el borde. La tecla usa 6px (`tecla`). Las manchas de la aurora son círculos. Todos los bordes son de 1px, salvo el inferior de la tecla, de 2px, que la asienta como una tecla física.
+Esquinas suaves y consistentes: 14px (`recuadro`) en recuadros y esqueletos, y la preview recorta su anillo a 13px arriba para seguir el borde. La tecla usa 6px (`tecla`). Las luces del cielo son círculos y las motas, puntos redondos de 0,5 a 1,6px de radio. Todos los bordes son de 1px, salvo el inferior de la tecla, de 2px, que la asienta como una tecla física.
 
 ## Components
 
@@ -216,23 +222,30 @@ El número de cada proyecto como una tecla real: mono 12px con cifras tabulares,
 ### Esqueleto
 Tres recuadros quietos de proporción 4:3.9, con el borde, el radio y la superficie del recuadro, mientras llega el catálogo. No pulsan.
 
-### Aurora (fondo)
-Tres manchas radiales de clamp(560px, 72vw, 1150px), y la de agua de clamp(440px, 54vw, 860px), en `mix-blend-mode: screen`, en una franja de min(110vh, 1100px) enmascarada de negro al 30% a transparente al 92%. Derivan en 28s, 34s (al revés) y 40s, `ease-in-out` y alternadas. Encima, un grano `feTurbulence` en escala de grises al 5% de opacidad en `overlay`. El mouse las corre con `translate` hasta 36px en x y 24px en y, cada una a su profundidad (1, -0,7 y 1,4), y una capa fija lleva `brillo-cursor` en un círculo de 560px que sigue al mouse con suavizado exponencial (τ de 0,12 s) y aparece en 0,6 s. Con el dedo no hay luz. Es decorado: fuera del árbol de accesibilidad, y con movimiento reducido queda quieta y sin luz.
+### Cielo (fondo)
+Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
+- **Degradé:** `linear-gradient(205deg)` de `cielo-azul` al 42% sobre `fondo` hasta `fondo` al 72%, con un `radial-gradient(120% 90% at 0% 100%)` de `fondo` que oscurece la esquina inferior izquierda.
+- **Luces:** dos de clamp(560px, 70vw, 1200px) (azul arriba a la derecha, índigo a la izquierda) y una clara de clamp(320px, 34vw, 620px) arriba a la derecha, en `screen`. Derivan en 30s, 38s (al revés) y 26s, `ease-in-out` y alternadas. El mouse las corre con `translate` hasta 32px en x y 22px en y, cada una a su profundidad (1, -0,7 y 1,5).
+- **Grano:** `feTurbulence` fractal (frecuencia 0,85, dos octavas) desaturado, al 6% en `overlay`, para que el degradé no haga escalones.
+- **Polvo:** un canvas 2D con una mota cada 28px (el 62% de las celdas, corrida al azar, con semilla fija: el mismo cielo en cada visita). El mouse enciende las motas a menos de 190px según cuánto se mueve, las agranda hasta el doble y las empuja hasta 8px hacia afuera; una mota encendida lleva un halo de 2,6 veces su radio al 8% de su energía y se apaga con τ de 1,2 s. Mientras hay movimiento, las motas en reposo titilan un poco. El puntero se suaviza con τ de 0,12 s. El dibujo se detiene cuando todo se apagó.
+- **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo no reacciona.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** dejar que el color venga de las previews; el cromo va en `fondo`, `superficie` y los grises lavanda.
+- **Do** dejar que el color de primer plano venga de las previews; el cromo va en `fondo`, `superficie` y los grises azulados.
 - **Do** reservar `acento` al anillo de foco (2px, separación 3px) y a la selección.
 - **Do** usar Geist Mono sólo para hosts, números y el dominio.
 - **Do** repetir la respuesta firma en todo lo que sea entrar a un proyecto: borde a `borde-fuerte`, superficie a `superficie-alta`, preview a 1.03 y luz de puntero.
-- **Do** apagar el movimiento con `prefers-reduced-motion`: aurora quieta, sin zoom y sin transiciones en el recuadro.
+- **Do** apagar el movimiento con `prefers-reduced-motion`: cielo quieto, polvo tenue sin reaccionar, sin zoom y sin transiciones en el recuadro.
 - **Do** asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro.
+- **Do** mantener el cielo como decorado: fijo, `aria-hidden` y sin quitarle contraste a ningún recuadro.
 
 ### Don't:
 - **Don't** poner una etiqueta o línea chica encima del título; el dominio va al pie, en mono.
-- **Don't** usar sombras proyectadas hacia afuera ni sombras duras desplazadas; la profundidad es tonal.
-- **Don't** saturar la aurora ni el acento: el fondo va apagado y el color fuerte lo ponen las capturas.
+- **Don't** usar sombras proyectadas hacia afuera ni sombras duras desplazadas; delante del cielo la profundidad es tonal.
+- **Don't** llevar el azul saturado del cielo a recuadros, títulos o etiquetas: el cielo brilla atrás y el primer plano es navy.
+- **Don't** poner la estrella de Gemini ni ninguna forma de una marca ajena en el cielo; de deepmind.google se toma la técnica, no la identidad.
 - **Don't** traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.
 - **Don't** copiar las identidades vecinas: ni la ficha técnica de `portfolio4` (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de `museo`.
 - **Don't** mostrar la tecla en pantallas táctiles sin puntero fino.

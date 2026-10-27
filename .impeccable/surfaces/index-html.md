@@ -30,8 +30,8 @@ proyectos mismos, y la interfaz se corre del medio.
 y sin rarezas metidas de contrabando. Lo propio sale del contenido (previews reales, el conteo que
 sale de la VPS) y del cuidado: bordes, luz, foco y movimiento.
 
-**El momento que se recuerda:** las seis previews juntas, de un vistazo, sobre una aurora que
-respira, y el número de cada uno a una tecla de distancia.
+**El momento que se recuerda:** las seis previews juntas, de un vistazo, sobre un cielo azul cuyo
+polvo se enciende por donde pasa el mouse, y el número de cada uno a una tecla de distancia.
 
 ## Sin decidir
 
@@ -45,12 +45,14 @@ THESIS: El hub es la grilla de todo lo que corre en nicolasdalessandro.dev: un r
 vista previa por proyecto, y un click o una tecla para entrar. Rechaza la metáfora (la placa, la
 galería) y la grilla de plantilla sin terminación.
 
-OWN-WORLD: Fondo casi negro con una aurora apagada de manchas índigo, violeta y verde agua que se
-mueven lento y que el mouse corre un poco, más intensa arriba, con un grano fino para que el
-degradé no haga escalones; una luz suave sigue al mouse por toda la página. Nada de neón. Recuadros de superficie apenas más clara, borde de 1px blanco al 8%,
+OWN-WORLD: Un cielo azul fijo detrás de todo (ADR-0012): navy casi negro abajo a la izquierda,
+azul francia arriba a la derecha, luces grandes de azul y de índigo que derivan lento y que el
+mouse corre un poco, un grano fino y un polvo de motas claras que se encienden por donde pasa el
+mouse, dejan estela y se apagan solas. La referencia es el fondo de deepmind.google, sin su
+estrella. Nada de neón. Recuadros de superficie apenas más clara, borde de 1px blanco al 8%,
 radio de 14px, un filo de luz arriba y una luz radial que sigue al mouse; la preview asentada con un
-anillo interior de 1px. Geist para todo el texto
-y Geist Mono sólo para hosts y números. Texto blanco al 92%, lo secundario en gris lavanda. El
+anillo interior doble (2px oscuro y 1px claro) y un velo abajo. Geist para todo el texto
+y Geist Mono sólo para hosts y números. Texto blanco, lo secundario en gris azulado. El
 número de cada proyecto como una tecla chica en su recuadro.
 
 STORY: De un vistazo ves todo lo publicado con su preview, reconocés el proyecto por la imagen, y
@@ -59,10 +61,11 @@ con un click o su número estás adentro.
 FIRST VIEWPORT: Arriba a la izquierda, el título con el conteo real; a la derecha, la pista
 «Apretá 1–6 y entrás directo». Sin etiqueta encima del título: el dominio va al pie, en mono, solo. Debajo, la grilla: tres columnas en escritorio,
 dos en tablet y una en el celular, con preview 4:3 arriba, el nombre, la descripción en dos líneas
-y el host en mono. En 1440×900 se ve la primera fila entera y asoma la segunda. La aurora queda
-detrás. Interacción firma: con hover o foco, el borde se aclara, la preview se acerca un 3% y una
-luz radial sigue al cursor dentro del recuadro; en el fondo, la luz sigue al mouse y la aurora se
-corre. Con movimiento reducido, la aurora queda quieta, no sigue al mouse y no hay zoom.
+y el host en mono. En 1440×900 se ve la primera fila entera y asoma la segunda. El cielo queda
+detrás, fijo. Interacción firma: con hover o foco, el borde se aclara, la preview se acerca un 3% y una
+luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo se enciende por donde
+pasa el mouse y las luces del cielo se corren. Con movimiento reducido, el cielo queda quieto, el
+polvo no reacciona y no hay zoom.
 
 FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a (la imprimió concept-seed el
 2026-10-26; la página de decisión fue b7f6db46), elegida por el usuario con

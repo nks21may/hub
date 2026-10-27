@@ -7,19 +7,21 @@
   isolation: isolate;
 }
 
-/* La aurora: arriba de todo, detrás del encabezado, y se apaga hacia la grilla. */
-.aurora {
-  position: absolute;
-  inset: 0 0 auto;
+/* El cielo (ADR-0012): fijo detrás de todo, de un navy casi negro abajo a la izquierda a un azul
+   arriba a la derecha, con luces que derivan, el polvo que enciende el mouse y un grano fino. */
+.cielo {
+  position: fixed;
+  inset: 0;
   z-index: 0;
-  height: min(110vh, 1100px);
   overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 0% 100%, var(--fondo) 0%, transparent 60%),
+    linear-gradient(205deg, color-mix(in srgb, var(--cielo-azul) 42%, var(--fondo)) 0%, var(--fondo) 72%);
   pointer-events: none;
-  mask-image: linear-gradient(to bottom, black 30%, transparent 92%);
 }
 
-.aurora__mancha {
-  --tam: clamp(560px, 72vw, 1150px);
+.cielo__luz {
+  --tam: clamp(560px, 70vw, 1200px);
   --hondura: 1;
 
   position: absolute;
@@ -27,49 +29,48 @@
   height: var(--tam);
   border-radius: 50%;
   mix-blend-mode: screen;
-  translate: calc(var(--px, 0) * var(--hondura) * 36px) calc(var(--py, 0) * var(--hondura) * 24px);
+  translate: calc(var(--px, 0) * var(--hondura) * 32px) calc(var(--py, 0) * var(--hondura) * 22px);
   will-change: transform, translate;
-  animation: deriva 28s ease-in-out infinite alternate;
+  animation: deriva 30s ease-in-out infinite alternate;
 }
 
-.aurora__mancha--indigo {
-  top: calc(var(--tam) * -0.56);
-  left: calc(var(--tam) * -0.24);
+.cielo__luz--azul {
+  top: calc(var(--tam) * -0.42);
+  right: calc(var(--tam) * -0.28);
   background: radial-gradient(
     closest-side,
-    color-mix(in srgb, var(--aurora-indigo) 50%, transparent),
+    color-mix(in srgb, var(--cielo-azul) 72%, transparent),
     transparent
   );
 }
 
-.aurora__mancha--violeta {
-  top: calc(var(--tam) * -0.62);
-  right: calc(var(--tam) * -0.3);
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--aurora-violeta) 46%, transparent),
-    transparent
-  );
+.cielo__luz--indigo {
   --hondura: -0.7;
 
-  animation-duration: 34s;
+  top: 18%;
+  left: calc(var(--tam) * -0.45);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--cielo-indigo) 70%, transparent),
+    transparent
+  );
+  animation-duration: 38s;
   animation-direction: alternate-reverse;
 }
 
-.aurora__mancha--agua {
-  --tam: clamp(440px, 54vw, 860px);
+.cielo__luz--claro {
+  --tam: clamp(320px, 34vw, 620px);
+  --hondura: 1.5;
 
-  top: calc(var(--tam) * -0.52);
-  left: 30%;
+  top: calc(var(--tam) * -0.4);
+  right: calc(var(--tam) * -0.25);
   background: radial-gradient(
     closest-side,
-    color-mix(in srgb, var(--aurora-agua) 32%, transparent),
+    color-mix(in srgb, var(--cielo-claro) 48%, transparent),
     transparent
   );
-  --hondura: 1.4;
-
-  animation-name: deriva-agua;
-  animation-duration: 40s;
+  animation-name: deriva-claro;
+  animation-duration: 26s;
 }
 
 @keyframes deriva {
@@ -77,53 +78,43 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(11%, 6%, 0) scale(1.08);
+    transform: translate3d(-8%, 6%, 0) scale(1.06);
   }
   to {
-    transform: translate3d(-6%, 10%, 0) scale(0.94);
+    transform: translate3d(5%, 10%, 0) scale(0.95);
   }
 }
 
-@keyframes deriva-agua {
+@keyframes deriva-claro {
   from {
-    transform: translate3d(0, 0, 0) scale(0.9);
+    transform: translate3d(0, 0, 0) scale(0.92);
   }
   to {
-    transform: translate3d(-22%, 11%, 0) scale(1.12);
+    transform: translate3d(-18%, 14%, 0) scale(1.1);
   }
 }
 
-/* Un grano fino encima, para que el degradé no haga escalones en pantallas de 8 bits. */
-.aurora__grano {
+/* El polvo: lo dibuja el canvas con el color de --particula. */
+.cielo__polvo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.05;
+  color: var(--particula);
+}
+
+/* Un grano fino encima, para que el degradé no haga escalones en pantallas de 8 bits. */
+.cielo__grano {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.06;
   mix-blend-mode: overlay;
 }
 
-.aurora[data-quieta='true'] .aurora__mancha {
+.cielo[data-quieto='true'] .cielo__luz {
   animation: none;
-}
-
-/* La luz del mouse: un resplandor suave que lo sigue por toda la página, detrás de los recuadros. */
-.aurora-luz {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: radial-gradient(
-    560px circle at var(--cursor-x, 50%) var(--cursor-y, 30%),
-    var(--brillo-cursor),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.6s ease-out;
-  pointer-events: none;
-}
-
-.aurora-luz[data-activa='true'] {
-  opacity: 1;
 }
 
 .hub__contenido {
@@ -393,7 +384,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora__mancha {
+  .cielo__luz {
     animation: none;
   }
 

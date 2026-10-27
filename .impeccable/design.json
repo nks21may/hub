@@ -1,117 +1,127 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-27T00:00:00Z",
+  "generatedAt": "2026-10-27T12:00:00Z",
   "title": "Design System: hub de nicolasdalessandro.dev",
   "extensions": {
     "colorMeta": {
       "acento": {
         "role": "primary",
-        "displayName": "Violeta lavanda",
-        "canonical": "#9b94d6",
+        "displayName": "Azul hielo",
+        "canonical": "#8fb4ff",
         "tonalRamp": [
-          "oklch(15% 0.03 285)",
-          "oklch(25% 0.05 285)",
-          "oklch(35% 0.06 285)",
-          "oklch(45% 0.07 285)",
-          "oklch(56% 0.08 285)",
-          "oklch(69% 0.08 285)",
-          "oklch(81% 0.05 285)",
-          "oklch(93% 0.02 285)"
+          "oklch(15% 0.04 265)",
+          "oklch(25% 0.07 265)",
+          "oklch(35% 0.1 265)",
+          "oklch(46% 0.13 265)",
+          "oklch(58% 0.14 265)",
+          "oklch(70% 0.12 265)",
+          "oklch(79% 0.1 265)",
+          "oklch(94% 0.03 265)"
         ]
       },
       "seleccion": {
         "role": "primary",
         "displayName": "Selección",
-        "canonical": "rgb(155 148 214 / 0.35)"
+        "canonical": "rgb(143 180 255 / 0.35)"
       },
-      "brillo-cursor": {
-        "role": "neutral",
-        "displayName": "Brillo del cursor",
-        "canonical": "rgb(172 168 226 / 0.1)"
-      },
-      "aurora-indigo": {
+      "cielo-azul": {
         "role": "secondary",
-        "displayName": "Índigo de aurora",
-        "canonical": "#3a4596",
+        "displayName": "Azul de cielo",
+        "canonical": "#1f56c3",
         "tonalRamp": [
-          "oklch(15% 0.04 272)",
-          "oklch(25% 0.07 272)",
-          "oklch(35% 0.09 272)",
-          "oklch(42% 0.11 272)",
-          "oklch(55% 0.1 272)",
-          "oklch(66% 0.08 272)",
-          "oklch(79% 0.05 272)",
-          "oklch(92% 0.02 272)"
+          "oklch(15% 0.06 262)",
+          "oklch(25% 0.1 262)",
+          "oklch(35% 0.14 262)",
+          "oklch(48% 0.17 262)",
+          "oklch(58% 0.15 262)",
+          "oklch(68% 0.12 262)",
+          "oklch(80% 0.07 262)",
+          "oklch(93% 0.03 262)"
         ]
       },
-      "aurora-violeta": {
+      "cielo-indigo": {
         "role": "secondary",
-        "displayName": "Violeta de aurora",
-        "canonical": "#5e4596",
+        "displayName": "Índigo de cielo",
+        "canonical": "#15287a",
         "tonalRamp": [
-          "oklch(15% 0.04 300)",
-          "oklch(25% 0.06 300)",
-          "oklch(35% 0.08 300)",
-          "oklch(44% 0.1 300)",
-          "oklch(55% 0.09 300)",
-          "oklch(66% 0.08 300)",
-          "oklch(79% 0.05 300)",
-          "oklch(92% 0.02 300)"
+          "oklch(15% 0.06 268)",
+          "oklch(25% 0.1 268)",
+          "oklch(31% 0.13 268)",
+          "oklch(42% 0.15 268)",
+          "oklch(55% 0.14 268)",
+          "oklch(67% 0.11 268)",
+          "oklch(80% 0.06 268)",
+          "oklch(93% 0.03 268)"
         ]
       },
-      "aurora-agua": {
+      "cielo-claro": {
         "role": "secondary",
-        "displayName": "Verde agua de aurora",
-        "canonical": "#23736d",
+        "displayName": "Azul claro de cielo",
+        "canonical": "#4a8fe6",
         "tonalRamp": [
-          "oklch(15% 0.02 185)",
-          "oklch(25% 0.04 185)",
-          "oklch(35% 0.05 185)",
-          "oklch(48% 0.07 185)",
-          "oklch(58% 0.07 185)",
-          "oklch(68% 0.06 185)",
-          "oklch(80% 0.04 185)",
-          "oklch(93% 0.02 185)"
+          "oklch(15% 0.04 256)",
+          "oklch(25% 0.07 256)",
+          "oklch(36% 0.1 256)",
+          "oklch(48% 0.13 256)",
+          "oklch(63% 0.15 256)",
+          "oklch(73% 0.11 256)",
+          "oklch(83% 0.07 256)",
+          "oklch(94% 0.03 256)"
+        ]
+      },
+      "particula": {
+        "role": "tertiary",
+        "displayName": "Polvo",
+        "canonical": "#d6e4ff",
+        "tonalRamp": [
+          "oklch(15% 0.02 262)",
+          "oklch(27% 0.03 262)",
+          "oklch(39% 0.04 262)",
+          "oklch(51% 0.04 262)",
+          "oklch(63% 0.04 262)",
+          "oklch(75% 0.04 262)",
+          "oklch(85% 0.04 262)",
+          "oklch(92% 0.04 262)"
         ]
       },
       "fondo": {
         "role": "neutral",
-        "displayName": "Negro tinta",
-        "canonical": "#08090b",
+        "displayName": "Navy noche",
+        "canonical": "#050a1c",
         "tonalRamp": [
-          "oklch(13.5% 0.004 265)",
-          "oklch(20% 0.006 265)",
-          "oklch(30% 0.008 265)",
-          "oklch(42% 0.01 265)",
-          "oklch(55% 0.01 265)",
-          "oklch(68% 0.008 265)",
-          "oklch(82% 0.006 265)",
-          "oklch(95% 0.004 265)"
+          "oklch(13% 0.04 268)",
+          "oklch(20% 0.05 268)",
+          "oklch(30% 0.06 268)",
+          "oklch(42% 0.06 268)",
+          "oklch(55% 0.05 268)",
+          "oklch(68% 0.04 268)",
+          "oklch(82% 0.03 268)",
+          "oklch(95% 0.01 268)"
         ]
       },
       "superficie": {
         "role": "neutral",
-        "displayName": "Pizarra traslúcida",
-        "canonical": "rgb(16 17 22 / 0.8)"
+        "displayName": "Navy traslúcido",
+        "canonical": "rgb(9 14 32 / 0.8)"
       },
       "superficie-alta": {
         "role": "neutral",
-        "displayName": "Pizarra alta",
-        "canonical": "rgb(23 24 30 / 0.88)"
+        "displayName": "Navy alto",
+        "canonical": "rgb(15 22 46 / 0.88)"
       },
       "hueco": {
         "role": "neutral",
         "displayName": "Hueco",
-        "canonical": "#0e0f13",
+        "canonical": "#0a1126",
         "tonalRamp": [
-          "oklch(16% 0.008 270)",
-          "oklch(24% 0.01 270)",
-          "oklch(34% 0.012 270)",
-          "oklch(45% 0.012 270)",
-          "oklch(56% 0.012 270)",
-          "oklch(68% 0.01 270)",
-          "oklch(82% 0.008 270)",
-          "oklch(95% 0.004 270)"
+          "oklch(16% 0.04 268)",
+          "oklch(24% 0.05 268)",
+          "oklch(34% 0.05 268)",
+          "oklch(45% 0.05 268)",
+          "oklch(56% 0.05 268)",
+          "oklch(68% 0.04 268)",
+          "oklch(82% 0.03 268)",
+          "oklch(95% 0.01 268)"
         ]
       },
       "borde": {
@@ -142,71 +152,71 @@
       "anillo-oscuro": {
         "role": "neutral",
         "displayName": "Anillo oscuro",
-        "canonical": "rgb(8 9 11 / 0.6)"
+        "canonical": "rgb(5 10 28 / 0.6)"
       },
       "sombra-vista": {
         "role": "neutral",
         "displayName": "Sombra de la vista",
-        "canonical": "rgb(8 9 11 / 0.32)"
+        "canonical": "rgb(5 10 28 / 0.32)"
       },
       "barra": {
         "role": "neutral",
         "displayName": "Barra",
-        "canonical": "#2b2a36",
+        "canonical": "#1c2440",
         "tonalRamp": [
-          "oklch(15% 0.015 290)",
-          "oklch(22% 0.018 290)",
-          "oklch(29% 0.02 290)",
-          "oklch(42% 0.022 290)",
-          "oklch(55% 0.022 290)",
-          "oklch(68% 0.02 290)",
-          "oklch(82% 0.014 290)",
-          "oklch(95% 0.006 290)"
+          "oklch(15% 0.03 270)",
+          "oklch(22% 0.04 270)",
+          "oklch(28% 0.045 270)",
+          "oklch(42% 0.045 270)",
+          "oklch(55% 0.04 270)",
+          "oklch(68% 0.035 270)",
+          "oklch(82% 0.025 270)",
+          "oklch(95% 0.01 270)"
         ]
       },
       "texto": {
         "role": "neutral",
         "displayName": "Blanco frío",
-        "canonical": "#eceef3",
+        "canonical": "#eef1f8",
         "tonalRamp": [
-          "oklch(15% 0.006 270)",
-          "oklch(25% 0.006 270)",
-          "oklch(35% 0.006 270)",
-          "oklch(48% 0.006 270)",
-          "oklch(62% 0.006 270)",
-          "oklch(76% 0.006 270)",
-          "oklch(88% 0.006 270)",
-          "oklch(95% 0.006 270)"
+          "oklch(15% 0.01 268)",
+          "oklch(25% 0.01 268)",
+          "oklch(35% 0.01 268)",
+          "oklch(48% 0.01 268)",
+          "oklch(62% 0.01 268)",
+          "oklch(76% 0.01 268)",
+          "oklch(88% 0.01 268)",
+          "oklch(96% 0.01 268)"
         ]
       },
       "texto-2": {
         "role": "neutral",
-        "displayName": "Gris lavanda",
-        "canonical": "#a6a4bc",
+        "displayName": "Gris azulado",
+        "canonical": "#b9c0dc",
         "tonalRamp": [
-          "oklch(15% 0.02 290)",
-          "oklch(25% 0.025 290)",
-          "oklch(35% 0.03 290)",
-          "oklch(48% 0.03 290)",
-          "oklch(60% 0.03 290)",
-          "oklch(72% 0.03 290)",
-          "oklch(84% 0.02 290)",
-          "oklch(95% 0.01 290)"
+          "oklch(15% 0.03 275)",
+          "oklch(25% 0.035 275)",
+          "oklch(35% 0.04 275)",
+          "oklch(48% 0.04 275)",
+          "oklch(60% 0.04 275)",
+          "oklch(72% 0.04 275)",
+          "oklch(81% 0.04 275)",
+          "oklch(95% 0.01 275)"
         ]
       },
       "texto-3": {
         "role": "neutral",
-        "displayName": "Gris lavanda apagado",
-        "canonical": "#8a88a0",
+        "displayName": "Gris azulado apagado",
+        "canonical": "#8f98bb",
         "tonalRamp": [
-          "oklch(15% 0.02 290)",
-          "oklch(25% 0.025 290)",
-          "oklch(35% 0.03 290)",
-          "oklch(48% 0.03 290)",
-          "oklch(63% 0.03 290)",
-          "oklch(74% 0.025 290)",
-          "oklch(85% 0.02 290)",
-          "oklch(95% 0.01 290)"
+          "oklch(15% 0.03 275)",
+          "oklch(25% 0.035 275)",
+          "oklch(35% 0.04 275)",
+          "oklch(48% 0.045 275)",
+          "oklch(60% 0.045 275)",
+          "oklch(67% 0.045 275)",
+          "oklch(82% 0.03 275)",
+          "oklch(95% 0.01 275)"
         ]
       }
     },
@@ -231,17 +241,17 @@
         "displayName": "Descripción",
         "purpose": "La descripción del recuadro, cortada a dos líneas, en texto-2."
       },
+      "relleno": {
+        "displayName": "Relleno",
+        "purpose": "El nombre de un proyecto sin preview, centrado en el área 4:3."
+      },
       "mono-host": {
         "displayName": "Host",
-        "purpose": "El host de cada proyecto, en texto-3; el dominio del pie va en la misma mono a 13px."
+        "purpose": "El host de cada proyecto, en texto-3; el dominio del pie va en la misma mono a 13px, en texto-2."
       },
       "mono-tecla": {
         "displayName": "Tecla",
         "purpose": "El número de la tecla, con cifras tabulares."
-      },
-      "relleno": {
-        "displayName": "Relleno",
-        "purpose": "El nombre de un proyecto sin preview, centrado en el área 4:3."
       }
     },
     "shadows": [
@@ -259,6 +269,11 @@
         "name": "luz-de-puntero",
         "value": "radial-gradient(380px circle at var(--luz-x, 50%) var(--luz-y, 0%), var(--luz), transparent 62%)",
         "purpose": "La luz que sigue al puntero dentro del recuadro, con hover o foco."
+      },
+      {
+        "name": "halo-de-mota",
+        "value": "círculo de 2,6 veces el radio de la mota, en particula, a una opacidad de energía × 0,08",
+        "purpose": "La luz tenue alrededor de una mota encendida (más de 0,25 de energía), dibujada en el canvas."
       }
     ],
     "motion": [
@@ -279,8 +294,23 @@
       },
       {
         "name": "deriva",
-        "value": "28s / 34s / 40s ease-in-out infinite alternate",
-        "purpose": "Las tres manchas de la aurora; quietas con prefers-reduced-motion."
+        "value": "30s / 38s (alternate-reverse) / 26s ease-in-out infinite alternate",
+        "purpose": "Las tres luces del cielo (azul, índigo y clara); quietas con prefers-reduced-motion."
+      },
+      {
+        "name": "paralaje",
+        "value": "translate hasta 32px × 22px, profundidades 1 / -0,7 / 1,5",
+        "purpose": "Cuánto corre el mouse cada luz del cielo, según su posición respecto del centro de la ventana."
+      },
+      {
+        "name": "suavizado-del-puntero",
+        "value": "exponencial, τ 0,12 s",
+        "purpose": "El punto que sigue al mouse en el cielo, del que salen el paralaje y el encendido del polvo."
+      },
+      {
+        "name": "estela",
+        "value": "apagado exponencial, τ 1,2 s; radio 190px; empuje hasta 8px",
+        "purpose": "Cómo se encienden, se corren y se apagan las motas del polvo."
       }
     ],
     "breakpoints": [
@@ -327,38 +357,38 @@
       "name": "Pie",
       "kind": "nav",
       "refersTo": "pie",
-      "description": "El dominio en mono y la frase del catálogo, bajo una línea de 1px.",
+      "description": "Sólo el dominio, en mono, bajo una línea de 1px.",
       "html": "<p class=\"ds-pie\">nicolasdalessandro.dev</p>",
       "css": ".ds-pie { margin: 0; padding-top: 20px; border-top: 1px solid var(--borde); color: var(--texto-2); font-family: 'Geist Mono Variable', ui-monospace, monospace; font-size: 13px; }"
     },
     {
-      "name": "Aurora",
+      "name": "Cielo",
       "kind": "custom",
-      "refersTo": "aurora-violeta",
-      "description": "El fondo: tres manchas apagadas que derivan lento, enmascaradas hacia abajo; el mouse las corre y deja una luz suave; quietas y sin luz con movimiento reducido.",
-      "html": "<div class=\"ds-aurora\"><span class=\"ds-mancha ds-mancha--indigo\"></span><span class=\"ds-mancha ds-mancha--violeta\"></span><span class=\"ds-mancha ds-mancha--agua\"></span></div>",
-      "css": ".ds-aurora { position: relative; height: 320px; overflow: hidden; background: var(--fondo); mask-image: linear-gradient(to bottom, black 30%, transparent 92%); } .ds-mancha { --tam: 420px; position: absolute; width: var(--tam); height: var(--tam); border-radius: 50%; mix-blend-mode: screen; animation: ds-deriva 28s ease-in-out infinite alternate; } .ds-mancha--indigo { top: calc(var(--tam) * -0.56); left: calc(var(--tam) * -0.24); background: radial-gradient(closest-side, color-mix(in srgb, var(--aurora-indigo) 50%, transparent), transparent); } .ds-mancha--violeta { top: calc(var(--tam) * -0.62); right: calc(var(--tam) * -0.3); background: radial-gradient(closest-side, color-mix(in srgb, var(--aurora-violeta) 46%, transparent), transparent); animation-duration: 34s; animation-direction: alternate-reverse; } .ds-mancha--agua { --tam: 320px; top: calc(var(--tam) * -0.52); left: 30%; background: radial-gradient(closest-side, color-mix(in srgb, var(--aurora-agua) 32%, transparent), transparent); animation-duration: 40s; } @keyframes ds-deriva { from { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(11%, 6%, 0) scale(1.08); } to { transform: translate3d(-6%, 10%, 0) scale(0.94); } } @media (prefers-reduced-motion: reduce) { .ds-mancha { animation: none; } }"
+      "refersTo": "cielo-azul",
+      "description": "El fondo: degradé de navy a azul francia con tres luces que derivan y un grano fino. El polvo lo dibuja un canvas que el mouse enciende; en esta muestra quieta va como motas tenues.",
+      "html": "<div class=\"ds-cielo\"><span class=\"ds-luz ds-luz--azul\"></span><span class=\"ds-luz ds-luz--indigo\"></span><span class=\"ds-luz ds-luz--claro\"></span><span class=\"ds-polvo\"></span></div>",
+      "css": ".ds-cielo { position: relative; height: 320px; overflow: hidden; background: radial-gradient(120% 90% at 0% 100%, var(--fondo) 0%, transparent 60%), linear-gradient(205deg, color-mix(in srgb, var(--cielo-azul) 42%, var(--fondo)) 0%, var(--fondo) 72%); } .ds-luz { --tam: 420px; position: absolute; width: var(--tam); height: var(--tam); border-radius: 50%; mix-blend-mode: screen; animation: ds-deriva 30s ease-in-out infinite alternate; } .ds-luz--azul { top: calc(var(--tam) * -0.42); right: calc(var(--tam) * -0.28); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-azul) 72%, transparent), transparent); } .ds-luz--indigo { top: 18%; left: calc(var(--tam) * -0.45); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-indigo) 70%, transparent), transparent); animation-duration: 38s; animation-direction: alternate-reverse; } .ds-luz--claro { --tam: 220px; top: calc(var(--tam) * -0.4); right: calc(var(--tam) * -0.25); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-claro) 48%, transparent), transparent); animation-duration: 26s; } .ds-polvo { position: absolute; inset: 0; background-image: radial-gradient(circle, color-mix(in srgb, var(--particula) 14%, transparent) 1px, transparent 1.6px); background-size: 28px 28px; } @keyframes ds-deriva { from { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(-8%, 6%, 0) scale(1.06); } to { transform: translate3d(5%, 10%, 0) scale(0.95); } } @media (prefers-reduced-motion: reduce) { .ds-luz { animation: none; } }"
     }
   ],
   "narrative": {
     "northStar": "La grilla bien terminada",
-    "overview": "El hub es la forma estándar de la categoría (una grilla de recuadros, uno por proyecto, cada uno con su vista previa) ejecutada sin ironía y con la terminación de Linear como vara. No hay metáfora ni disfraz: lo propio sale del contenido, que son las previews reales y el conteo que llega de la VPS, y del cuidado en los bordes, la luz, el foco y el movimiento.\n\nEl mundo es oscuro y denso en información pero callado: fondo casi negro, superficies traslúcidas apenas más claras con un borde de 1px, y arriba de todo una aurora de tres manchas apagadas (índigo, violeta y verde agua) que deriva lento, se apaga hacia la grilla y lleva un grano fino para que el degradé no haga escalones. El mouse corre las manchas un poco, cada una a su profundidad, y lleva una luz suave por toda la página. Nada de neón: el color fuerte lo ponen las capturas de los proyectos, no el cromo ni el fondo.\n\nLa interacción firma es una sola y se repite en cada recuadro: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. El fondo responde al mouse con la luz que lo sigue y el paralaje de la aurora. Con movimiento reducido la aurora queda quieta, no sigue al mouse y no hay zoom.",
+    "overview": "El hub es la forma estándar de la categoría (una grilla de recuadros, uno por proyecto, cada uno con su vista previa) ejecutada sin ironía y con la terminación de Linear como vara. No hay metáfora ni disfraz: lo propio sale del contenido, que son las previews reales y el conteo que llega de la VPS, y del cuidado en los bordes, la luz, el foco y el movimiento.\n\nEl mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la izquierda que sube a un azul francia arriba a la derecha, con tres luces grandes (azul, índigo y una clara) que derivan lento, un grano fino y un polvo de motas claras. El mouse corre las luces un poco, cada una a su profundidad, y enciende el polvo por donde pasa: las motas se agrandan, llevan un halo tenue, dejan estela y se apagan solas. Encima, superficies navy traslúcidas con un borde de 1px; el azul vive en el cielo y en los grises del texto, y el color fuerte lo siguen poniendo las capturas de los proyectos.\n\nLa interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con movimiento reducido o con el dedo, el cielo queda quieto y el polvo, tenue y sin reaccionar; con movimiento reducido tampoco hay zoom.",
     "keyCharacteristics": [
-      "Fondo casi negro con una aurora apagada en la franja superior, enmascarada hacia abajo, que el mouse corre y sobre la que deja una luz suave.",
-      "Recuadros traslúcidos de radio 14px con borde blanco al 8% y un filo de luz interior arriba.",
+      "Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que se enciende por donde pasa el puntero.",
+      "Recuadros navy traslúcidos de radio 14px con borde blanco al 8% y un filo de luz interior arriba.",
       "Geist para todo el texto; Geist Mono sólo para hosts, números y el dominio.",
-      "Un único acento violeta, reservado al foco y la selección.",
+      "Un único acento azul claro, reservado al foco y la selección.",
       "Cada proyecto tiene su número como una tecla chica junto al nombre."
     ],
     "rules": [
       {
         "name": "The Acento Solo Rule",
-        "body": "El violeta lavanda marca dónde está el foco y qué está seleccionado, nada más. Un elemento que lo usa como decoración le roba la señal al teclado.",
+        "body": "El azul hielo marca dónde está el foco y qué está seleccionado, nada más. Un elemento que lo usa como decoración le roba la señal al teclado.",
         "section": "colors"
       },
       {
-        "name": "The Color Ajeno Rule",
-        "body": "El cromo del hub es neutro; el color fuerte lo traen las previews de los proyectos, y la aurora acompaña apagada. Ningún recuadro, título ni etiqueta se tiñe para competir con una captura.",
+        "name": "The Cielo Detrás Rule",
+        "body": "El azul saturado es del cielo y se queda detrás: arriba a la derecha brilla, abajo a la izquierda vuelve a fondo, y todo lo que está delante es navy traslúcido con texto blanco y gris azulado. Ningún recuadro, título ni etiqueta se tiñe de azul para competir con una captura.",
         "section": "colors"
       },
       {
@@ -368,22 +398,24 @@
       },
       {
         "name": "The Plano Con Luz Rule",
-        "body": "La profundidad se dice con tono y con luz interior. Si un elemento nuevo pide una sombra hacia afuera, va otro tono de superficie.",
+        "body": "Delante del cielo, la profundidad se dice con tono y con luz interior. Si un elemento nuevo pide una sombra hacia afuera, va otro tono de superficie.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "Do dejar que el color venga de las previews; el cromo va en fondo, superficie y los grises lavanda.",
+      "Do dejar que el color de primer plano venga de las previews; el cromo va en fondo, superficie y los grises azulados.",
       "Do reservar acento al anillo de foco (2px, separación 3px) y a la selección.",
       "Do usar Geist Mono sólo para hosts, números y el dominio.",
       "Do repetir la respuesta firma en todo lo que sea entrar a un proyecto: borde a borde-fuerte, superficie a superficie-alta, preview a 1.03 y luz de puntero.",
-      "Do apagar el movimiento con prefers-reduced-motion: aurora quieta, sin zoom y sin transiciones en el recuadro.",
-      "Do asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro."
+      "Do apagar el movimiento con prefers-reduced-motion: cielo quieto, polvo tenue sin reaccionar, sin zoom y sin transiciones en el recuadro.",
+      "Do asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro.",
+      "Do mantener el cielo como decorado: fijo, aria-hidden y sin quitarle contraste a ningún recuadro."
     ],
     "donts": [
       "Don't poner una etiqueta o línea chica encima del título; el dominio va al pie, en mono.",
-      "Don't usar sombras proyectadas hacia afuera ni sombras duras desplazadas; la profundidad es tonal.",
-      "Don't saturar la aurora ni el acento: el fondo va apagado y el color fuerte lo ponen las capturas.",
+      "Don't usar sombras proyectadas hacia afuera ni sombras duras desplazadas; delante del cielo la profundidad es tonal.",
+      "Don't llevar el azul saturado del cielo a recuadros, títulos o etiquetas: el cielo brilla atrás y el primer plano es navy.",
+      "Don't poner la estrella de Gemini ni ninguna forma de una marca ajena en el cielo; de deepmind.google se toma la técnica, no la identidad.",
       "Don't traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.",
       "Don't copiar las identidades vecinas: ni la ficha técnica de portfolio4 (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de museo.",
       "Don't mostrar la tecla en pantallas táctiles sin puntero fino."

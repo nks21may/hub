@@ -2,7 +2,7 @@
 import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {cleanup, fireEvent, render, screen, within} from '@testing-library/react';
-import {afterEach, describe, expect, it, vi} from 'vitest';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {TEXTOS} from '../src/i18n/textos.ts';
 import {Hub} from '../src/hub/Hub.tsx';
 
@@ -50,9 +50,15 @@ function nombres(): string[] {
   return screen.getAllByRole('link').map((link) => link.getAttribute('aria-label') ?? '');
 }
 
+// jsdom no trae canvas: sin esto, el polvo del cielo avisa «Not implemented» en cada render.
+beforeEach(() => {
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
+});
+
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 describe('el hub', () => {
