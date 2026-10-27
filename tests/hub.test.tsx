@@ -149,6 +149,11 @@ describe('el hub', () => {
     expect(nuevo.querySelector('.recuadro__relleno')?.textContent).toBe('Algo Nuevo');
   });
 
+  it('la pestaña del navegador lleva el título del diccionario, en el idioma del hub', async () => {
+    await hubCargado(vi.fn(), 'en');
+    expect(document.title).toBe(TEXTOS.en['hub.pestana']);
+  });
+
   it('en inglés, los textos salen del diccionario en inglés', async () => {
     await hubCargado(vi.fn(), 'en');
     expect(screen.getByRole('heading', {level: 1}).textContent).toContain('6 projects');

@@ -35,6 +35,10 @@ export function Hub({idioma, navegar = irA}: Props) {
   const maquinas = useMemo(() => (estado.fase === 'lista' ? estado.maquinas : []), [estado]);
 
   useEffect(() => {
+    document.title = texto(idioma, 'hub.pestana');
+  }, [idioma]);
+
+  useEffect(() => {
     const control = new AbortController();
     void pedirCatalogo(control.signal).then((leidas) => {
       if (control.signal.aborted) return;
@@ -68,15 +72,12 @@ export function Hub({idioma, navegar = irA}: Props) {
       <Aurora />
       <main className="hub__contenido">
         <header className="encabezado">
-          <div>
-            <p className="encabezado__marca">{texto(idioma, 'hub.marca')}</p>
-            <h1 className="encabezado__titulo">
-              {texto(idioma, 'hub.titulo')}
-              {estado.fase === 'lista' && maquinas.length > 0 && (
-                <span className="encabezado__conteo"> {conteo}</span>
-              )}
-            </h1>
-          </div>
+          <h1 className="encabezado__titulo">
+            {texto(idioma, 'hub.titulo')}
+            {estado.fase === 'lista' && maquinas.length > 0 && (
+              <span className="encabezado__conteo"> {conteo}</span>
+            )}
+          </h1>
           {rango && (
             <p className="encabezado__atajo">
               {texto(idioma, 'hub.atajo.antes')}{' '}
@@ -125,7 +126,10 @@ export function Hub({idioma, navegar = irA}: Props) {
       </main>
 
       <footer className="pie">
-        <p>{texto(idioma, 'hub.pie')}</p>
+        <p className="pie__linea">
+          <span className="pie__marca">{texto(idioma, 'hub.marca')}</span>
+          <span>{texto(idioma, 'hub.pie')}</span>
+        </p>
       </footer>
     </div>
   );

@@ -1,4 +1,4 @@
 {
-  "prompt": "Material de prueba (sintético para el hub, no es el campo vista de ADR-0010): captura de pantalla de https://neonduel.nicolasdalessandro.dev/ tomada el 2026-10-26 con Chrome sin cabeza a 1024x768 y reducida a 640x480 con ffmpeg (lanczos, webp calidad 82). Fuente: el sitio público del propio autor.\n",
-  "createdAt": "2026-10-26T20:02:39.596Z"
+  "prompt": "Material de prueba (sintético para el hub, no es el campo vista de ADR-0010): captura de pantalla de https://neonduel.nicolasdalessandro.dev/ tomada el 2026-10-27 con Chrome sin cabeza por CDP a 1024x768 con escala 2, reducida a 1280x960 con ffmpeg (lanczos, webp calidad 80). Fuente: el sitio público del propio autor.\n",
+  "createdAt": "2026-10-27T14:04:04.440Z"
 }

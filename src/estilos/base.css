@@ -15,6 +15,13 @@
   --texto-3: #8a88a0;
   --acento: #8b7cf6;
   --velo: rgb(8 9 11 / 0.86);
+  --hueco: #0e0f13;
+  --luz: rgb(255 255 255 / 0.075);
+  --seleccion: rgb(139 124 246 / 0.38);
+  --barra: #2b2a36;
+  --anillo: rgb(255 255 255 / 0.06);
+  --anillo-oscuro: rgb(8 9 11 / 0.6);
+  --sombra-vista: rgb(8 9 11 / 0.32);
 
   --aurora-indigo: #3d4bd1;
   --aurora-violeta: #7a45d6;
@@ -27,7 +34,7 @@
   --margen: clamp(16px, 4vw, 48px);
 
   color-scheme: dark;
-  scrollbar-color: #2b2a36 transparent;
+  scrollbar-color: var(--barra) transparent;
 }
 
 html,
@@ -47,7 +54,7 @@ body {
 }
 
 ::selection {
-  background: rgb(139 124 246 / 0.38);
+  background: var(--seleccion);
   color: var(--texto);
 }
 

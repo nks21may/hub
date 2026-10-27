@@ -9,6 +9,7 @@ export const IDIOMAS: readonly Idioma[] = ['es', 'en'];
 
 const es = {
   'hub.marca': 'nicolasdalessandro.dev',
+  'hub.pestana': 'Proyectos · nicolasdalessandro.dev',
   'hub.titulo': 'Todo lo que está andando',
   'hub.conteo': '{n} proyectos',
   'hub.conteo.uno': 'un proyecto',
@@ -28,6 +29,7 @@ export type Textos = Record<ClaveDeTexto, string>;
 
 const en: Textos = {
   'hub.marca': 'nicolasdalessandro.dev',
+  'hub.pestana': 'Projects · nicolasdalessandro.dev',
   'hub.titulo': 'Everything that’s up and running',
   'hub.conteo': '{n} projects',
   'hub.conteo.uno': 'one project',

@@ -1,8 +1,9 @@
 /**
  * Material de prueba, no datos: ninguna app sirve todavía su `vista` (ADR-0010), así que para
- * poder juzgar los recuadros se capturaron los seis sitios publicados el 2026-10-26 (Chrome sin
- * cabeza, 1024×768, reducidas a 640×480). Son fotos fijas, marcadas como captura de prueba en el
- * recuadro, y no forman parte del formato de la ficha: cuando una ficha traiga `vista`, gana ella.
+ * poder juzgar los recuadros se capturaron los seis sitios publicados el 2026-10-27 (Chrome sin
+ * cabeza, 1024×768 con escala 2, reducidas a 1280×960). Son fotos fijas, marcadas como captura de
+ * prueba en el recuadro, y no forman parte del formato de la ficha: cuando una ficha traiga
+ * `vista`, gana ella.
  */
 const CAPTURAS: Record<string, string> = {
   bot_discord: '/prueba/vistas/bot_discord.webp',

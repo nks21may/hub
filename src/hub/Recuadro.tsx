@@ -64,17 +64,19 @@ export function Recuadro({maquina, idioma}: {maquina: Maquina; idioma: Idioma}) 
         <Vista maquina={maquina} idioma={idioma} />
       </span>
       <span className="recuadro__texto">
-        <span className="recuadro__nombre">{maquina.nombre}</span>
+        <span className="recuadro__cabeza">
+          <span className="recuadro__nombre">{maquina.nombre}</span>
+          {maquina.numero <= 9 && (
+            <kbd className="tecla recuadro__tecla" aria-hidden="true">
+              {maquina.numero}
+            </kbd>
+          )}
+        </span>
         <span className="recuadro__descripcion" id={idDescripcion}>
           {descripcion(maquina.descripcion, idioma)}
         </span>
         <span className="recuadro__host">{host(maquina.url)}</span>
       </span>
-      {maquina.numero <= 9 && (
-        <kbd className="tecla recuadro__tecla" aria-hidden="true">
-          {maquina.numero}
-        </kbd>
-      )}
     </a>
   );
 }
