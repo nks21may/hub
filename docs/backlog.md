@@ -114,7 +114,7 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       `prefers-reduced-motion`, queda marcada como quieta.
       **Se espera rojo:** falla el import del componente de la aurora.
 
-- [ ] **H5 — La revisión final de `impeccable` y `DESIGN.md`.** *Depende de H10.*
+- [x] **H5 — La revisión final de `impeccable` y `DESIGN.md`.** *Depende de H10.*
       Capturas de escritorio y celular en `.impeccable/review/`, el detector de `impeccable`, el
       revisor final contra el contrato de dirección y, con su veredicto, el documentador que
       escribe `DESIGN.md` y `.impeccable/design.json` desde lo construido.

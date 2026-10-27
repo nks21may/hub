@@ -379,6 +379,8 @@ de unos 20 KB). La pista de teclado se esconde en pantallas táctiles.
 
 **Lo que no se pudo ver:** el loop de `vista`, porque ninguna app lo sirve todavía.
 
+**Sha:** `1d1abf9`
+
 ## H10 — La aurora de fondo · 2026-10-26
 
 **Archivos:** `src/hub/Aurora.tsx` (nuevo), `src/hub/Hub.tsx` (la aurora detrás del contenido),
@@ -417,6 +419,8 @@ teclado y las teclas de los recuadros, que ahí no sirven.
 
 **Lo que no se pudo ver:** la deriva, porque una captura es quieta. Dura de 28 a 40 segundos por
 vuelta y sólo mueve `transform`.
+
+**Sha:** `56e08d8`
 
 ## H4 — La imagen Docker, como la de nonograma · 2026-10-27
 
@@ -493,3 +497,72 @@ loop. El repo del hub todavía no tiene remoto: el workflow publica cuando exist
 GitHub.
 
 **Sha:** `2a428b0`
+
+## H5 — La revisión final de `impeccable` y `DESIGN.md` · 2026-10-27
+
+**Archivos:** `tests/tokens.test.ts` (nuevo: junta los colores del `design.json` y falla si un CSS de
+`src/` usa otro), `DESIGN.md` y `.impeccable/design.json` (nuevos, del documentador),
+`.impeccable/review/` (desktop, mobile y mobile-viewport), `src/estilos/base.css` (los colores
+sueltos pasan a tokens: `--hueco`, `--luz`, `--seleccion`, `--barra`, `--anillo`, `--anillo-oscuro`,
+`--sombra-vista`), `src/hub/hub.css`, `src/hub/Hub.tsx`, `src/hub/Recuadro.tsx`, `src/hub/Aurora.tsx`,
+`src/hub/vistas-de-prueba.ts`, `src/i18n/textos.ts` (`hub.pestana`), `tests/hub.test.tsx` (el título
+de la pestaña), `index.html` y `public/favicon.svg`, `public/prueba/vistas/` (recapturadas a
+1280×960), y el contrato `.impeccable/surfaces/index-html.md`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con el test escrito y sin el `design.json`:
+
+```
+
+> hub@0.0.0 gate
+
+ FAIL  tests/tokens.test.ts [ tests/tokens.test.ts ]
+Error: ENOENT: no such file or directory, open 'P:\hub\.claude\worktrees\prueba-mundo-e9ba37\.impeccable\design.json'
+ Test Files  1 failed | 5 passed (6)
+      Tests  47 passed (47)
+EXIT=1
+```
+
+**La revisión final** (subagente `impeccable-finish-reviewer`, sin la historia de esta sesión):
+
+- **Primera ronda (`fix`, ocho arreglos):**
+  - el dominio arriba del título funcionaba como etiqueta y pasó al pie;
+  - el pie no figuraba en el contrato y se registró;
+  - el calco «captura de prueba» iba en mono y pasó a Geist;
+  - la pestaña tenía el título fijo «Hub»: ahora sale del diccionario y hay favicon;
+  - a las previews les faltaba un anillo interior;
+  - a la aurora le faltaba grano, y medía las manchas en `vmax`;
+  - las previews se veían blandas a escala 2 y se recapturaron;
+  - la clave de la ronda se corroboró: la imprimió `concept-seed`.
+- **Segunda ronda (`fix`):** seis resueltos. El anillo quedó parcial, porque un anillo blanco al 6%
+  no se ve sobre bordes saturados, y apareció una regresión: la tecla «5» tapaba el «CH 01» de Museo.
+  El anillo pasó a ser doble (2px oscuro y 1px claro) y la tecla se fue a la fila del nombre.
+- **Tercera pasada (`ship`):** los dos pendientes, resueltos. El `ship` cubre los arreglos puntuados,
+  no una revisión nueva de toda la superficie.
+
+El detector de `impeccable` no dio hallazgos (`[]`) sobre `index.html`, `src/hub/` y
+`src/estilos/base.css`.
+
+**El documentador** escribió `DESIGN.md` y `.impeccable/design.json` desde lo construido. Registró
+dos diferencias con el contrato a favor del build: el texto es `#eceef3` sólido y no blanco al 92%,
+y el anillo es doble.
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  6 passed (6)
+      Tests  50 passed (50)
+✓ built in 93ms
+EXIT=0
+```
+
+**El test de tokens, puesto a prueba:** con un `.intruso { color: #ff00aa; }` agregado a mano en
+`src/hub/hub.css`, falla con `expected [ 'src\hub\hub.css: #ff00aa' ] to deeply equal []`; sacándolo,
+vuelve a verde.
+
+**Sha:** `1ff3040`
