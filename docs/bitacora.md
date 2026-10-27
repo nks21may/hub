@@ -566,3 +566,69 @@ EXIT=0
 vuelve a verde.
 
 **Sha:** `1ff3040`
+
+## H11 — Menos neón, sin carteles de prueba ni pie explicativo, y una luz de fondo que sigue al mouse · 2026-10-27
+
+Lo pidió el usuario después de ver la grilla terminada: sacar «La lista se arma sola con lo que corre
+en el servidor.» y «captura de prueba», usar menos neón y sumar un efecto de fondo que reaccione al
+mouse.
+
+**Archivos:** `src/hub/puntero.ts` (nuevo: `acercar`, el suavizado exponencial de la luz, y
+`paralaje`), `src/hub/Aurora.tsx` (la luz que sigue al mouse y el corrimiento de las manchas, sin luz
+con el dedo ni con movimiento reducido), `src/hub/hub.css` (la capa `.aurora-luz`, el `translate` de
+cada mancha a su profundidad, la mezcla de la aurora más baja, sin calco y con el pie de una sola
+línea), `src/estilos/base.css` (aurora apagada: `#3a4596`, `#5e4596`, `#23736d`; acento `#9b94d6`;
+`--brillo-cursor` nuevo; sin `--velo`; `--radio-vista`), `src/hub/Recuadro.tsx` (sin calco),
+`src/hub/Hub.tsx` (el pie es sólo el dominio), `src/i18n/textos.ts` (sin `hub.captura` ni
+`hub.pie`), `public/favicon.svg` (los colores apagados), `DESIGN.md` y `.impeccable/design.json` (los
+tokens y la prosa al día, en el mismo commit, como pide ADR-0007), el contrato
+`.impeccable/surfaces/index-html.md`, las capturas de `.impeccable/review/`, `tests/puntero.test.ts`
+(nuevo), `tests/aurora.test.tsx` y `tests/hub.test.tsx`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+
+tests/puntero.test.ts(2,33): error TS2307: Cannot find module '../src/hub/puntero.ts' or its corresponding type declarations.
+EXIT=2
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  7 passed (7)
+      Tests  60 passed (60)
+✓ built in 92ms
+EXIT=0
+```
+
+**Revisión visual.** En el navegador del panel, la luz se prende con el primer movimiento y sigue al
+mouse (`--cursor-x` 619px, `--cursor-y` 160px con el puntero en 620, 160), y la mancha violeta se
+corre con `translate: -15.4px 10.4px`. No queda ningún `.recuadro__calco`, y el pie dice
+`nicolasdalessandro.dev`. Las capturas de `.impeccable/review/` se rehicieron. La de escritorio se
+tomó moviendo el mouse por CDP hasta (1000, 190). Al 7%, la luz casi no se veía en la captura, y
+quedó al 10%.
+
+**Detector:** después de los cambios marcó dos avisos contra `DESIGN.md`:
+
+- el radio del anillo de la preview (`calc(var(--radio) - 1px)`), que pasó a ser el token
+  `--radio-vista` de 13px;
+- los 26px del nombre de relleno, que entraron a la escala como `relleno`, en lugar del `label` del
+  calco, que ya no existe.
+
+Después, `[]`.
+
+**Lo que no se tocó:** [ADR-0011](adr/0011-el-hub-es-una-grilla-de-proyectos.md) dice que la captura
+de prueba va «marcada como tal». El usuario pidió sacar la marca, y lo anoto acá en lugar de editar un
+ADR aceptado: es un detalle de pantalla barato de revertir. Las capturas siguen siendo material de
+prueba, y su procedencia sigue en los `.webp.json` de al lado.
+
+**Sha:** `d9990b5`

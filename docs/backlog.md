@@ -124,6 +124,18 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       Ver [ADR-0007](adr/0007-frontend-disenado-con-impeccable.md).
 
 
+- [x] **H11 — Menos neón, sin carteles de prueba ni pie explicativo, y una luz de fondo que sigue
+      al mouse.** *Depende de H5.* Lo pidió el usuario el 2026-10-27, después de ver la grilla
+      terminada: sacar «La lista se arma sola con lo que corre en el servidor.» y «captura de
+      prueba», bajar el neón y sumar un efecto de fondo que reaccione al mouse. Los cambios de
+      diseño actualizan `DESIGN.md` y `.impeccable/design.json` en el mismo commit
+      ([ADR-0007](adr/0007-frontend-disenado-con-impeccable.md)).
+      *Test:* (jsdom) el pie dice sólo el dominio; una ficha sin `vista` muestra su captura sin
+      cartel; la aurora tiene una luz que sigue al puntero, fuera del árbol de accesibilidad, y con
+      movimiento reducido no la tiene. (node) `acercar` lleva la luz hacia el puntero sin pasarse, y
+      `paralaje` da cero en el centro y ±1 en los bordes.
+      **Se espera rojo:** falla el import del módulo del puntero.
+
 ## Descartados por ADR-0011
 
 Eran de la placa. Quedan anotados para que nadie los busque.
