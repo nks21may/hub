@@ -18,8 +18,8 @@ proyectos mismos, y la interfaz se corre del medio.
   gente del portfolio que curiosea.
 - La acción es una sola: entrar a un proyecto, en un click o con la tecla de su número.
 - El contenido son las fichas de `/catalogo.json`. Cada recuadro muestra la vista previa del
-  proyecto: el loop de ADR-0010 cuando la app lo sirva; mientras tanto, una captura de prueba
-  marcada como tal.
+  proyecto: el loop de ADR-0010 cuando la app lo sirva; mientras tanto, una captura del sitio, sin
+  cartel (el usuario pidió sacarlo el 2026-10-27).
 - Lo que el usuario descartó (2026-10-26): la placa 1000 en 1 (retro, una lista, no lo representa)
   y la galería del centro del mundo para caminar. Pidió "un hub simple con los proyectos con
   recuadros" y un fondo animado "como el de las páginas de IA". Vara de terminación: Linear.
@@ -45,8 +45,9 @@ THESIS: El hub es la grilla de todo lo que corre en nicolasdalessandro.dev: un r
 vista previa por proyecto, y un click o una tecla para entrar. Rechaza la metáfora (la placa, la
 galería) y la grilla de plantilla sin terminación.
 
-OWN-WORLD: Fondo casi negro con una aurora de manchas índigo, violeta y verde agua que se mueven
-lento, más intensa arriba, con un grano fino para que el degradé no haga escalones. Recuadros de superficie apenas más clara, borde de 1px blanco al 8%,
+OWN-WORLD: Fondo casi negro con una aurora apagada de manchas índigo, violeta y verde agua que se
+mueven lento y que el mouse corre un poco, más intensa arriba, con un grano fino para que el
+degradé no haga escalones; una luz suave sigue al mouse por toda la página. Nada de neón. Recuadros de superficie apenas más clara, borde de 1px blanco al 8%,
 radio de 14px, un filo de luz arriba y una luz radial que sigue al mouse; la preview asentada con un
 anillo interior de 1px. Geist para todo el texto
 y Geist Mono sólo para hosts y números. Texto blanco al 92%, lo secundario en gris lavanda. El
@@ -56,13 +57,12 @@ STORY: De un vistazo ves todo lo publicado con su preview, reconocés el proyect
 con un click o su número estás adentro.
 
 FIRST VIEWPORT: Arriba a la izquierda, el título con el conteo real; a la derecha, la pista
-«Apretá 1–6 y entrás directo». Sin etiqueta encima del título: el dominio va al pie, en mono, junto a
-«La lista se arma sola con lo que corre en el servidor». Debajo, la grilla: tres columnas en escritorio,
+«Apretá 1–6 y entrás directo». Sin etiqueta encima del título: el dominio va al pie, en mono, solo. Debajo, la grilla: tres columnas en escritorio,
 dos en tablet y una en el celular, con preview 4:3 arriba, el nombre, la descripción en dos líneas
 y el host en mono. En 1440×900 se ve la primera fila entera y asoma la segunda. La aurora queda
 detrás. Interacción firma: con hover o foco, el borde se aclara, la preview se acerca un 3% y una
-luz radial sigue al cursor dentro del recuadro. Con movimiento reducido, la aurora queda quieta y no
-hay zoom.
+luz radial sigue al cursor dentro del recuadro; en el fondo, la luz sigue al mouse y la aurora se
+corre. Con movimiento reducido, la aurora queda quieta, no sigue al mouse y no hay zoom.
 
 FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a (la imprimió concept-seed el
 2026-10-26; la página de decisión fue b7f6db46), elegida por el usuario con

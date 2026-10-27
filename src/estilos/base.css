@@ -1,7 +1,7 @@
 /*
  * Los tokens del hub. Salen del contrato de dirección (.impeccable/surfaces/index-html.md) hasta
  * que el documentador escriba DESIGN.md (H5): fondo casi negro, superficies apenas más claras con
- * borde fino, texto blanco y gris lavanda, y la aurora de índigo, violeta y verde agua.
+ * borde fino, texto blanco y gris lavanda, y la aurora apagada de índigo, violeta y verde agua.
  */
 :root {
   --fondo: #08090b;
@@ -13,24 +13,25 @@
   --texto: #eceef3;
   --texto-2: #a6a4bc;
   --texto-3: #8a88a0;
-  --acento: #8b7cf6;
-  --velo: rgb(8 9 11 / 0.86);
+  --acento: #9b94d6;
   --hueco: #0e0f13;
   --luz: rgb(255 255 255 / 0.075);
-  --seleccion: rgb(139 124 246 / 0.38);
+  --seleccion: rgb(155 148 214 / 0.35);
+  --brillo-cursor: rgb(172 168 226 / 0.1);
   --barra: #2b2a36;
   --anillo: rgb(255 255 255 / 0.06);
   --anillo-oscuro: rgb(8 9 11 / 0.6);
   --sombra-vista: rgb(8 9 11 / 0.32);
 
-  --aurora-indigo: #3d4bd1;
-  --aurora-violeta: #7a45d6;
-  --aurora-agua: #17a597;
+  --aurora-indigo: #3a4596;
+  --aurora-violeta: #5e4596;
+  --aurora-agua: #23736d;
 
   --letra: 'Geist Variable', system-ui, sans-serif;
   --letra-mono: 'Geist Mono Variable', ui-monospace, monospace;
 
   --radio: 14px;
+  --radio-vista: 13px;
   --margen: clamp(16px, 4vw, 48px);
 
   color-scheme: dark;

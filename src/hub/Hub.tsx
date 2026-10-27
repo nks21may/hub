@@ -126,10 +126,7 @@ export function Hub({idioma, navegar = irA}: Props) {
       </main>
 
       <footer className="pie">
-        <p className="pie__linea">
-          <span className="pie__marca">{texto(idioma, 'hub.marca')}</span>
-          <span>{texto(idioma, 'hub.pie')}</span>
-        </p>
+        <p className="pie__marca">{texto(idioma, 'hub.marca')}</p>
       </footer>
     </div>
   );

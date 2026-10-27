@@ -20,8 +20,6 @@ const es = {
   'hub.cargando': 'Buscando lo que está andando…',
   'hub.sin-lista': 'No pude leer la lista de proyectos. Probá en un rato.',
   'hub.vacio': 'Todavía no hay nada publicado. Volvé en unos días.',
-  'hub.captura': 'captura de prueba',
-  'hub.pie': 'La lista se arma sola con lo que corre en el servidor.',
 } as const;
 
 export type ClaveDeTexto = keyof typeof es;
@@ -40,8 +38,6 @@ const en: Textos = {
   'hub.cargando': 'Looking up what’s running…',
   'hub.sin-lista': 'Couldn’t read the project list. Try again in a bit.',
   'hub.vacio': 'Nothing’s live yet. Check back in a few days.',
-  'hub.captura': 'test capture',
-  'hub.pie': 'This list builds itself from whatever runs on the server.',
 };
 
 export const TEXTOS: Record<Idioma, Textos> = {es, en};

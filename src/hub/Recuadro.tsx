@@ -1,7 +1,6 @@
 import type {PointerEvent} from 'react';
 import type {Maquina, Textos} from '../catalogo/tipos.ts';
 import type {Idioma} from '../i18n/textos.ts';
-import {texto} from '../i18n/textos.ts';
 import {sinMovimiento} from './movimiento.ts';
 import {capturaDePrueba} from './vistas-de-prueba.ts';
 
@@ -24,7 +23,7 @@ function moverLuz(evento: PointerEvent<HTMLAnchorElement>) {
 }
 
 /** La vista previa: el loop que sirve la app (ADR-0010), la captura de prueba o el nombre. */
-function Vista({maquina, idioma}: {maquina: Maquina; idioma: Idioma}) {
+function Vista({maquina}: {maquina: Maquina}) {
   if (maquina.vista) {
     return (
       <video
@@ -38,14 +37,7 @@ function Vista({maquina, idioma}: {maquina: Maquina; idioma: Idioma}) {
     );
   }
   const captura = capturaDePrueba(maquina.stack);
-  if (captura) {
-    return (
-      <>
-        <img src={captura} alt="" decoding="async" />
-        <span className="recuadro__calco">{texto(idioma, 'hub.captura')}</span>
-      </>
-    );
-  }
+  if (captura) return <img src={captura} alt="" decoding="async" />;
   return <span className="recuadro__relleno">{maquina.nombre}</span>;
 }
 
@@ -61,7 +53,7 @@ export function Recuadro({maquina, idioma}: {maquina: Maquina; idioma: Idioma}) 
       onPointerMove={moverLuz}
     >
       <span className="recuadro__vista" aria-hidden="true">
-        <Vista maquina={maquina} idioma={idioma} />
+        <Vista maquina={maquina} />
       </span>
       <span className="recuadro__texto">
         <span className="recuadro__cabeza">

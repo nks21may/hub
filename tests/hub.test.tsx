@@ -128,7 +128,7 @@ describe('el hub', () => {
     expect(await screen.findByText(TEXTOS.es['hub.vacio'])).toBeTruthy();
   });
 
-  it('con vista muestra el loop; sin vista, la captura de prueba marcada o un relleno con el nombre', async () => {
+  it('con vista muestra el loop; sin vista, la captura de prueba sin cartel o un relleno con el nombre', async () => {
     const vista = 'https://neonduel.nicolasdalessandro.dev/vista.mp4';
     catalogo(
       catalogoCon([
@@ -143,10 +143,15 @@ describe('el hub', () => {
     expect(container.querySelector(`video[src="${vista}"]`)).not.toBeNull();
     const museo = screen.getByRole('link', {name: 'Museo'});
     expect(museo.querySelector('img')?.getAttribute('src')).toBe('/prueba/vistas/museo.webp');
-    expect(museo.textContent).toContain(TEXTOS.es['hub.captura']);
+    expect(museo.querySelector('.recuadro__vista')?.textContent).toBe('');
     const nuevo = screen.getByRole('link', {name: 'Algo Nuevo'});
     expect(nuevo.querySelector('img, video')).toBeNull();
     expect(nuevo.querySelector('.recuadro__relleno')?.textContent).toBe('Algo Nuevo');
+  });
+
+  it('el pie dice sólo el dominio', async () => {
+    await hubCargado();
+    expect(screen.getByRole('contentinfo').textContent).toBe(TEXTOS.es['hub.marca']);
   });
 
   it('la pestaña del navegador lleva el título del diccionario, en el idioma del hub', async () => {

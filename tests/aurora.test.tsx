@@ -35,4 +35,18 @@ describe('la aurora', () => {
     const {container} = render(<Aurora />);
     expect(container.firstElementChild?.getAttribute('data-quieta')).toBe('true');
   });
+
+  it('tiene una luz que sigue al puntero, también fuera del árbol de accesibilidad', () => {
+    movimientoReducido(false);
+    const {container} = render(<Aurora />);
+    const luz = container.querySelector('.aurora-luz');
+    expect(luz).not.toBeNull();
+    expect(luz?.closest('[aria-hidden="true"]')).not.toBeNull();
+  });
+
+  it('con movimiento reducido, no hay luz que siga al puntero', () => {
+    movimientoReducido(true);
+    const {container} = render(<Aurora />);
+    expect(container.querySelector('.aurora-luz')).toBeNull();
+  });
 });
