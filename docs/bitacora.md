@@ -841,3 +841,74 @@ violación de la CSP, que no es de la app: el script inline que Cloudflare inyec
 la zona, igual que en nonograma y museo.
 
 Con esto salen de los parkeados el subdominio y lo que faltaba del lado de `infra`.
+
+## H15 — El pato pasea por el hub · 2026-10-28
+
+Lo pidió el usuario: un pato que pasee por el hub y que, al azar, le secuestre el cursor. Lo quiere
+desde que carga, pero sin que ataque antes de los 20 segundos. Antes del test, la decisión:
+[ADR-0014](adr/0014-el-pato-secuestra-el-cursor.md) (commit `07d9b69`). Una página no puede mover el
+puntero del sistema, así que el secuestro va a ser de un cursor dibujado (H16). Este ítem es sólo el
+paseo.
+
+Se trabajó en la rama `loop/pato`, que sale de `loop/construccion` (`29d433a`): esa rama estaba
+abierta en el worktree de `prueba-mundo`, y no se tocó ese worktree.
+
+**Archivos:** `src/hub/andanzas.ts` (nuevo: `nacer` y `andar`, que lleva al pato hacia su destino a
+60 px/s, lo para entre 1 y 4 s al llegar y le elige otro, siempre adentro de la ventana),
+`src/hub/Pato.tsx` (nuevo: el SVG del pato, fijo a la ventana, que se mueve con `transform` en cada
+cuadro), `src/hub/pato.css` (nuevo: `pointer-events: none`, el espejo, el paso y el bamboleo),
+`src/hub/Hub.tsx` (monta al pato), `src/estilos/base.css` (`--pato-pico`, el único color cálido),
+`tests/andanzas.test.ts` y `tests/pato.test.tsx` (nuevos), `DESIGN.md` y `.impeccable/design.json`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+tests/andanzas.test.ts(2,25): error TS2307: Cannot find module '../src/hub/andanzas.ts' or its corresponding type declarations.
+tests/andanzas.test.ts(3,28): error TS2307: Cannot find module '../src/hub/andanzas.ts' or its corresponding type declarations.
+tests/pato.test.tsx(5,20): error TS2307: Cannot find module '../src/hub/Pato.tsx' or its corresponding type declarations.
+EXIT=2
+```
+
+Con el código, los tests del pato pasaron y quedó un rojo más, el que se esperaba: el test de tokens
+(H5) no encontraba el color nuevo del pico en `.impeccable/design.json`.
+
+```
+ FAIL  tests/tokens.test.ts > los colores > ningún CSS de src/ usa un color que no esté entre los tokens del design.json
+AssertionError: expected [ 'src\estilos\base.css: #f2a03d' ] to deeply equal []
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 85 passed (86)
+EXIT=1
+```
+
+**Verde**, con `pato-pico` en `DESIGN.md` y en `.impeccable/design.json`:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  86 passed (86)
+✓ built in 132ms
+EXIT=0
+```
+
+**Revisión en el navegador.** La primera versión del dibujo era un círculo para la cabeza, un
+rectángulo para el cuello y una elipse para el cuerpo: se veían las esquinas del cuello y, con el
+cuello largo, parecía un ganso. Quedó una sola silueta, con la cabeza más baja. El pato camina con la
+animación `pato-paso` en las patas, parado no la tiene, no ataja clicks (`pointer-events: none`) y la
+consola no tiene errores. Con el panel oculto el navegador no pide cuadros (se midieron 0 por
+segundo), así que el paso en vivo no se pudo mirar ahí: el test de jsdom es el que lo cubre.
+
+**Detector:** `[]`.
+
+**`DESIGN.md` y `.impeccable/design.json`** los actualicé a mano, con el formato del documentador:
+el color `pato-pico`, el componente Pato, el movimiento `paso-de-pato` y un do y un don't. El
+documentador de impeccable no corrió en esta iteración. Las capturas de `.impeccable/review/` se
+rehacen en H16, cuando el pato ya secuestra el cursor.
+
+**Sha:** `a488114`

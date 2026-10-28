@@ -173,7 +173,7 @@ cursor y se lo lleve de un lado a otro de la pantalla. Lo quiere desde que carga
 ataque antes de los 20 segundos. Los cambios de diseño actualizan `DESIGN.md` y
 `.impeccable/design.json` en el mismo commit ([ADR-0007](adr/0007-frontend-disenado-con-impeccable.md)).
 
-- [ ] **H15 — El pato pasea por el hub.** *Depende de H13.* Un SVG fijo a la ventana, por encima de
+- [x] **H15 — El pato pasea por el hub.** *Depende de H13.* Un SVG fijo a la ventana, por encima de
       la grilla, que camina a un punto al azar, se para un rato y vuelve a caminar. No ataca todavía.
       *Test:* (node) `nacer` pone al pato adentro de la ventana, con un destino adentro; `andar` lo
       lleva hacia el destino a paso de pato (unos 60 px/s) y depende del tiempo y no de los cuadros;
