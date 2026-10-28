@@ -1152,3 +1152,92 @@ el WAV es para que lo escuche el usuario.
 **Detector:** `[]`.
 
 **Sha:** `11c54f1`
+
+## H19 — El pato pasa a ser un ganso · 2026-10-28
+
+Lo pidió el usuario después de saber que el sonido de Desktop Goose no se puede usar: sus sonidos son
+de su autor, y el hub y su repo son públicos. Antes del test, la decisión:
+[ADR-0016](adr/0016-el-pato-pasa-a-ser-un-ganso.md) (commit `38e9fa1`). Es un ganso común (el ánsar
+gris), y no el blanco de corral de Desktop Goose ni el canadiense, cuyo cuello negro se pierde contra
+el navy. De Desktop Goose se toma sólo la idea.
+
+**Archivos:** `src/hub/Pato.tsx` pasa a `src/hub/Ganso.tsx`, con el dibujo nuevo de 64×64.
+`src/hub/pato.css` pasa a `src/hub/ganso.css`, con la rabadilla, las plumas del ala y las caderas
+nuevas. `src/hub/andanzas.ts` (el tipo `Ganso`, `graznido`, `graznidos`, `proximoGraznido` y la
+punta del pico más arriba, por el cuello largo), `src/hub/sonido.ts` (`graznar` y `sonarGraznido`:
+el graznido nuevo), `src/estilos/base.css` (`--ganso-pluma` y `--ganso-ala` gris pardos y
+`--ganso-pico`), `src/i18n/textos.ts` (`ganso.graznido`: «¡JONK!» y «HONK!»), `src/hub/Hub.tsx`,
+y los comentarios de `Fondo.tsx` y `puntero.ts`. `tests/pato.test.tsx` pasa a
+`tests/ganso.test.tsx`, con un test nuevo del cartelito en los dos idiomas, y `tests/andanzas.test.ts`
+y `tests/fondo.test.tsx` cambian de nombres. También `DESIGN.md`, `.impeccable/design.json` y las
+capturas: `ganso-dibujo.png`, `ganso-secuestro.png` y `ganso-graznido.png` reemplazan a las del
+pato. El cambio de nombre lo hizo un script con reglas de frase («hace cuac» → «grazna») antes de
+las de palabra («pato» → «ganso»), y después se revisó el diff.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests pasados a ganso y sin el código:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+tests/andanzas.test.ts(2,21): error TS2305: Module '"../src/hub/andanzas.ts"' has no exported member 'Ganso'.
+tests/andanzas.test.ts(234,23): error TS2339: Property 'graznido' does not exist on type 'Pato'.
+tests/andanzas.test.ts(291,40): error TS2339: Property 'graznidos' does not exist on type 'Pato'.
+tests/ganso.test.tsx(7,21): error TS2307: Cannot find module '../src/hub/Ganso.tsx' or its corresponding type declarations.
+tests/ganso.test.tsx(176,43): error TS7053: Element implicitly has an 'any' type because expression of type '"ganso.graznido"' can't be used to index type 'Textos'.
+EXIT=2
+```
+
+Con el código, quedó el rojo esperado del test de tokens (los dos grises pardos todavía no estaban en
+`.impeccable/design.json`):
+
+```
+     × ningún CSS de src/ usa un color que no esté entre los tokens del design.json 7ms
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 110 passed (111)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  111 passed (111)
+✓ built in 109ms
+EXIT=0
+```
+
+**Revisión en el navegador** (Chrome sin cabeza por CDP). El graznido, renderizado fuera de línea con
+la misma `sonarGraznido`, salió primero a −9,6 dBFS por el realce de 2200 Hz. Bajó de 0,5 a 0,26 de
+volumen para quedar igual de bajo que el cuac:
+
+```
+render: pico 0.171 (-15.3 dBFS), un cuac dura 0.274 s
+antes del click: {"contextos":0,"osciladores":0}
+debajo del click: encabezado
+después del click: {"contextos":1,"estado":"running","osciladores":0}
+primer cuac con sonido a los 11.3 s del click: {"cuac":"true","osciladores":2}
+```
+
+(Los rótulos dicen «cuac» porque el script de revisión es el de H18.) El secuestro, con el mismo
+recorrido de H16:
+
+```
+secuestro: secuestro a los 31.5 s (fase arrastrando)
+en vuelo: {"pico":{"izquierda":718,"derecha":728,"arriba":358,"abajo":364},"flecha":{"x":727.6,"y":361.8,"visible":"visible"},"cursorReal":"none","bajoFlecha":"IMG","bajoGanso":"IMG"}
+clicks: ["Neonduel"]
+al mover: {"transform":"translate(906px, 303px)","graznido":"true","ganso":"secuestro"}
+después: {"ganso":null,"flecha":"hidden","cursor":"pointer"}
+```
+
+La flecha queda en la punta del pico nuevo, el click sin mover el mouse entra a Neonduel y al mover
+el mouse el ganso grazna «¡JONK!» y el puntero vuelve.
+
+**Detector:** `[]`.
+
+**Sha:** `88190c6`

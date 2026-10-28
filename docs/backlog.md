@@ -213,7 +213,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       audio; después de un click, cada cuac arranca un oscilador; sin Web Audio, como en jsdom, el cuac
       no rompe nada.
       **Se espera rojo:** `andar` no hace cuac nunca si nadie mueve el mouse.
-- [ ] **H19 — El pato pasa a ser un ganso.** *Depende de H18.* Lo pidió el usuario después de saber
+- [x] **H19 — El pato pasa a ser un ganso.** *Depende de H18.* Lo pidió el usuario después de saber
       que el sonido de Desktop Goose no se puede usar. Es un ganso común, gris pardo, de cuello largo,
       con el pico y las patas naranjas, que grazna «¡JONK!» con un sonido más grave que el cuac
       ([ADR-0016](adr/0016-el-pato-pasa-a-ser-un-ganso.md)). En el código, el pato pasa a llamarse
