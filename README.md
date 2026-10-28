@@ -1,7 +1,8 @@
 # Hub
 
 La puerta de entrada a todo lo que tengo andando en `nicolasdalessandro.dev`: un recuadro por
-proyecto, con su vista previa, y un click o su número para entrar.
+proyecto, con su vista previa, y un click o su número para entrar. Está en
+[hub.nicolasdalessandro.dev](https://hub.nicolasdalessandro.dev/).
 
 ![El hub en escritorio: la grilla de proyectos sobre un cielo azul](.impeccable/review/desktop.png)
 

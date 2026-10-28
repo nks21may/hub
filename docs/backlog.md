@@ -182,7 +182,6 @@ Eran de la placa. Quedan anotados para que nadie los busque.
 Ideas que todavía no son trabajo tomable: les falta una decisión del usuario o un
 dato. Van **sin checkbox** para que el loop no las tome ni las cuente.
 
-- **El subdominio.** `hub.`, `sala.`, `fichines.` u otro. Falta que lo elija el usuario.
 - **Un selector de idioma en el mueble.** Hoy el idioma sale del navegador (`idiomaPreferido`, H2).
   Falta decidir si además hace falta cambiarlo a mano.
 - **Los loops de los seis proyectos.** Los sirve cada app en su propio host
@@ -196,8 +195,3 @@ dato. Van **sin checkbox** para que el loop no las tome ni las cuente.
 - **El depósito de proyectos muertos** (tuercas, los portfolios viejos). No tienen stack, así que
   su lista viviría en este repo: falta decidirlo, porque choca con la regla 3 del `CLAUDE.md`.
 - **Proyectos fuera de la VPS** (itch.io, un repo suelto). Mismo choque que el anterior.
-- **Del lado de `infra`** (se escribe en su backlog, no acá): el `x-hub` en cada stack que expone
-  algo, con el formato de [ADR-0010](adr/0010-formato-de-la-ficha-y-del-catalogo.md) (las fichas de
-  `ejemplos/catalogo.json` sirven de punto de partida, pero sus fechas `desde` son aproximadas), el
-  chequeo en su gate, el `catalogo.json` que arma el deploy, y el stack del hub con su puerto, su
-  regla del túnel y su CNAME.

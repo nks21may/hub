@@ -38,7 +38,8 @@ Es la cara informal y jugable de los sitios propios: `portfolio4` es la ficha t�
 ## Operating Context
 
 - Escritorio con teclado (el dueño, los colegas) y celular con el dedo (los links de Discord).
-- Cada proyecto vive en su propio subdominio: entrar a una máquina es salir de la sala.
+- La sala vive en `hub.nicolasdalessandro.dev` (elegido el 2026-10-28), y cada proyecto en su
+  propio subdominio: entrar a una máquina es salir de la sala.
 - El catálogo llega en runtime (`/catalogo.json`). Puede tardar, faltar o venir roto, y la sala
   tiene que seguir en pie.
 - Al 2026-10-26, la sala tiene seis máquinas: `portfolio4` (`nicolasdalessandro.dev`), neonduel,
@@ -56,7 +57,7 @@ Es la cara informal y jugable de los sitios propios: `portfolio4` es la ficha t�
 - **Español e inglés** ([ADR-0008](docs/adr/0008-espanol-e-ingles.md)): ningún texto visible se
   escribe en un componente. Las fichas también traen sus textos en los dos idiomas.
 - **Sin backend propio:** sitio estático, servido por nginx en la VPS.
-- **Por decidir:** el nombre de la sala, el subdominio, qué easter eggs entran primero, si se
+- **Por decidir:** el nombre de la sala, qué easter eggs entran primero, si se
   muestra el estado en vivo (caído / *healthy*), el depósito de proyectos muertos y los proyectos
   que no viven en la VPS. Las metáforas terminal y mundo para caminar pueden volver como modos
   escondidos ([docs/conceptos.md](docs/conceptos.md)).

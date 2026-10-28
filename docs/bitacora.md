@@ -817,3 +817,27 @@ Con el catálogo de ejemplo montado en `/usr/share/nginx/catalogo`, `docker run`
 `/catalogo.json` con 200 y `Cache-Control: no-cache`.
 
 **Sha:** `f9b49d4`
+
+## El hub, en `hub.nicolasdalessandro.dev` · 2026-10-28
+
+Sin ítem de este backlog: lo pidió el usuario en una sesión de `infra` ("Fijate el proyecto hub.
+Hostealo"), y el trabajo fue de allá. El usuario eligió el subdominio `hub.`, entre `hub.`,
+`proyectos.` y `sala.`. Del lado de `infra`, el `main` de allá llevó I78 a I80 (las fichas y el
+catálogo, en `acfaea0`) y después I81 (el stack, en `4feb51f`). La imagen es la de `main`
+de acá (`b8e637a`, H14), bajada de GHCR.
+
+Por el túnel, desde la laptop:
+
+```
+https://hub.nicolasdalessandro.dev/              200, Cache-Control: no-cache, con la CSP y HSTS
+/catalogo.json                                   200 application/json, no-cache
+  1 2026-10-28T03:33:17Z ['bhop-surf', 'bot_discord', 'hub', 'minecraft', 'museo', 'neonduel', 'nonograma', 'portafolio']
+/.git/config                                     404
+```
+
+En el navegador, "6 proyectos": Audio, Neonduel, Portfolio, Surf & Bhop Daily, Museo y Nonograma.
+El hub va `oculto` en su propia ficha, y Minecraft también (whitelist). La consola tiene una sola
+violación de la CSP, que no es de la app: el script inline que Cloudflare inyecta en cada HTML de
+la zona, igual que en nonograma y museo.
+
+Con esto salen de los parkeados el subdominio y lo que faltaba del lado de `infra`.
