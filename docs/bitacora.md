@@ -1472,3 +1472,20 @@ El click sobre el ganso crea el contexto de audio, que queda sonando, y el grazn
 osciladores en ese mismo click. El click llegó igual al recuadro de Audio, que estaba debajo.
 
 **Sha:** `73173a9`
+
+## H21 en producción · 2026-10-28
+
+Subido por la sesión que se abrió para eso: `2a152aa` en `origin/main` y `origin/loop/construccion`,
+con la CI «build & publish» en verde (corrida 40781487236). Repetido desde acá después del deploy:
+
+```
+condicional: 200 (1587 B)
+--- primera carga
+documento: 200  nonce de la cabecera 7f4f42e7b740865fcfd89b4780f8a5a2
+--- segunda carga (revalida)
+documento: 200  nonce de la cabecera b36fee2d43861d4d370ea993cc7e4625
+```
+
+Un pedido con `If-Modified-Since` trae el HTML entero, y ninguna de las dos cargas, con un perfil
+limpio de Chrome sin cabeza, muestra violaciones de la CSP. El error de la consola desde el primer
+deploy, el del script de detección de bots de Cloudflare, ya no está.
