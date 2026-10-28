@@ -244,3 +244,48 @@ describe('el graznido con sonido', () => {
     }).not.toThrow();
   });
 });
+
+/** El ganso queda en una caja de 64×64 con la esquina en (100, 100): jsdom no mide nada. */
+function gansoEn100(): void {
+  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+    x: 100, y: 100, left: 100, top: 100, right: 164, bottom: 164, width: 64, height: 64, toJSON: () => ({}),
+  } as DOMRect);
+}
+
+describe('el click en el ganso', () => {
+  it('un click sobre el ganso lo hace graznar, y suena en ese mismo click', () => {
+    medios({});
+    const audio = conAudio();
+    gansoEn100();
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    const ganso = container.firstElementChild as HTMLElement;
+    expect(ganso.dataset.graznido).toBe('false');
+    window.dispatchEvent(new MouseEvent('pointerdown', {clientX: 130, clientY: 140}));
+    expect(ganso.dataset.graznido).toBe('true');
+    expect(audio.osciladores).toBeGreaterThan(0);
+  });
+
+  it('un click lejos del ganso no lo hace graznar', () => {
+    medios({});
+    const audio = conAudio();
+    gansoEn100();
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    window.dispatchEvent(new MouseEvent('pointerdown', {clientX: 600, clientY: 600}));
+    expect((container.firstElementChild as HTMLElement).dataset.graznido).toBe('false');
+    expect(audio.osciladores).toBe(0);
+  });
+
+  it('el click sobre el ganso no se cancela: llega a lo que está debajo', () => {
+    medios({});
+    conAudio();
+    gansoEn100();
+    render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    const debajo = vi.fn();
+    document.addEventListener('pointerdown', debajo);
+    const click = new MouseEvent('pointerdown', {bubbles: true, cancelable: true, clientX: 130, clientY: 140});
+    document.body.dispatchEvent(click);
+    document.removeEventListener('pointerdown', debajo);
+    expect(debajo).toHaveBeenCalled();
+    expect(click.defaultPrevented).toBe(false);
+  });
+});

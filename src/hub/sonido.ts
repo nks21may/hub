@@ -28,7 +28,14 @@ export function crearVoz(): Voz {
       if (contexto.state === 'suspended') void contexto.resume();
     },
     graznar() {
-      if (contexto?.state === 'running') sonarGraznido(contexto);
+      const actual = contexto;
+      if (actual?.state === 'running') sonarGraznido(actual);
+      // Recién creado en un gesto, el contexto puede tardar un instante en arrancar.
+      else if (actual?.state === 'suspended') {
+        void actual.resume().then(() => {
+          if (actual.state === 'running') sonarGraznido(actual);
+        });
+      }
     },
     cerrar() {
       void contexto?.close();

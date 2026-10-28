@@ -249,6 +249,7 @@ El easter egg de ADR-0014. Un ganso común (ADR-0016) de 64×64px, dibujado en S
 - **Flecha:** la flecha de un cursor de sistema, de 14×22px, en `texto` con un trazo de 1,2px en `fondo` y la punta en el punto exacto (`z-index` 3, `pointer-events: none`).
 - **Escape:** apenas el mouse se mueve, la flecha vuelve al puntero real en 0,15 s ease-out, el puntero reaparece y el ganso hace «¡JONK!» durante 1,2 s: un cartelito sobre el ganso en `texto` con letra en `fondo`, Geist 600 a 13px, radio 6px, que aparece en 0,12 s. Después espera entre 30 y 60 s antes de volver a atacar.
 - **Graznido:** cada tanto, haga lo que haga (ADR-0015): el primero entre los 8 y los 20 s, y después cada 20 a 45 s, nunca dos con menos de 20 s entre ellos. Cada graznido muestra el cartelito y, desde el primer click, toque o tecla en la página, suena: un diente de sierra que sube de 300 a 420 Hz y cae a 280, con un temblor de 45 Hz, por una banda en 900 Hz (Q 2,2) y un realce de 8 dB en 2200 Hz, de un tercio de segundo y con un pico de −15 dBFS. Lo genera Web Audio: no hay archivos de sonido. El graznido del escape también suena.
+- **Click:** un click o un toque sobre el ganso lo hace graznar en el momento, y como es un gesto, suena ahí mismo. No se suma si todavía está graznando. El click se mira desde la ventana y sigue de largo: el ganso no ataja nada, y sobre un recuadro también entra al proyecto.
 - **Táctil:** con el dedo pasea pero no ataca.
 - **Quieto:** con `prefers-reduced-motion` no hay ganso.
 

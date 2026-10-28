@@ -248,3 +248,17 @@ export function escapar(ganso: Ganso, reloj: number, azar: () => number): Ganso 
     proximoGraznido: ganso.presa ? Math.max(ganso.proximoGraznido, reloj + GRAZNIDO_CADA_MINIMO) : ganso.proximoGraznido,
   };
 }
+
+/**
+ * Le hicieron click al ganso: grazna en el momento, haga lo que haga, salvo que ya esté graznando.
+ * El graznido solo siguiente se corre, para que no salgan dos seguidos.
+ */
+export function tocar(ganso: Ganso, reloj: number): Ganso {
+  if (ganso.graznido > 0) return ganso;
+  return {
+    ...ganso,
+    graznido: GRAZNIDO,
+    graznidos: ganso.graznidos + 1,
+    proximoGraznido: Math.max(ganso.proximoGraznido, reloj + GRAZNIDO_CADA_MINIMO),
+  };
+}

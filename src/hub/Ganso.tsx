@@ -2,7 +2,7 @@ import {useEffect, useRef} from 'react';
 import type {Idioma} from '../i18n/textos.ts';
 import {texto} from '../i18n/textos.ts';
 import type {Ganso as ElGanso} from './andanzas.ts';
-import {andar, escapar, nacer} from './andanzas.ts';
+import {andar, escapar, nacer, tocar} from './andanzas.ts';
 import {sinMovimiento} from './movimiento.ts';
 import type {Punto} from './puntero.ts';
 import {PUNTERO_DIBUJADO} from './puntero.ts';
@@ -126,8 +126,19 @@ export function Ganso({idioma, azar = Math.random}: Props) {
       soltar();
     }
 
-    // El navegador deja sonar desde el primer gesto del visitante en la página.
-    function alTocar() {
+    // El navegador deja sonar desde el primer gesto del visitante en la página. Si el gesto es un
+    // click sobre el ganso, grazna, y ya suena. El click no se frena: sigue hasta lo que esté debajo.
+    function alTocar(evento: PointerEvent) {
+      voz.destrabar();
+      if (!elemento) return;
+      const caja = elemento.getBoundingClientRect();
+      const {clientX: x, clientY: y} = evento;
+      if (x < caja.left || x > caja.right || y < caja.top || y > caja.bottom) return;
+      ganso = tocar(ganso, reloj);
+      pintar();
+    }
+
+    function alApretar() {
       voz.destrabar();
     }
 
@@ -145,7 +156,7 @@ export function Ganso({idioma, azar = Math.random}: Props) {
     document.addEventListener('mouseout', alSalir);
     window.addEventListener('pagehide', alIrse);
     window.addEventListener('pointerdown', alTocar, true);
-    window.addEventListener('keydown', alTocar, true);
+    window.addEventListener('keydown', alApretar, true);
     pintar();
     cuadro = requestAnimationFrame(paso);
     return () => {
@@ -153,7 +164,7 @@ export function Ganso({idioma, azar = Math.random}: Props) {
       document.removeEventListener('mouseout', alSalir);
       window.removeEventListener('pagehide', alIrse);
       window.removeEventListener('pointerdown', alTocar, true);
-      window.removeEventListener('keydown', alTocar, true);
+      window.removeEventListener('keydown', alApretar, true);
       cancelAnimationFrame(cuadro);
       voz.cerrar();
       window.clearTimeout(vuelta);

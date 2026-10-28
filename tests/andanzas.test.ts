@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 import type {Mundo, Ganso} from '../src/hub/andanzas.ts';
-import {andar, escapar, nacer, pico} from '../src/hub/andanzas.ts';
+import {andar, escapar, nacer, pico, tocar} from '../src/hub/andanzas.ts';
 import {azarConSemilla} from '../src/hub/particulas.ts';
 import type {Punto} from '../src/hub/puntero.ts';
 
@@ -289,5 +289,26 @@ describe('el graznido del ganso', () => {
     const {instantes, indice, azar} = primerSecuestro(1);
     const {ganso, reloj} = en(instantes, indice);
     expect(escapar(ganso, reloj, azar).graznidos).toBe(ganso.graznidos + 1);
+  });
+});
+
+describe('el click en el ganso', () => {
+  it('lo hace graznar en el momento, sin cambiarle lo que estaba haciendo', () => {
+    const ganso = caminando(600, 400);
+    const tocado = tocar(ganso, 5);
+    expect(tocado.graznidos).toBe(ganso.graznidos + 1);
+    expect(tocado.graznido).toBeGreaterThan(0);
+    expect(tocado.fase).toBe('caminando');
+    expect({x: tocado.x, y: tocado.y}).toEqual({x: 600, y: 400});
+  });
+
+  it('mientras todavía grazna, otro click no suma otro graznido', () => {
+    const tocado = tocar(caminando(600, 400), 5);
+    expect(tocar(tocado, 5.3).graznidos).toBe(tocado.graznidos);
+  });
+
+  it('el graznido solo que seguía se corre, para que no salgan dos seguidos', () => {
+    const ganso = {...caminando(600, 400), proximoGraznido: 6};
+    expect(tocar(ganso, 5).proximoGraznido).toBeGreaterThanOrEqual(25);
   });
 });
