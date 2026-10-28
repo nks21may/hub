@@ -36,7 +36,7 @@ polvo se enciende por donde pasa el mouse, y el número de cada uno a una tecla 
 ## Sin decidir
 
 - El nombre del hub y su subdominio.
-- Qué easter eggs siguen al pato (ADR-0014).
+- Qué easter eggs siguen al ganso (ADR-0014, ADR-0016).
 - Si se muestra el estado en vivo de cada proyecto.
 
 ## Direction contract
@@ -65,10 +65,10 @@ y el host en mono. En 1440×900 se ve la primera fila entera y asoma la segunda.
 detrás, fijo. Interacción firma: con hover o foco, el borde se aclara, la preview se acerca un 3% y una
 luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo deriva solo, se enciende por donde
 pasa el mouse y las luces del cielo se corren. Con movimiento reducido, el cielo queda quieto, el
-polvo no reacciona y no hay zoom. Encima de todo pasea un pato vectorial desde que carga; pasados
-10 s puede llevarse en el pico un cursor quieto, dibujado, que se le escapa apenas se mueve el mouse
-(ADR-0014). Cada tanto hace «¡CUAC!», con sonido desde que el visitante tocó la página (ADR-0015).
-Con movimiento reducido no hay pato.
+polvo no reacciona y no hay zoom. Encima de todo pasea un ganso vectorial desde que carga (era un
+pato hasta ADR-0016); pasados 10 s puede llevarse en el pico un cursor quieto, dibujado, que se le
+escapa apenas se mueve el mouse (ADR-0014). Cada tanto grazna «¡JONK!», con sonido desde que el
+visitante tocó la página (ADR-0015). Con movimiento reducido no hay ganso.
 
 FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a (la imprimió concept-seed el
 2026-10-26; la página de decisión fue b7f6db46), elegida por el usuario con

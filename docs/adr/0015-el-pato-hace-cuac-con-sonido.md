@@ -1,6 +1,6 @@
 # ADR-0015 — El pato ataca a los 10 segundos y hace cuac con sonido cada tanto
 
-- **Estado:** aceptado
+- **Estado:** aceptado; [ADR-0016](0016-el-pato-pasa-a-ser-un-ganso.md) cambia el cuac por el graznido de un ganso
 - **Fecha:** 2026-10-28
 - **Decide:** cuánto espera el pato para atacar, y si el hub hace ruido; suma a
   [ADR-0014](0014-el-pato-secuestra-el-cursor.md)

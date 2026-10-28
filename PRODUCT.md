@@ -57,9 +57,10 @@ Es la cara informal y jugable de los sitios propios: `portfolio4` es la ficha t�
 - **Español e inglés** ([ADR-0008](docs/adr/0008-espanol-e-ingles.md)): ningún texto visible se
   escribe en un componente. Las fichas también traen sus textos en los dos idiomas.
 - **Sin backend propio:** sitio estático, servido por nginx en la VPS.
-- **El primer easter egg es un pato** que pasea por el hub y secuestra el cursor quieto, sin tapar
-  nunca el camino a un proyecto ([ADR-0014](docs/adr/0014-el-pato-secuestra-el-cursor.md)).
-- **Por decidir:** el nombre de la sala, qué easter eggs siguen al pato, si se
+- **El primer easter egg es un ganso** que pasea por el hub y secuestra el cursor quieto, sin tapar
+  nunca el camino a un proyecto ([ADR-0014](docs/adr/0014-el-pato-secuestra-el-cursor.md); era un
+  pato hasta [ADR-0016](docs/adr/0016-el-pato-pasa-a-ser-un-ganso.md)).
+- **Por decidir:** el nombre de la sala, qué easter eggs siguen al ganso, si se
   muestra el estado en vivo (caído / *healthy*), el depósito de proyectos muertos y los proyectos
   que no viven en la VPS. Las metáforas terminal y mundo para caminar pueden volver como modos
   escondidos ([docs/conceptos.md](docs/conceptos.md)).

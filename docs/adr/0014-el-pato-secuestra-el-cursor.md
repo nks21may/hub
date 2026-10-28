@@ -1,6 +1,6 @@
 # ADR-0014 — Un pato pasea por el hub y secuestra el cursor quieto
 
-- **Estado:** aceptado; [ADR-0015](0015-el-pato-hace-cuac-con-sonido.md) baja la espera a 10 s y le suma el sonido
+- **Estado:** aceptado; [ADR-0015](0015-el-pato-hace-cuac-con-sonido.md) baja la espera a 10 s y le suma el sonido; [ADR-0016](0016-el-pato-pasa-a-ser-un-ganso.md) cambia el pato por un ganso
 - **Fecha:** 2026-10-28
 - **Decide:** cuál es el primer easter egg del hub, y qué reglas lo mantienen fuera del camino a un
   proyecto
