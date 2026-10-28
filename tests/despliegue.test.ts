@@ -1,9 +1,44 @@
-import {readFileSync} from 'node:fs';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {describe, expect, it} from 'vitest';
 
 // El nginx de la imagen (H4). Vitest corre desde la raíz del repo.
 const NGINX = readFileSync(resolve(process.cwd(), 'deploy/nginx.conf'), 'utf8');
+const DOCKERIGNORE = readFileSync(resolve(process.cwd(), '.dockerignore'), 'utf8');
+
+/**
+ * Si el contexto del `docker build` deja afuera una ruta, evaluando el `.dockerignore` como Docker:
+ * la última regla que coincide gana, `!` vuelve a meter, `*` es un tramo y una carpeta se lleva
+ * todo lo de adentro.
+ */
+function quedaAfuera(ruta: string): boolean {
+  let afuera = false;
+  for (const linea of DOCKERIGNORE.split('\n')) {
+    const regla = linea.trim();
+    if (!regla || regla.startsWith('#')) continue;
+    const vuelve = regla.startsWith('!');
+    const patron = (vuelve ? regla.slice(1) : regla).replace(/^\/|\/$/g, '');
+    const cuerpo = patron
+      .split('**')
+      .map((tramo) => tramo.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '[^/]*'))
+      .join('.*');
+    if (new RegExp(`^${cuerpo}(/.*)?$`).test(ruta)) afuera = !vuelve;
+  }
+  return afuera;
+}
+
+/**
+ * Los archivos del repo que abre algún test, con `resolve(...)` o `new URL(...)`: los que el gate lee
+ * adentro de la imagen.
+ */
+function archivosQueLeenLosTests(): string[] {
+  const carpeta = resolve(process.cwd(), 'tests');
+  const nombrados = readdirSync(carpeta).flatMap((archivo) =>
+    [...readFileSync(resolve(carpeta, archivo), 'utf8').matchAll(/(?:resolve\([\w.]+(?:\(\))?,\s*|new URL\()'([^']+)'/g)]
+      .map((literal) => (literal[1] ?? '').replace(/^\.\.\//, '')),
+  );
+  return [...new Set(nombrados)].filter((ruta) => existsSync(resolve(process.cwd(), ruta)));
+}
 
 /** El conf sin comentarios, para no confundir una línea explicada con una línea que rige. */
 function sinComentarios(conf: string): string {
@@ -69,5 +104,21 @@ describe('la imagen', () => {
 
   it('la CSP no deja nada abierto por defecto', () => {
     expect(csp()['default-src']).toEqual(["'none'"]);
+  });
+});
+
+describe('el build de la imagen', () => {
+  it('ve todo lo que leen los tests, porque el gate corre adentro', () => {
+    const leidos = archivosQueLeenLosTests();
+    expect(leidos).toContain('.impeccable/design.json');
+    expect(leidos).toContain('deploy/nginx.conf');
+    expect(leidos.filter(quedaAfuera)).toEqual([]);
+  });
+
+  it('deja afuera lo pesado y lo que no necesita', () => {
+    for (const ruta of ['node_modules/react/index.js', '.git/HEAD', '.impeccable/review/desktop.png', 'dist/index.html']) {
+      expect(quedaAfuera(ruta), ruta).toBe(true);
+    }
+    expect(quedaAfuera('src/main.tsx')).toBe(false);
   });
 });

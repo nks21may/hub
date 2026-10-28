@@ -3,9 +3,12 @@
 .git
 .github
 .claude
-.impeccable
 node_modules
 dist
 coverage
 Dockerfile
-.dockerignore
+
+# El gate corre adentro del build, así que entra todo lo que leen los tests: el design.json (H5) y
+# este mismo archivo (H14). De .impeccable queda afuera el resto, sobre todo las capturas.
+.impeccable/*
+!.impeccable/design.json

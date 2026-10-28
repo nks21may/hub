@@ -156,6 +156,16 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       movimiento, el cielo se anima solo sin mover el mouse; con movimiento reducido no pide cuadros.
       **Se espera rojo:** `derivar` no existe, y el cielo sólo pide cuadros cuando se mueve el mouse.
 
+- [ ] **H14 — La imagen ve todo lo que lee el gate.** *Depende de H13.* El primer push a `main`
+      rompió la CI: el gate corre adentro del `docker build` y `tests/tokens.test.ts` (H5) lee
+      `.impeccable/design.json`, que el `.dockerignore` de H4 dejaba afuera con toda la carpeta.
+      *Test:* (node) cada archivo del repo que nombra un test entra al contexto de la imagen, evaluando
+      el `.dockerignore` como Docker (la última regla que coincide gana, `!` vuelve a meter); lo
+      pesado y lo que no hace falta (`node_modules`, `.git`, las capturas de `.impeccable/review/`)
+      sigue afuera. Fuera del gate, `docker build` termina con el gate adentro.
+      **Se espera rojo:** quedan afuera del contexto `.impeccable/design.json` y el propio
+      `.dockerignore`, que lee el test del despliegue.
+
 ## Descartados por ADR-0011
 
 Eran de la placa. Quedan anotados para que nadie los busque.
