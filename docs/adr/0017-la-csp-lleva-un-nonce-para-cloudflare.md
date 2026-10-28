@@ -1,6 +1,6 @@
 # ADR-0017 — La CSP lleva un nonce por pedido, para el script que inyecta Cloudflare
 
-- **Estado:** aceptado
+- **Estado:** aceptado; [ADR-0018](0018-el-html-no-contesta-304.md) le suma que el HTML no conteste 304
 - **Fecha:** 2026-10-28
 - **Decide:** cómo deja pasar la CSP del hub el script de detección de bots que Cloudflare inyecta
   en el HTML, sin abrirla
