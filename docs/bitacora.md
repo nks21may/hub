@@ -1079,3 +1079,76 @@ en H16.
 **Detector:** `[]`.
 
 **Sha:** `83cafb1`
+
+## H18 — El pato hace cuac cada tanto, con sonido · 2026-10-28
+
+Lo pidió el usuario junto con H17: «que haga cuack cada tanto con sonido». La decisión, con el límite
+del navegador, está en [ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md): una página no puede
+sonar hasta que el visitante la toca con un click, un toque o una tecla. Mover el mouse no cuenta.
+
+**Archivos:** `src/hub/andanzas.ts` (`andar` mueve al pato y, si le toca, hace cuac: el primero entre
+los 8 y los 20 s de reloj y después cada 20 a 45 s; `cuacs` cuenta cada uno, y `escapar` también
+suma uno y corre el siguiente para que no salgan dos seguidos), `src/hub/sonido.ts` (nuevo:
+`crearVoz`, que crea el contexto de audio recién con un gesto, y `sonarCuac`, el cuac de Web Audio),
+`src/hub/Pato.tsx` (destraba la voz con el primer `pointerdown` o `keydown` y suena cada vez que sube
+la cuenta de cuacs), `tests/andanzas.test.ts`, `tests/pato.test.tsx` (con un Web Audio de mentira),
+`DESIGN.md` y `.impeccable/design.json`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código (`npx vitest run tests/andanzas.test.ts tests/pato.test.tsx`):
+
+```
+     × hace cuac solo, cada tanto: el primero entre los 8 y los 20 s, y en tres minutos entre 4 y 9 8ms
+     × cuando se le escapa el cursor, también cuenta un cuac 4ms
+     × antes de un click o una tecla no hay sonido, pero el cartelito del cuac sale igual 46ms
+     × después de un click en la página, cada cuac suena 31ms
+     × después de una tecla en la página, cada cuac suena 31ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+TypeError: actual value must be number or bigint, received "undefined"
+AssertionError: expected undefined to be NaN // Object.is equality
+AssertionError: expected false to be true // Object.is equality
+AssertionError: expected +0 to be 1 // Object.is equality
+ Test Files  2 failed (2)
+      Tests  5 failed | 28 passed (33)
+EXIT=1
+```
+
+El `undefined` es el momento del primer cuac: en tres minutos sin cursor el pato no hizo ninguno.
+Pasaron desde el principio las guardas: «nunca dos cuacs con menos de 20 s», «cada cuac muestra el
+cartelito» y «sin Web Audio no rompe nada». El gate cortaba antes, en `tsc`: `cuacs` no existía en
+`Pato`.
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  109 passed (109)
+✓ built in 103ms
+EXIT=0
+```
+
+**Revisión en el navegador** (Chrome sin cabeza por CDP). El cuac se renderizó fuera de línea con la
+misma `sonarCuac` del hub, importada del servidor de desarrollo, y se guardó en un WAV para
+escucharlo. Después, en la página en vivo, se contaron los contextos de audio y los osciladores:
+
+```
+render: pico 0.170 (-15.4 dBFS), un cuac dura 0.177 s
+antes del click: {"contextos":0,"osciladores":0}
+debajo del click: encabezado
+después del click: {"contextos":1,"estado":"running","osciladores":0}
+primer cuac con sonido a los 10.8 s del click: {"cuac":"true","osciladores":2}
+```
+
+Antes del click no se crea ningún contexto de audio, así que Chrome no avisa nada en la consola. Un
+click en el encabezado, que no es un link, lo crea y lo deja sonando. El cuac siguiente arranca sus
+dos osciladores (la voz y el temblor) y muestra el cartelito. Cómo suena no lo puede juzgar un test:
+el WAV es para que lo escuche el usuario.
+
+**Detector:** `[]`.
+
+**Sha:** `11c54f1`
