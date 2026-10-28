@@ -359,8 +359,8 @@
       },
       {
         "name": "paso-de-ganso",
-        "value": "60 px/s; patas ±22° desde la cadera y cuerpo ±3° con 1,5px de rebote, 0.42s ease-in-out infinite alternate",
-        "purpose": "El ganso caminando (ADR-0014). Parado no se mueve; con prefers-reduced-motion no hay ganso."
+        "value": "60 px/s; patas ±22° desde la cadera y cuerpo ±3° con 1,5px de rebote, 0.42s ease-in-out infinite alternate; corriendo 0.2s, arrastrando 0.28s",
+        "purpose": "El ganso caminando, corriendo a buscar el cursor y llevándoselo (ADR-0014). Parado no se mueve; con prefers-reduced-motion no hay ganso."
       },
       {
         "name": "secuestro",

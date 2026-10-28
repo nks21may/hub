@@ -92,6 +92,32 @@
   animation: ganso-bamboleo 0.42s ease-in-out infinite alternate;
 }
 
+/* Corriendo a buscar el cursor (200 px/s), el mismo paso en menos de la mitad del tiempo. */
+.ganso[data-fase='yendo'] .ganso__pata--atras {
+  animation: ganso-paso 0.2s ease-in-out infinite alternate;
+}
+
+.ganso[data-fase='yendo'] .ganso__pata--adelante {
+  animation: ganso-paso 0.2s ease-in-out infinite alternate-reverse;
+}
+
+.ganso[data-fase='yendo'] .ganso__cuerpo {
+  animation: ganso-bamboleo 0.2s ease-in-out infinite alternate;
+}
+
+/* Llevándose el cursor (150 px/s), tironeando: pasos cortos y seguidos, aunque vaya para atrás. */
+.ganso[data-fase='arrastrando'] .ganso__pata--atras {
+  animation: ganso-paso 0.28s ease-in-out infinite alternate;
+}
+
+.ganso[data-fase='arrastrando'] .ganso__pata--adelante {
+  animation: ganso-paso 0.28s ease-in-out infinite alternate-reverse;
+}
+
+.ganso[data-fase='arrastrando'] .ganso__cuerpo {
+  animation: ganso-bamboleo 0.28s ease-in-out infinite alternate;
+}
+
 @keyframes ganso-paso {
   from {
     transform: rotate(-22deg);

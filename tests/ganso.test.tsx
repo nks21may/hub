@@ -289,3 +289,32 @@ describe('el click en el ganso', () => {
     expect(click.defaultPrevented).toBe(false);
   });
 });
+
+/** Cuánto dura la animación de una pata en una fase, leyendo el CSS del ganso; undefined si no hay. */
+function pasoDeLaPata(css: string, fase: string, pata: 'atras' | 'adelante'): number | undefined {
+  const selector = `.ganso[data-fase='${fase}'] .ganso__pata--${pata}`;
+  for (const regla of css.replace(/\/\*[\s\S]*?\*\//g, '').split('}')) {
+    const [selectores = '', cuerpo = ''] = regla.split('{');
+    if (!selectores.split(',').some((s) => s.trim() === selector)) continue;
+    const duracion = /animation:\s*\S+\s+([\d.]+)s/.exec(cuerpo)?.[1];
+    if (duracion) return Number(duracion);
+  }
+  return undefined;
+}
+
+describe('las patas del ganso', () => {
+  const css = readFileSync(resolve(process.cwd(), 'src/hub/ganso.css'), 'utf8');
+
+  it.each(['caminando', 'yendo', 'arrastrando'])('se mueven las dos cuando está %s', (fase) => {
+    expect(pasoDeLaPata(css, fase, 'atras')).toBeGreaterThan(0);
+    expect(pasoDeLaPata(css, fase, 'adelante')).toBeGreaterThan(0);
+  });
+
+  it('corriendo a buscar el cursor, van más rápido que caminando', () => {
+    expect(pasoDeLaPata(css, 'yendo', 'atras')).toBeLessThan(pasoDeLaPata(css, 'caminando', 'atras') ?? 0);
+  });
+
+  it('parado, no se mueven', () => {
+    expect(pasoDeLaPata(css, 'parado', 'atras')).toBeUndefined();
+  });
+});
