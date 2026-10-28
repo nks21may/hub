@@ -182,7 +182,7 @@ ataque antes de los 20 segundos. Los cambios de diseño actualizan `DESIGN.md` y
       carga, fuera del árbol de accesibilidad, y camina solo sin que nadie mueva el mouse; con
       movimiento reducido no hay pato.
       **Se espera rojo:** falla el import del módulo `andanzas`.
-- [ ] **H16 — El pato secuestra el cursor quieto.** *Depende de H15.* El puntero real no se mueve:
+- [x] **H16 — El pato secuestra el cursor quieto.** *Depende de H15.* El puntero real no se mueve:
       se esconde y el pato se lleva una flecha dibujada (ADR-0014).
       *Test:* (node) antes de los 20 s de reloj, `andar` no va a buscar el cursor aunque esté quieto;
       después, con el cursor quieto hace 3 s, va a buscarlo hasta tenerlo en el `pico`; si el cursor

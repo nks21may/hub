@@ -912,3 +912,101 @@ documentador de impeccable no corrió en esta iteración. Las capturas de `.impe
 rehacen en H16, cuando el pato ya secuestra el cursor.
 
 **Sha:** `a488114`
+
+## H16 — El pato secuestra el cursor quieto · 2026-10-28
+
+El secuestro de [ADR-0014](adr/0014-el-pato-secuestra-el-cursor.md). El puntero real no se mueve,
+porque una página no puede moverlo: se esconde, y lo que el pato se lleva en el pico es una flecha
+dibujada.
+
+**Archivos:** `src/hub/andanzas.ts` (`andar` suma las fases `yendo` y `arrastrando`: pasados 20 s de
+reloj, al terminar una pausa y con un cursor quieto hace 3 s, va por él con una chance de 0,6; si el
+cursor se mueve, lo deja; cuando tiene el `pico` sobre el cursor se lo lleva a la otra mitad de la
+pantalla, mirándolo, y lo suelta ahí. `escapar` lo deja parado con su cuac y sin atacar por 30 a
+60 s), `src/hub/Pato.tsx` (el reloj de pestaña a la vista, el puntero y cuándo se movió, la flecha
+dibujada, `data-pato="secuestro"` en `<html>`, la vuelta de la flecha en 150 ms y el aviso al
+cielo), `src/hub/pato.css` (el cuac, `cursor: none` mientras dura y la flecha), `src/hub/puntero.ts`
+(`PUNTERO_DIBUJADO`), `src/hub/Fondo.tsx` (trata la flecha como al puntero), `src/hub/Hub.tsx` (le
+pasa el idioma al pato), `src/i18n/textos.ts` (`pato.cuac`: «¡CUAC!» y «QUACK!»), los tests de
+`andanzas`, del pato y del cielo, `DESIGN.md`, `.impeccable/design.json` y dos capturas nuevas en
+`.impeccable/review/`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código (`npx vitest run tests/andanzas.test.ts tests/pato.test.tsx tests/fondo.test.tsx`):
+
+```
+     × después de los 20 s, con el cursor quieto, va a buscarlo hasta tenerlo en el pico 6ms
+     × si el cursor se mueve mientras va a buscarlo, lo deja 3ms
+     × cuando lo agarra, se lleva la presa en el pico hasta la otra mitad de la pantalla y la suelta ahí 2ms
+     × si se le escapa, queda parado haciendo cuac, y no vuelve a atacar por 30 s 3ms
+     × la flecha que arrastra el pato corre las luces y enciende el polvo, igual que el puntero 4ms
+     × pasados los 20 s se lleva el cursor quieto: el real se esconde y la flecha aparece en su lugar 199ms
+     × al mover el mouse, la flecha vuelve, el puntero reaparece y el pato hace cuac (es) 162ms
+     × al mover el mouse, la flecha vuelve, el puntero reaparece y el pato hace cuac (en) 157ms
+     × al irse de la página no deja el puntero escondido 156ms
+     × el pato y la flecha no atajan ningún click: su CSS dice pointer-events: none 1ms
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected -1 to be greater than 0
+AssertionError: expected undefined to be defined
+TypeError: Cannot read properties of undefined (reading 'pato')
+AssertionError: expected '' not to be '' // Object.is equality
+AssertionError: expected false to be true // Object.is equality
+TypeError: Cannot read properties of null (reading 'style')
+ Test Files  3 failed (3)
+      Tests  10 failed | 20 passed (30)
+EXIT=1
+```
+
+El `-1` es el índice del primer instante en `arrastrando`: en 300 s de reloj con el cursor quieto, el
+pato nunca dejó de pasear. Los tests de «antes de los 20 s», «un cursor inquieto» y «con el dedo»
+pasaron desde el principio: son guardas para que el ataque no las rompa. El gate, con el mismo
+árbol, cortaba antes, en `tsc` (`escapar` y `pico` no existían, y `Mundo` no tenía `reloj`).
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  100 passed (100)
+✓ built in 85ms
+EXIT=0
+```
+
+En el medio hubo un rojo de `tsc` sólo en los tests, por `noUncheckedIndexedAccess` (índices de
+arreglos que pueden no estar). Se arregló con un ayudante `en` que falla con su motivo si el instante
+no existe.
+
+**Revisión en el navegador** (Chrome 156 sin cabeza por CDP, 1280×800; el panel no pedía cuadros
+ni a la vista). Con el mouse quieto en (900, 300), sobre Neonduel:
+
+```
+medios {"fino":true,"reducido":false}
+debajo del puntero real: Neonduel
+secuestro: secuestro a los 23.9 s (fase arrastrando)
+en vuelo: {"flecha":{"x":707,"y":398,"visible":"visible"},"cursorReal":"none","bajoFlecha":"IMG","bajoPato":"IMG"}
+clicks: ["Neonduel"]
+sigue el secuestro después del click: secuestro
+al mover: {"transform":"translate(906px, 303px)","cuac":"true","pato":"secuestro"}
+después: {"pato":null,"flecha":"hidden","cursor":"pointer"}
+```
+
+Lo que dice: el primer ataque llegó pasados los 20 s; mientras dura, el puntero real no se ve, y
+debajo de la flecha y del pato `elementFromPoint` encuentra la imagen del recuadro, no al pato; un
+click sin mover el mouse entró a Neonduel, el proyecto que estaba debajo del puntero real; al mover
+el mouse, la flecha salió hacia el puntero real con el cuac, y a los 300 ms el puntero volvió (la
+mano del link) y la flecha se escondió. Las capturas son `.impeccable/review/pato-secuestro.png`
+(el pato tironeando la flecha sobre Portfolio) y `.impeccable/review/pato-cuac.png` (el cuac, con la
+flecha a mitad de camino). Las capturas de la grilla (`desktop.png`, `mobile.png` y
+`mobile-viewport.png`) no se rehicieron: lo único que cambia en ellas es que ahora pasa el pato.
+
+**Detector:** `[]`.
+
+**`DESIGN.md` y `.impeccable/design.json`**, a mano otra vez, con el formato del documentador: el
+secuestro, la flecha, el escape y el cuac en el componente Pato, y los movimientos `secuestro` y
+`vuelta-de-la-flecha`. No hay colores nuevos: la flecha y el cuac usan `texto` y `fondo`.
+
+**Sha:** `8dfb240`
