@@ -26,11 +26,11 @@
   --cielo-indigo: #15287a;
   --cielo-claro: #4a8fe6;
   --particula: #d6e4ff;
-  /* El pato (ADR-0014): amarillo, con el ala un tono más oscura y el pico y las patas naranjas. Son
-     los únicos colores cálidos del hub, y no salen del pato. */
-  --pato-pluma: #f7d44c;
-  --pato-ala: #e5ae32;
-  --pato-pico: #f0832a;
+  /* El ganso (ADR-0016): un ganso común, gris pardo, con el ala más oscura y el pico y las patas
+     naranjas. Son los únicos colores cálidos del hub, y no salen del ganso. */
+  --ganso-pluma: #a3937e;
+  --ganso-ala: #75675a;
+  --ganso-pico: #f0832a;
 
   --letra: 'Geist Variable', system-ui, sans-serif;
   --letra-mono: 'Geist Mono Variable', ui-monospace, monospace;

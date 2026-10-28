@@ -1,18 +1,18 @@
 import {describe, expect, it} from 'vitest';
-import type {Mundo, Pato} from '../src/hub/andanzas.ts';
+import type {Mundo, Ganso} from '../src/hub/andanzas.ts';
 import {andar, escapar, nacer, pico} from '../src/hub/andanzas.ts';
 import {azarConSemilla} from '../src/hub/particulas.ts';
 import type {Punto} from '../src/hub/puntero.ts';
 
 const VENTANA = {ancho: 1280, alto: 800};
 
-/** Un pato caminando hacia un destino lejano, para medirle el paso sin que llegue. */
-function caminando(x: number, y: number, destino = {x: 1200, y}): Pato {
+/** Un ganso caminando hacia un destino lejano, para medirle el paso sin que llegue. */
+function caminando(x: number, y: number, destino = {x: 1200, y}): Ganso {
   return {...nacer(VENTANA.ancho, VENTANA.alto, azarConSemilla(1)), x, y, mirando: 1, fase: 'caminando', destino, pausa: 0};
 }
 
-function adentro(pato: Pato, ancho: number, alto: number): void {
-  for (const punto of [pato, pato.destino]) {
+function adentro(ganso: Ganso, ancho: number, alto: number): void {
+  for (const punto of [ganso, ganso.destino]) {
     expect(punto.x).toBeGreaterThan(0);
     expect(punto.x).toBeLessThan(ancho);
     expect(punto.y).toBeGreaterThan(0);
@@ -21,26 +21,26 @@ function adentro(pato: Pato, ancho: number, alto: number): void {
 }
 
 /** Lo hace andar de a cuadros de 60 Hz durante tantos segundos. */
-function durante(pato: Pato, segundos: number, azar: () => number, ventana = VENTANA): Pato {
-  let actual = pato;
+function durante(ganso: Ganso, segundos: number, azar: () => number, ventana = VENTANA): Ganso {
+  let actual = ganso;
   for (let t = 0; t < segundos; t += 1 / 60) actual = andar(actual, ventana, 1 / 60, azar);
   return actual;
 }
 
-describe('el pato que pasea', () => {
+describe('el ganso que pasea', () => {
   it('nace adentro de la ventana, caminando hacia un destino también adentro', () => {
     for (let semilla = 1; semilla <= 20; semilla++) {
-      const pato = nacer(VENTANA.ancho, VENTANA.alto, azarConSemilla(semilla));
-      expect(pato.fase).toBe('caminando');
-      adentro(pato, VENTANA.ancho, VENTANA.alto);
+      const ganso = nacer(VENTANA.ancho, VENTANA.alto, azarConSemilla(semilla));
+      expect(ganso.fase).toBe('caminando');
+      adentro(ganso, VENTANA.ancho, VENTANA.alto);
     }
   });
 
-  it('camina hacia su destino a paso de pato, unos 60 px/s', () => {
-    const pato = andar(caminando(100, 400), VENTANA, 1, azarConSemilla(1));
-    expect(pato.y).toBe(400);
-    expect(pato.x - 100).toBeGreaterThan(40);
-    expect(pato.x - 100).toBeLessThan(80);
+  it('camina hacia su destino a paso de ganso, unos 60 px/s', () => {
+    const ganso = andar(caminando(100, 400), VENTANA, 1, azarConSemilla(1));
+    expect(ganso.y).toBe(400);
+    expect(ganso.x - 100).toBeGreaterThan(40);
+    expect(ganso.x - 100).toBeLessThan(80);
   });
 
   it('depende del tiempo y no de los cuadros: dos medios segundos llegan adonde llega uno entero', () => {
@@ -74,12 +74,12 @@ describe('el pato que pasea', () => {
 
   it('pasea un buen rato sin salirse nunca de la ventana', () => {
     const azar = azarConSemilla(5);
-    let pato = nacer(VENTANA.ancho, VENTANA.alto, azar);
+    let ganso = nacer(VENTANA.ancho, VENTANA.alto, azar);
     const paradas = new Set<string>();
     for (let segundo = 0; segundo < 120; segundo++) {
-      pato = durante(pato, 1, azar);
-      adentro(pato, VENTANA.ancho, VENTANA.alto);
-      paradas.add(`${pato.destino.x},${pato.destino.y}`);
+      ganso = durante(ganso, 1, azar);
+      adentro(ganso, VENTANA.ancho, VENTANA.alto);
+      paradas.add(`${ganso.destino.x},${ganso.destino.y}`);
     }
     expect(paradas.size).toBeGreaterThan(3);
   });
@@ -87,8 +87,8 @@ describe('el pato que pasea', () => {
   it('si la ventana se achica, vuelve adentro, y su destino también', () => {
     const azar = azarConSemilla(1);
     const chica = {ancho: 400, alto: 300};
-    const pato = andar(caminando(1100, 700, {x: 1200, y: 750}), chica, 1 / 60, azar);
-    adentro(pato, chica.ancho, chica.alto);
+    const ganso = andar(caminando(1100, 700, {x: 1200, y: 750}), chica, 1 / 60, azar);
+    adentro(ganso, chica.ancho, chica.alto);
   });
 });
 
@@ -103,7 +103,7 @@ function conCursor(reloj: number, extra: Partial<Mundo> = {}): Mundo {
 
 interface Instante {
   reloj: number;
-  pato: Pato;
+  ganso: Ganso;
 }
 
 /**
@@ -111,17 +111,17 @@ interface Instante {
  * cómo está el mundo en cada momento; por defecto, con el cursor quieto desde el principio.
  */
 function vivir(
-  pato: Pato,
+  ganso: Ganso,
   desde: number,
   hasta: number,
   azar: () => number,
   mundo: (reloj: number) => Mundo = conCursor,
 ): Instante[] {
   const instantes: Instante[] = [];
-  let actual = pato;
+  let actual = ganso;
   for (let reloj = desde; reloj < hasta; reloj += CUADRO) {
     actual = andar(actual, mundo(reloj), CUADRO, azar);
-    instantes.push({reloj, pato: actual});
+    instantes.push({reloj, ganso: actual});
   }
   return instantes;
 }
@@ -137,29 +137,29 @@ function distancia(a: Punto, b: Punto): number {
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
-/** El primer instante en que el pato agarra el cursor, con varias semillas. */
+/** El primer instante en que el ganso agarra el cursor, con varias semillas. */
 function primerSecuestro(semilla: number): {instantes: Instante[]; indice: number; azar: () => number} {
   const azar = azarConSemilla(semilla);
   const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar);
-  const indice = instantes.findIndex(({pato}) => pato.fase === 'arrastrando');
+  const indice = instantes.findIndex(({ganso}) => ganso.fase === 'arrastrando');
   return {instantes, indice, azar};
 }
 
 const SEMILLAS = [1, 2, 3, 4, 5, 6, 7, 8];
 
-describe('el pato que secuestra el cursor', () => {
+describe('el ganso que secuestra el cursor', () => {
   it('antes de los 10 s no va a buscar el cursor, aunque esté quieto desde el principio', () => {
     for (const semilla of SEMILLAS) {
       const azar = azarConSemilla(semilla);
       const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 10, azar);
-      expect(instantes.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
+      expect(instantes.some(({ganso}) => ganso.fase === 'yendo' || ganso.presa)).toBe(false);
     }
   });
 
   it('a los 10 s ya puede ir: con varias semillas, alguna va por el cursor antes de los 20 s', () => {
     const primeros = SEMILLAS.map((semilla) => {
       const {instantes} = primerSecuestro(semilla);
-      return instantes.find(({pato}) => pato.fase === 'yendo')?.reloj ?? Infinity;
+      return instantes.find(({ganso}) => ganso.fase === 'yendo')?.reloj ?? Infinity;
     });
     expect(primeros.some((reloj) => reloj >= 10 && reloj < 20)).toBe(true);
   });
@@ -168,11 +168,11 @@ describe('el pato que secuestra el cursor', () => {
     for (const semilla of SEMILLAS) {
       const {instantes, indice} = primerSecuestro(semilla);
       expect(indice).toBeGreaterThan(0);
-      const yendo = instantes.findIndex(({pato}) => pato.fase === 'yendo');
+      const yendo = instantes.findIndex(({ganso}) => ganso.fase === 'yendo');
       expect(en(instantes, yendo).reloj).toBeGreaterThanOrEqual(10);
-      const {pato} = en(instantes, indice);
-      expect(pato.presa).toEqual(CURSOR);
-      expect(distancia(pico(pato), CURSOR)).toBeLessThan(10);
+      const {ganso} = en(instantes, indice);
+      expect(ganso.presa).toEqual(CURSOR);
+      expect(distancia(pico(ganso), CURSOR)).toBeLessThan(10);
     }
   });
 
@@ -182,17 +182,17 @@ describe('el pato que secuestra el cursor', () => {
       // El visitante mueve el mouse cada dos segundos.
       const inquieto = (reloj: number) => conCursor(reloj, {quietoDesde: Math.floor(reloj / 2) * 2});
       const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, inquieto);
-      expect(instantes.some(({pato}) => pato.fase === 'yendo')).toBe(false);
+      expect(instantes.some(({ganso}) => ganso.fase === 'yendo')).toBe(false);
     }
   });
 
   it('si el cursor se mueve mientras va a buscarlo, lo deja', () => {
     const azar = azarConSemilla(1);
     const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar);
-    const yendo = instantes.find(({pato}) => pato.fase === 'yendo');
+    const yendo = instantes.find(({ganso}) => ganso.fase === 'yendo');
     expect(yendo).toBeDefined();
     if (!yendo) return;
-    const movido = andar(yendo.pato, conCursor(yendo.reloj, {quietoDesde: yendo.reloj}), CUADRO, azar);
+    const movido = andar(yendo.ganso, conCursor(yendo.reloj, {quietoDesde: yendo.reloj}), CUADRO, azar);
     expect(movido.fase).not.toBe('yendo');
     expect(movido.presa).toBeUndefined();
   });
@@ -202,7 +202,7 @@ describe('el pato que secuestra el cursor', () => {
       const azar = azarConSemilla(semilla);
       const tactil = (reloj: number) => conCursor(reloj, {fino: false});
       const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, tactil);
-      expect(instantes.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
+      expect(instantes.some(({ganso}) => ganso.fase === 'yendo' || ganso.presa)).toBe(false);
     }
   });
 
@@ -210,54 +210,54 @@ describe('el pato que secuestra el cursor', () => {
     for (const semilla of SEMILLAS) {
       const {instantes, indice, azar} = primerSecuestro(semilla);
       const agarrado = en(instantes, indice);
-      const despues = vivir(agarrado.pato, agarrado.reloj, agarrado.reloj + 60, azar);
-      for (const {pato} of despues.filter(({pato}) => pato.fase === 'arrastrando')) {
-        expect(pato.presa).toBeDefined();
-        expect(distancia(pico(pato), pato.presa ?? CURSOR)).toBeLessThan(1);
+      const despues = vivir(agarrado.ganso, agarrado.reloj, agarrado.reloj + 60, azar);
+      for (const {ganso} of despues.filter(({ganso}) => ganso.fase === 'arrastrando')) {
+        expect(ganso.presa).toBeDefined();
+        expect(distancia(pico(ganso), ganso.presa ?? CURSOR)).toBeLessThan(1);
       }
-      const soltado = despues.findIndex(({pato}) => pato.fase !== 'arrastrando');
+      const soltado = despues.findIndex(({ganso}) => ganso.fase !== 'arrastrando');
       expect(soltado).toBeGreaterThan(0);
-      const presa = en(despues, soltado).pato.presa;
+      const presa = en(despues, soltado).ganso.presa;
       expect(presa?.x).toBeLessThan(VENTANA.ancho / 2);
-      // Soltada, la presa se queda donde quedó aunque el pato siga paseando.
-      expect(despues.at(-1)?.pato.presa).toEqual(presa);
+      // Soltada, la presa se queda donde quedó aunque el ganso siga paseando.
+      expect(despues.at(-1)?.ganso.presa).toEqual(presa);
     }
   });
 
-  it('si se le escapa, queda parado haciendo cuac, y no vuelve a atacar por 30 s', () => {
+  it('si se le escapa, queda parado graznando, y no vuelve a atacar por 30 s', () => {
     for (const semilla of SEMILLAS) {
       const {instantes, indice, azar} = primerSecuestro(semilla);
-      const {pato, reloj} = en(instantes, indice);
-      const escapado = escapar(pato, reloj, azar);
+      const {ganso, reloj} = en(instantes, indice);
+      const escapado = escapar(ganso, reloj, azar);
       expect(escapado.presa).toBeUndefined();
       expect(escapado.fase).toBe('parado');
-      expect(escapado.cuac).toBeGreaterThan(0);
+      expect(escapado.graznido).toBeGreaterThan(0);
       const despues = vivir(escapado, reloj, reloj + 30, azar);
-      expect(despues.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
-      expect(despues.at(-1)?.pato.cuac).toBe(0);
+      expect(despues.some(({ganso}) => ganso.fase === 'yendo' || ganso.presa)).toBe(false);
+      expect(despues.at(-1)?.ganso.graznido).toBe(0);
     }
   });
 });
 
-/** En qué momentos del reloj hizo cuac: cada vez que sube la cuenta. */
-function cuandoHizoCuac(instantes: Instante[], desde = 0): number[] {
+/** En qué momentos del reloj graznó: cada vez que sube la cuenta. */
+function cuandoHizoGraznido(instantes: Instante[], desde = 0): number[] {
   const momentos: number[] = [];
   let antes = desde;
-  for (const {reloj, pato} of instantes) {
-    if (pato.cuacs > antes) momentos.push(reloj);
-    antes = pato.cuacs;
+  for (const {reloj, ganso} of instantes) {
+    if (ganso.graznidos > antes) momentos.push(reloj);
+    antes = ganso.graznidos;
   }
   return momentos;
 }
 
-/** Un mundo sin cursor: el pato sólo pasea, con el reloj corriendo. */
+/** Un mundo sin cursor: el ganso sólo pasea, con el reloj corriendo. */
 const sinCursor = (reloj: number): Mundo => ({...VENTANA, reloj});
 
-describe('el cuac del pato', () => {
-  it('hace cuac solo, cada tanto: el primero entre los 8 y los 20 s, y en tres minutos entre 4 y 9', () => {
+describe('el graznido del ganso', () => {
+  it('grazna solo, cada tanto: el primero entre los 8 y los 20 s, y en tres minutos entre 4 y 9', () => {
     for (const semilla of SEMILLAS) {
       const azar = azarConSemilla(semilla);
-      const momentos = cuandoHizoCuac(vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 180, azar, sinCursor));
+      const momentos = cuandoHizoGraznido(vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 180, azar, sinCursor));
       expect(momentos[0]).toBeGreaterThanOrEqual(8);
       expect(momentos[0]).toBeLessThan(20);
       expect(momentos.length).toBeGreaterThanOrEqual(4);
@@ -265,29 +265,29 @@ describe('el cuac del pato', () => {
     }
   });
 
-  it('nunca hace dos cuacs con menos de 20 s entre ellos', () => {
+  it('nunca hace dos graznidos con menos de 20 s entre ellos', () => {
     for (const semilla of SEMILLAS) {
       const azar = azarConSemilla(semilla);
-      const momentos = cuandoHizoCuac(vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, sinCursor));
+      const momentos = cuandoHizoGraznido(vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, sinCursor));
       for (let i = 1; i < momentos.length; i++) {
         expect((momentos[i] ?? 0) - (momentos[i - 1] ?? 0)).toBeGreaterThanOrEqual(20);
       }
     }
   });
 
-  it('cada cuac muestra el cartelito', () => {
+  it('cada graznido muestra el cartelito', () => {
     const azar = azarConSemilla(1);
     const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 120, azar, sinCursor);
     let antes = 0;
-    for (const {pato} of instantes) {
-      if (pato.cuacs > antes) expect(pato.cuac).toBeGreaterThan(0);
-      antes = pato.cuacs;
+    for (const {ganso} of instantes) {
+      if (ganso.graznidos > antes) expect(ganso.graznido).toBeGreaterThan(0);
+      antes = ganso.graznidos;
     }
   });
 
-  it('cuando se le escapa el cursor, también cuenta un cuac', () => {
+  it('cuando se le escapa el cursor, también cuenta un graznido', () => {
     const {instantes, indice, azar} = primerSecuestro(1);
-    const {pato, reloj} = en(instantes, indice);
-    expect(escapar(pato, reloj, azar).cuacs).toBe(pato.cuacs + 1);
+    const {ganso, reloj} = en(instantes, indice);
+    expect(escapar(ganso, reloj, azar).graznidos).toBe(ganso.graznidos + 1);
   });
 });

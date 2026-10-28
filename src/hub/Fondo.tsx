@@ -13,7 +13,7 @@ const MOVIMIENTO_PLENO = 6;
 /**
  * El cielo del fondo (ADR-0012): un navy casi negro con luces grandes de azul y de índigo que
  * derivan lento, un grano fino y un polvo de motas que deriva solo hacia abajo a la izquierda
- * (ADR-0013) y se enciende por donde pasa el mouse (o la flecha que se lleva el pato, ADR-0014),
+ * (ADR-0013) y se enciende por donde pasa el mouse (o la flecha que se lleva el ganso, ADR-0014),
  * deja estela y se apaga solo. Es decorado: queda
  * fuera del árbol de accesibilidad. Con el dedo el polvo deriva pero no reacciona; con movimiento
  * reducido se ve tenue y quieto.
@@ -106,7 +106,7 @@ export function Fondo() {
       cursor = {x: evento.clientX, y: evento.clientY};
     }
 
-    // La flecha que se lleva el pato cuenta como el puntero: el polvo se enciende por donde pasa.
+    // La flecha que se lleva el ganso cuenta como el puntero: el polvo se enciende por donde pasa.
     function alArrastrar(evento: Event) {
       const {x, y} = (evento as CustomEvent<Punto>).detail;
       cursor = {x, y};

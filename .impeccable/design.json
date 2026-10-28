@@ -84,39 +84,39 @@
           "oklch(92% 0.04 262)"
         ]
       },
-      "pato-pluma": {
+      "ganso-pluma": {
         "role": "tertiary",
-        "displayName": "Pluma de pato",
-        "canonical": "#f7d44c",
+        "displayName": "Pluma de ganso",
+        "canonical": "#a3937e",
         "tonalRamp": [
-          "oklch(15% 0.03 95)",
-          "oklch(28% 0.06 95)",
-          "oklch(41% 0.09 95)",
-          "oklch(54% 0.12 95)",
-          "oklch(68% 0.14 95)",
-          "oklch(80% 0.15 95)",
-          "oklch(88% 0.15 95)",
-          "oklch(95% 0.06 95)"
+          "oklch(15% 0.01 75)",
+          "oklch(27% 0.02 75)",
+          "oklch(39% 0.03 75)",
+          "oklch(51% 0.03 75)",
+          "oklch(65% 0.04 75)",
+          "oklch(76% 0.03 75)",
+          "oklch(86% 0.02 75)",
+          "oklch(94% 0.01 75)"
         ]
       },
-      "pato-ala": {
+      "ganso-ala": {
         "role": "tertiary",
-        "displayName": "Ala de pato",
-        "canonical": "#e5ae32",
+        "displayName": "Ala de ganso",
+        "canonical": "#75675a",
         "tonalRamp": [
-          "oklch(15% 0.03 82)",
-          "oklch(27% 0.06 82)",
-          "oklch(40% 0.09 82)",
-          "oklch(53% 0.12 82)",
-          "oklch(66% 0.14 82)",
-          "oklch(77% 0.15 82)",
-          "oklch(86% 0.11 82)",
-          "oklch(94% 0.05 82)"
+          "oklch(15% 0.01 70)",
+          "oklch(27% 0.02 70)",
+          "oklch(39% 0.02 70)",
+          "oklch(51% 0.03 70)",
+          "oklch(63% 0.03 70)",
+          "oklch(75% 0.03 70)",
+          "oklch(86% 0.02 70)",
+          "oklch(94% 0.01 70)"
         ]
       },
-      "pato-pico": {
+      "ganso-pico": {
         "role": "tertiary",
-        "displayName": "Pico de pato",
+        "displayName": "Pico de ganso",
         "canonical": "#f0832a",
         "tonalRamp": [
           "oklch(15% 0.03 55)",
@@ -358,24 +358,24 @@
         "purpose": "Cómo se encienden, se corren y se apagan las motas del polvo."
       },
       {
-        "name": "paso-de-pato",
+        "name": "paso-de-ganso",
         "value": "60 px/s; patas ±22° desde la cadera y cuerpo ±3° con 1,5px de rebote, 0.42s ease-in-out infinite alternate",
-        "purpose": "El pato caminando (ADR-0014). Parado no se mueve; con prefers-reduced-motion no hay pato."
+        "purpose": "El ganso caminando (ADR-0014). Parado no se mueve; con prefers-reduced-motion no hay ganso."
       },
       {
         "name": "secuestro",
         "value": "corrida 200 px/s; arrastre 150 px/s; no antes de 10 s (ADR-0015), cursor quieto 3 s, espera de 30 a 60 s",
-        "purpose": "El pato yendo por el cursor y llevándose la flecha dibujada a la otra mitad de la pantalla."
+        "purpose": "El ganso yendo por el cursor y llevándose la flecha dibujada a la otra mitad de la pantalla."
       },
       {
         "name": "vuelta-de-la-flecha",
         "value": "transform 0.15s ease-out",
-        "purpose": "La flecha que vuelve al puntero real cuando el mouse se mueve; el cuac aparece en opacity 0.12s ease-out y dura 1,2 s."
+        "purpose": "La flecha que vuelve al puntero real cuando el mouse se mueve; el graznido aparece en opacity 0.12s ease-out y dura 1,2 s."
       },
       {
-        "name": "cuac",
-        "value": "el primero entre 8 y 20 s, después cada 20 a 45 s; sonido de 0,24 s: diente de sierra 560→330 Hz, temblor de 38 Hz, banda 1400→900 Hz (Q 3,5), pico −15 dBFS",
-        "purpose": "El pato hace cuac solo (ADR-0015): el cartelito siempre, y el sonido desde el primer click, toque o tecla en la página."
+        "name": "graznido",
+        "value": "el primero entre 8 y 20 s, después cada 20 a 45 s; sonido de 0,34 s: diente de sierra 300→420→280 Hz, temblor de 45 Hz, banda en 900 Hz (Q 2,2) y realce de 8 dB en 2200 Hz, pico −15 dBFS",
+        "purpose": "El ganso grazna solo (ADR-0015, ADR-0016): el cartelito siempre, y el sonido desde el primer click, toque o tecla en la página."
       }
     ],
     "breakpoints": [
@@ -435,12 +435,12 @@
       "css": ".ds-cielo { position: relative; height: 320px; overflow: hidden; background: radial-gradient(120% 90% at 0% 100%, var(--fondo) 0%, transparent 60%), linear-gradient(205deg, color-mix(in srgb, var(--cielo-azul) 42%, var(--fondo)) 0%, var(--fondo) 72%); } .ds-luz { --tam: 420px; position: absolute; width: var(--tam); height: var(--tam); border-radius: 50%; mix-blend-mode: screen; animation: ds-deriva 30s ease-in-out infinite alternate; } .ds-luz--azul { top: calc(var(--tam) * -0.42); right: calc(var(--tam) * -0.28); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-azul) 72%, transparent), transparent); } .ds-luz--indigo { top: 18%; left: calc(var(--tam) * -0.45); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-indigo) 70%, transparent), transparent); animation-duration: 38s; animation-direction: alternate-reverse; } .ds-luz--claro { --tam: 220px; top: calc(var(--tam) * -0.4); right: calc(var(--tam) * -0.25); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-claro) 48%, transparent), transparent); animation-duration: 26s; } .ds-polvo { position: absolute; inset: 0; background-image: radial-gradient(circle, color-mix(in srgb, var(--particula) 14%, transparent) 1px, transparent 1.6px); background-size: 28px 28px; } @keyframes ds-deriva { from { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(-8%, 6%, 0) scale(1.06); } to { transform: translate3d(5%, 10%, 0) scale(0.95); } } @media (prefers-reduced-motion: reduce) { .ds-luz { animation: none; } }"
     },
     {
-      "name": "Pato",
+      "name": "Ganso",
       "kind": "custom",
-      "refersTo": "pato-pico",
-      "description": "El easter egg de ADR-0014: un pato amarillo vectorial de 64×56px, panzón, de cuello corto y pico ancho, que pasea por encima de la grilla, fijo a la ventana, sin atajar clicks y fuera del árbol de accesibilidad. Plumas en pato-pluma, ala en pato-ala, ojo en fondo con un brillo en texto, y el pico y las patas en pato-pico. Se espeja alrededor de sus pies según para dónde camina. Pasados 10 s puede llevarse un cursor quieto: esconde el puntero real y se lleva en el pico una flecha dibujada (texto con trazo en fondo); al mover el mouse la flecha vuelve, el puntero reaparece y el pato hace «¡CUAC!» en un cartelito de texto sobre fondo. Cada tanto hace cuac solo, con sonido desde el primer gesto del visitante en la página (ADR-0015).",
-      "html": "<div class=\"ds-pato\"><span class=\"ds-pato__cuac\">¡CUAC!</span><svg viewBox=\"0 0 64 56\" width=\"64\" height=\"56\"><g class=\"ds-pato__pata ds-pato__pata--atras\"><path class=\"ds-pato__pierna\" d=\"M27.5 48 L27 53.5\"/><path class=\"ds-pato__pie\" d=\"M25 53.2 C28.5 53 31.8 53.6 33.8 55.2 L33.8 56 H24.4 Z\"/></g><g class=\"ds-pato__cuerpo\"><path class=\"ds-pato__pico\" d=\"M47.5 15.2 C53 14.6 59.5 15.2 62.5 17.2 C64 18.2 63.8 20.6 62 21.2 C58 22.4 52.5 22.4 47.5 21.6 Z\"/><path class=\"ds-pato__pluma\" d=\"M5 25.5 C8 28.5 12 30 17 30.5 C24 31 31 30 35 27.5 C36.5 26 35.5 23.5 34.6 21 C33.5 12 38.5 7 44 7 C50 7 54 11.5 54 17 C54 21 51.5 23.5 50.5 26 C54 29 55.5 34 53.5 39.5 C51 46.5 42 50.5 30 50.5 C19 50.5 11 47 8.5 40 C7.5 36 7 31 5 25.5 Z\"/><path class=\"ds-pato__ala\" d=\"M17.5 34.5 C24 30.5 35.5 31.5 40 36.5 C36 43.5 25 44.5 16 38.5 C15 37 15.8 35.4 17.5 34.5 Z\"/><circle class=\"ds-pato__ojo\" cx=\"47\" cy=\"14\" r=\"1.9\"/><circle class=\"ds-pato__brillo\" cx=\"47.6\" cy=\"13.3\" r=\"0.6\"/></g><g class=\"ds-pato__pata ds-pato__pata--adelante\"><path class=\"ds-pato__pierna\" d=\"M35.5 48 L36 53.5\"/><path class=\"ds-pato__pie\" d=\"M34 53.2 C37.5 53 40.8 53.6 42.8 55.2 L42.8 56 H33.4 Z\"/></g></svg></div><div class=\"ds-flecha\"><svg viewBox=\"0 0 14 22\" width=\"14\" height=\"22\"><path d=\"M1 1 V17.6 L5 13.9 L7.9 20.4 L10.6 19.2 L7.8 12.9 H13 Z\"/></svg></div>",
-      "css": ".ds-pato { width: 64px; height: 56px; pointer-events: none; } .ds-pato svg { display: block; overflow: visible; } .ds-pato__pluma { fill: var(--pato-pluma); } .ds-pato__ala { fill: var(--pato-ala); } .ds-pato__ojo { fill: var(--fondo); } .ds-pato__brillo { fill: var(--texto); } .ds-pato__pico, .ds-pato__pie { fill: var(--pato-pico); } .ds-pato__pierna { fill: none; stroke: var(--pato-pico); stroke-width: 2.4; stroke-linecap: round; } .ds-pato__pata--atras { opacity: 0.8; } .ds-pato { position: relative; } .ds-pato__cuac { position: absolute; bottom: 100%; left: 50%; margin-bottom: 2px; padding: 3px 8px; border-radius: 6px; background: var(--texto); color: var(--fondo); font: 600 13px/1.2 'Geist Variable', system-ui, sans-serif; letter-spacing: 0.02em; white-space: nowrap; transform: translateX(-50%); } .ds-flecha { width: 14px; height: 22px; pointer-events: none; } .ds-flecha svg { display: block; overflow: visible; fill: var(--texto); stroke: var(--fondo); stroke-width: 1.2; stroke-linejoin: round; }"
+      "refersTo": "ganso-pico",
+      "description": "El easter egg de ADR-0014, ganso desde ADR-0016: un ganso común vectorial de 64×64px, gris pardo, de cuello largo y cuerpo pesado, que pasea por encima de la grilla, fijo a la ventana, sin atajar clicks y fuera del árbol de accesibilidad. Plumas en ganso-pluma, ala en ganso-ala con dos plumas marcadas, rabadilla en texto, ojo en fondo con un brillo en texto, y el pico y las patas en ganso-pico. Se espeja alrededor de sus pies según para dónde camina. Pasados 10 s puede llevarse un cursor quieto: esconde el puntero real y se lleva en el pico una flecha dibujada (texto con trazo en fondo); al mover el mouse la flecha vuelve, el puntero reaparece y el ganso grazna «¡JONK!» en un cartelito de texto sobre fondo. Cada tanto grazna solo, con sonido desde el primer gesto del visitante en la página (ADR-0015).",
+      "html": "<div class=\"ds-ganso\"><span class=\"ds-ganso__graznido\">¡JONK!</span><svg viewBox=\"0 0 64 64\" width=\"64\" height=\"64\"><g class=\"ds-ganso__pata ds-ganso__pata--atras\"><path class=\"ds-ganso__pierna\" d=\"M24.5 55 L24 61.5\"/><path class=\"ds-ganso__pie\" d=\"M22 61.2 C25.5 61 28.8 61.6 30.8 63.2 L30.8 64 H21.4 Z\"/></g><g class=\"ds-ganso__cuerpo\"><path class=\"ds-ganso__pico\" d=\"M52.5 8.6 C56.5 8.2 60.5 9.6 62.8 11.8 C63.6 12.6 63.3 13.7 62.3 14 C59.2 14.9 55.6 15 52.5 14.6 Z\"/><path class=\"ds-ganso__pluma\" d=\"M3 35 C7 38 12 39.5 18 39 C26 38 32 37 36 35.5 C41 33 43 26 44 19 C44.5 12.5 46 6 50.5 5 C54.5 4.5 57 8 56.5 11.5 C56 14.5 54 16.5 52.5 19 C50.5 24 49.5 29 48.5 34 C50.5 37 52 41.5 50.5 46 C48.5 52.5 40 56.5 28 56.5 C17 56.5 9.5 53 7.5 47 C6.5 43 5 39 3 35 Z\"/><path class=\"ds-ganso__rabadilla\" d=\"M6.5 44 C9 47.5 13 49.5 17 50 C14 52.5 9.5 51.5 7.5 47.5 Z\"/><path class=\"ds-ganso__ala\" d=\"M14 40.5 C21.5 35.5 35.5 35.5 42 41.5 C37.5 49 24.5 51 13 45.5 C11.8 43.8 12.3 41.6 14 40.5 Z\"/><path class=\"ds-ganso__pluma-del-ala\" d=\"M19 44.5 C25 46 32 45.8 37.5 43\"/><path class=\"ds-ganso__pluma-del-ala\" d=\"M17.5 41.5 C24 43 31.5 42.6 38.5 39.8\"/><circle class=\"ds-ganso__ojo\" cx=\"51.6\" cy=\"9.6\" r=\"1.4\"/><circle class=\"ds-ganso__brillo\" cx=\"52\" cy=\"9.1\" r=\"0.45\"/></g><g class=\"ds-ganso__pata ds-ganso__pata--adelante\"><path class=\"ds-ganso__pierna\" d=\"M32.5 55 L33 61.5\"/><path class=\"ds-ganso__pie\" d=\"M31 61.2 C34.5 61 37.8 61.6 39.8 63.2 L39.8 64 H30.4 Z\"/></g></svg></div><div class=\"ds-flecha\"><svg viewBox=\"0 0 14 22\" width=\"14\" height=\"22\"><path d=\"M1 1 V17.6 L5 13.9 L7.9 20.4 L10.6 19.2 L7.8 12.9 H13 Z\"/></svg></div>",
+      "css": ".ds-ganso { width: 64px; height: 64px; pointer-events: none; } .ds-ganso svg { display: block; overflow: visible; } .ds-ganso__pluma { fill: var(--ganso-pluma); } .ds-ganso__ala { fill: var(--ganso-ala); } .ds-ganso__rabadilla { fill: var(--texto); } .ds-ganso__pluma-del-ala { fill: none; stroke: var(--ganso-pluma); stroke-width: 1; stroke-linecap: round; } .ds-ganso__ojo { fill: var(--fondo); } .ds-ganso__brillo { fill: var(--texto); } .ds-ganso__pico, .ds-ganso__pie { fill: var(--ganso-pico); } .ds-ganso__pierna { fill: none; stroke: var(--ganso-pico); stroke-width: 2.4; stroke-linecap: round; } .ds-ganso__pata--atras { opacity: 0.8; } .ds-ganso { position: relative; } .ds-ganso__graznido { position: absolute; bottom: 100%; left: 50%; margin-bottom: 2px; padding: 3px 8px; border-radius: 6px; background: var(--texto); color: var(--fondo); font: 600 13px/1.2 'Geist Variable', system-ui, sans-serif; letter-spacing: 0.02em; white-space: nowrap; transform: translateX(-50%); } .ds-flecha { width: 14px; height: 22px; pointer-events: none; } .ds-flecha svg { display: block; overflow: visible; fill: var(--texto); stroke: var(--fondo); stroke-width: 1.2; stroke-linejoin: round; }"
     }
   ],
   "narrative": {
@@ -483,7 +483,7 @@
       "Do apagar el movimiento con prefers-reduced-motion: cielo quieto, polvo tenue sin reaccionar, sin zoom y sin transiciones en el recuadro.",
       "Do asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro.",
       "Do mantener el cielo como decorado: fijo, aria-hidden y sin quitarle contraste a ningún recuadro.",
-      "Do dejar al pato fuera del camino: pointer-events none, aria-hidden, y sin pato con prefers-reduced-motion."
+      "Do dejar al ganso fuera del camino: pointer-events none, aria-hidden, y sin ganso con prefers-reduced-motion."
     ],
     "donts": [
       "Don't poner una etiqueta o línea chica encima del título; el dominio va al pie, en mono.",
@@ -493,7 +493,7 @@
       "Don't traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.",
       "Don't copiar las identidades vecinas: ni la ficha técnica de portfolio4 (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de museo.",
       "Don't mostrar la tecla en pantallas táctiles sin puntero fino.",
-      "Don't llevar los colores del pato fuera del pato, ni dibujar al pato como sprite o pixel art, ni darle sombra proyectada."
+      "Don't llevar los colores del ganso fuera del ganso, ni dibujar al ganso como sprite o pixel art, ni darle sombra proyectada."
     ]
   }
 }

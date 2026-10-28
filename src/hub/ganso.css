@@ -1,0 +1,176 @@
+/* El ganso (ADR-0014): fijo a la ventana, por encima de la grilla, y sin atajar ningún click. Su
+   posición es la de los pies, así que el dibujo se corre medio ancho a la izquierda y entero hacia
+   arriba, y se espeja alrededor de ese punto. */
+.ganso {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 64px;
+  height: 64px;
+  margin: -64px 0 0 -32px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.ganso__dibujo {
+  display: block;
+  overflow: visible;
+}
+
+.ganso[data-mirando='-1'] .ganso__dibujo {
+  transform: scaleX(-1);
+}
+
+.ganso__pluma {
+  fill: var(--ganso-pluma);
+}
+
+.ganso__ala {
+  fill: var(--ganso-ala);
+}
+
+.ganso__rabadilla {
+  fill: var(--texto);
+}
+
+.ganso__pluma-del-ala {
+  fill: none;
+  stroke: var(--ganso-pluma);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.ganso__ojo {
+  fill: var(--fondo);
+}
+
+.ganso__brillo {
+  fill: var(--texto);
+}
+
+.ganso__pico,
+.ganso__pie {
+  fill: var(--ganso-pico);
+}
+
+.ganso__pierna {
+  fill: none;
+  stroke: var(--ganso-pico);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+/* Las patas giran desde la cadera y el cuerpo se bambolea apoyado en ellas. */
+.ganso__pata,
+.ganso__cuerpo {
+  transform-box: view-box;
+}
+
+.ganso__pata--atras {
+  transform-origin: 24.5px 55px;
+  opacity: 0.8;
+}
+
+.ganso__pata--adelante {
+  transform-origin: 32.5px 55px;
+}
+
+.ganso__cuerpo {
+  transform-origin: 28px 57px;
+}
+
+.ganso[data-fase='caminando'] .ganso__pata--atras {
+  animation: ganso-paso 0.42s ease-in-out infinite alternate;
+}
+
+.ganso[data-fase='caminando'] .ganso__pata--adelante {
+  animation: ganso-paso 0.42s ease-in-out infinite alternate-reverse;
+}
+
+.ganso[data-fase='caminando'] .ganso__cuerpo {
+  animation: ganso-bamboleo 0.42s ease-in-out infinite alternate;
+}
+
+@keyframes ganso-paso {
+  from {
+    transform: rotate(-22deg);
+  }
+  to {
+    transform: rotate(22deg);
+  }
+}
+
+@keyframes ganso-bamboleo {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg) translateY(-1.5px);
+  }
+}
+
+/* El «¡JONK!» cuando se le escapa el cursor: un cartelito sobre el ganso, que no se espeja. */
+.ganso__graznido {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 2px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--texto);
+  color: var(--fondo);
+  font: 600 13px/1.2 var(--letra);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.12s ease-out;
+}
+
+.ganso[data-graznido='true'] .ganso__graznido {
+  opacity: 1;
+}
+
+/* Mientras el ganso tiene el cursor, el puntero real no se ve: lo que se ve es la flecha dibujada. */
+html[data-ganso='secuestro'],
+html[data-ganso='secuestro'] * {
+  cursor: none !important;
+}
+
+/* La flecha que se lleva el ganso. Su punta está en (1, 1): el margen la deja justo en el punto. */
+.ganso-flecha {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  width: 14px;
+  height: 22px;
+  margin: -1px 0 0 -1px;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.ganso-flecha[data-visible='true'] {
+  visibility: visible;
+}
+
+.ganso-flecha[data-volviendo='true'] {
+  transition: transform 0.15s ease-out;
+}
+
+.ganso-flecha__dibujo {
+  display: block;
+  overflow: visible;
+  fill: var(--texto);
+  stroke: var(--fondo);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+/* El ganso se decide al cargar; si el visitante pide menos movimiento después, se va igual. */
+@media (prefers-reduced-motion: reduce) {
+  .ganso {
+    display: none;
+  }
+}

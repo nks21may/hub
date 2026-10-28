@@ -23,9 +23,9 @@ colors:
   cielo-indigo: "#15287a"
   cielo-claro: "#4a8fe6"
   particula: "#d6e4ff"
-  pato-pluma: "#f7d44c"
-  pato-ala: "#e5ae32"
-  pato-pico: "#f0832a"
+  ganso-pluma: "#a3937e"
+  ganso-ala: "#75675a"
+  ganso-pico: "#f0832a"
 typography:
   display:
     fontFamily: "Geist Variable, system-ui, sans-serif"
@@ -114,7 +114,7 @@ El mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la iz
 
 La interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con el dedo el polvo deriva pero no reacciona. Con movimiento reducido el cielo queda quieto, el polvo tenue y sin reaccionar, y no hay zoom.
 
-Encima de todo pasea un pato (ADR-0014): amarillo, vectorial, panzón y de pico ancho, con el pico y las patas naranjas; son los únicos colores cálidos del hub. Camina a un punto al azar de la ventana, se para un rato y vuelve a caminar. No ataja ningún click y queda fuera del árbol de accesibilidad; con movimiento reducido no está.
+Encima de todo pasea un ganso (ADR-0014, ADR-0016): un ganso común, vectorial, gris pardo, de cuello largo y cuerpo pesado, con el pico y las patas naranjas. Camina a un punto al azar de la ventana, se para un rato y vuelve a caminar. No ataja ningún click y queda fuera del árbol de accesibilidad; con movimiento reducido no está.
 
 **Key Characteristics:**
 - Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que deriva solo y se enciende por donde pasa el puntero.
@@ -139,11 +139,11 @@ Las tres luces van en `mix-blend-mode: screen` y son también tres cuadrados del
 
 ### Tertiary
 - **Polvo** (`particula`): el color de las motas del canvas, que lo lee de la propiedad `color` del canvas. En reposo se ven al 4–14% de opacidad (unas pocas, al 26–36%); encendidas llegan a opacidad plena.
-- **Pluma de pato** (`pato-pluma`): el cuerpo del pato.
-- **Ala de pato** (`pato-ala`): el ala, un tono más oscura que la pluma.
-- **Pico de pato** (`pato-pico`): el pico y las patas del pato.
+- **Pluma de ganso** (`ganso-pluma`): el cuerpo, el cuello y la cabeza del ganso, y las dos plumas marcadas del ala.
+- **Ala de ganso** (`ganso-ala`): el ala, más oscura que la pluma.
+- **Pico de ganso** (`ganso-pico`): el pico y las patas del ganso. Es el único naranja del hub.
 
-Los tres son los únicos colores cálidos del hub, y no salen del pato.
+Los tres son los únicos colores cálidos del hub, y no salen del ganso.
 
 ### Neutral
 - **Navy noche** (`fondo`): el fondo de la página, la base y la esquina inferior izquierda del cielo, el `theme-color` y la base del favicon.
@@ -240,17 +240,17 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Polvo:** un canvas 2D con una mota cada 28px (el 62% de las celdas, corrida al azar, con semilla fija: el mismo cielo en cada visita). El mouse enciende las motas a menos de 190px según cuánto se mueve, las agranda hasta el doble y las empuja hasta 8px hacia afuera; una mota encendida lleva un halo de 2,6 veces su radio al 8% de su energía y se apaga con τ de 1,2 s. Las motas derivan solas hacia abajo a la izquierda, a 35° de la horizontal y a 8–24 px/s según su tamaño (las grandes, más rápido); la que sale por un borde entra por el opuesto, y la estela deriva con ellas. Las motas en reposo titilan un poco. El puntero se suaviza con τ de 0,12 s. El canvas se dibuja en cada cuadro mientras la pestaña está a la vista (ADR-0013).
 - **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo deriva pero no reacciona.
 
-### Pato
-El easter egg de ADR-0014. Un pato amarillo de 64×56px, dibujado en SVG con formas lisas y sin contorno: panzón, de cuello corto y cabeza grande, con el pico ancho y chato y la cola corta para arriba (el blanco con ala gris y cola en punta de H15 parecía una gaviota). Plumas en `pato-pluma`, ala en `pato-ala`, ojo en `fondo` con un brillo en `texto`, y pico y patas en `pato-pico`. El pico se dibuja detrás de la cabeza, que le tapa la base.
+### Ganso
+El easter egg de ADR-0014. Un ganso común (ADR-0016) de 64×64px, dibujado en SVG con formas lisas y sin contorno: gris pardo, de cuello largo y cuerpo pesado, con la cabeza chica, la rabadilla blanca y la cola corta. Antes fue un pato: blanco, que parecía una gaviota (H15), y después amarillo (H17). Plumas en `ganso-pluma`, ala en `ganso-ala` con dos plumas marcadas en `ganso-pluma`, rabadilla en `texto`, ojo en `fondo` con un brillo en `texto`, y pico y patas en `ganso-pico`. El pico se dibuja detrás de la cabeza, que le tapa la base. No es el ganso blanco de Desktop Goose: de ahí se toma sólo la idea.
 - **Lugar:** fijo a la ventana, por encima de la grilla y del pie (`z-index` 2), con `pointer-events: none`. Su posición es la de los pies, y el dibujo se espeja alrededor de ese punto según para dónde camina.
 - **Paseo:** camina a 60 px/s hacia un punto al azar, a 40px de los costados, 70px de arriba y 12px de abajo; al llegar se queda parado entre 1 y 4 s y elige otro.
 - **Paso:** caminando, las patas giran ±22° desde la cadera, en contrafase, y el cuerpo se bambolea ±3° con 1,5px de rebote, en 0,42 s alternados. Parado no se mueve.
-- **Secuestro:** pasados 10 s de pestaña a la vista (ADR-0015), al terminar una pausa y con un cursor quieto hace 3 s, va por él a 200 px/s (una chance de 0,6 cada vez). Si el cursor se mueve, lo deja. Cuando tiene la punta del pico sobre el cursor, `<html>` pasa a `data-pato="secuestro"`, que esconde el puntero real (`cursor: none`), y aparece la flecha dibujada. El pato la lleva mirándola, tironeando para atrás si hace falta, a 150 px/s, hasta la otra mitad de la pantalla, y la suelta ahí. La flecha enciende el polvo del cielo como el puntero.
+- **Secuestro:** pasados 10 s de pestaña a la vista (ADR-0015), al terminar una pausa y con un cursor quieto hace 3 s, va por él a 200 px/s (una chance de 0,6 cada vez). Si el cursor se mueve, lo deja. Cuando tiene la punta del pico sobre el cursor, `<html>` pasa a `data-ganso="secuestro"`, que esconde el puntero real (`cursor: none`), y aparece la flecha dibujada. El ganso la lleva mirándola, tironeando para atrás si hace falta, a 150 px/s, hasta la otra mitad de la pantalla, y la suelta ahí. La flecha enciende el polvo del cielo como el puntero.
 - **Flecha:** la flecha de un cursor de sistema, de 14×22px, en `texto` con un trazo de 1,2px en `fondo` y la punta en el punto exacto (`z-index` 3, `pointer-events: none`).
-- **Escape:** apenas el mouse se mueve, la flecha vuelve al puntero real en 0,15 s ease-out, el puntero reaparece y el pato hace «¡CUAC!» durante 1,2 s: un cartelito sobre el pato en `texto` con letra en `fondo`, Geist 600 a 13px, radio 6px, que aparece en 0,12 s. Después espera entre 30 y 60 s antes de volver a atacar.
-- **Cuac:** cada tanto, haga lo que haga (ADR-0015): el primero entre los 8 y los 20 s, y después cada 20 a 45 s, nunca dos con menos de 20 s entre ellos. Cada cuac muestra el cartelito y, desde el primer click, toque o tecla en la página, suena: un diente de sierra que baja de 560 a 330 Hz, con un temblor de 38 Hz, por un filtro de banda que se cierra de 1400 a 900 Hz (Q 3,5), de un cuarto de segundo y con un pico de −15 dBFS. Lo genera Web Audio: no hay archivos de sonido. El cuac del escape también suena.
+- **Escape:** apenas el mouse se mueve, la flecha vuelve al puntero real en 0,15 s ease-out, el puntero reaparece y el ganso hace «¡JONK!» durante 1,2 s: un cartelito sobre el ganso en `texto` con letra en `fondo`, Geist 600 a 13px, radio 6px, que aparece en 0,12 s. Después espera entre 30 y 60 s antes de volver a atacar.
+- **Graznido:** cada tanto, haga lo que haga (ADR-0015): el primero entre los 8 y los 20 s, y después cada 20 a 45 s, nunca dos con menos de 20 s entre ellos. Cada graznido muestra el cartelito y, desde el primer click, toque o tecla en la página, suena: un diente de sierra que sube de 300 a 420 Hz y cae a 280, con un temblor de 45 Hz, por una banda en 900 Hz (Q 2,2) y un realce de 8 dB en 2200 Hz, de un tercio de segundo y con un pico de −15 dBFS. Lo genera Web Audio: no hay archivos de sonido. El graznido del escape también suena.
 - **Táctil:** con el dedo pasea pero no ataca.
-- **Quieto:** con `prefers-reduced-motion` no hay pato.
+- **Quieto:** con `prefers-reduced-motion` no hay ganso.
 
 ## Do's and Don'ts
 
@@ -262,7 +262,7 @@ El easter egg de ADR-0014. Un pato amarillo de 64×56px, dibujado en SVG con for
 - **Do** apagar el movimiento con `prefers-reduced-motion`: cielo quieto, polvo tenue sin reaccionar, sin zoom y sin transiciones en el recuadro.
 - **Do** asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro.
 - **Do** mantener el cielo como decorado: fijo, `aria-hidden` y sin quitarle contraste a ningún recuadro.
-- **Do** dejar al pato fuera del camino: `pointer-events: none`, `aria-hidden`, y sin pato con `prefers-reduced-motion`.
+- **Do** dejar al ganso fuera del camino: `pointer-events: none`, `aria-hidden`, y sin ganso con `prefers-reduced-motion`.
 
 ### Don't:
 - **Don't** poner una etiqueta o línea chica encima del título; el dominio va al pie, en mono.
@@ -272,4 +272,4 @@ El easter egg de ADR-0014. Un pato amarillo de 64×56px, dibujado en SVG con for
 - **Don't** traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.
 - **Don't** copiar las identidades vecinas: ni la ficha técnica de `portfolio4` (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de `museo`.
 - **Don't** mostrar la tecla en pantallas táctiles sin puntero fino.
-- **Don't** llevar los colores del pato fuera del pato, ni dibujar al pato como sprite o pixel art, ni darle sombra proyectada.
+- **Don't** llevar los colores del ganso fuera del ganso, ni dibujar al ganso como sprite o pixel art, ni darle sombra proyectada.

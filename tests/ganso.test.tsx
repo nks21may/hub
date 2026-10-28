@@ -4,13 +4,13 @@ import {resolve} from 'node:path';
 import {cleanup, render} from '@testing-library/react';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {Hub} from '../src/hub/Hub.tsx';
-import {Pato} from '../src/hub/Pato.tsx';
+import {Ganso} from '../src/hub/Ganso.tsx';
 import {azarConSemilla} from '../src/hub/particulas.ts';
 import type {Idioma} from '../src/i18n/textos.ts';
 import {TEXTOS} from '../src/i18n/textos.ts';
 
 /**
- * jsdom no trae matchMedia: el pato lo usa para saber si tiene que quedarse afuera y si hay un mouse
+ * jsdom no trae matchMedia: el ganso lo usa para saber si tiene que quedarse afuera y si hay un mouse
  * de verdad, con un cursor que robar.
  */
 function medios({reducido = false, fino = false}: {reducido?: boolean; fino?: boolean}): void {
@@ -32,10 +32,10 @@ function moverMouse(x: number, y: number): void {
 }
 
 function secuestrado(): boolean {
-  return document.documentElement.dataset.pato === 'secuestro';
+  return document.documentElement.dataset.ganso === 'secuestro';
 }
 
-/** Deja correr el reloj de a 100 ms hasta que el pato se lleva el cursor; devuelve cuánto tardó. */
+/** Deja correr el reloj de a 100 ms hasta que el ganso se lleva el cursor; devuelve cuánto tardó. */
 function esperarSecuestro(maximo = 300_000): number {
   let pasado = 0;
   while (!secuestrado() && pasado < maximo) {
@@ -104,67 +104,76 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe('el pato del hub', () => {
+describe('el ganso del hub', () => {
   it('está desde que carga el hub, aunque el catálogo todavía no haya llegado', () => {
     medios({});
     vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>(() => {})));
     const {container} = render(<Hub idioma="es" />);
-    expect(container.querySelector('.pato')).not.toBeNull();
+    expect(container.querySelector('.ganso')).not.toBeNull();
   });
 
-  it('es decorado: el pato y la flecha quedan fuera del árbol de accesibilidad', () => {
+  it('es decorado: el ganso y la flecha quedan fuera del árbol de accesibilidad', () => {
     medios({});
-    const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     expect(container.children.length).toBeGreaterThan(0);
     for (const hijo of container.children) expect(hijo.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('camina solo, sin que nadie mueva el mouse', () => {
     medios({});
-    const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
-    const pato = container.firstElementChild as HTMLElement;
-    const antes = pato.style.transform;
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    const ganso = container.firstElementChild as HTMLElement;
+    const antes = ganso.style.transform;
     expect(antes).not.toBe('');
     vi.advanceTimersByTime(1000);
-    expect(pato.style.transform).not.toBe(antes);
+    expect(ganso.style.transform).not.toBe(antes);
   });
 
-  it('con movimiento reducido no hay pato', () => {
+  it('con movimiento reducido no hay ganso', () => {
     medios({reducido: true});
-    const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     expect(container.firstElementChild).toBeNull();
+  });
+
+  it.each([
+    ['es', '¡JONK!'],
+    ['en', 'HONK!'],
+  ] as const)('el cartelito grazna en su idioma (%s): %s', (idioma, graznido) => {
+    medios({});
+    const {container} = render(<Ganso idioma={idioma} azar={azarConSemilla(1)} />);
+    expect(container.firstElementChild?.textContent).toContain(graznido);
   });
 });
 
 describe('el secuestro del cursor', () => {
   it('pasados los 10 s se lleva el cursor quieto: el real se esconde y la flecha aparece en su lugar', () => {
     medios({fino: true});
-    const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     moverMouse(500, 400);
     const tardo = esperarSecuestro();
     expect(secuestrado()).toBe(true);
     expect(tardo).toBeGreaterThanOrEqual(10_000);
-    const flecha = container.querySelector<HTMLElement>('.pato-flecha');
+    const flecha = container.querySelector<HTMLElement>('.ganso-flecha');
     expect(flecha?.dataset.visible).toBe('true');
     const donde = posicion(flecha as HTMLElement);
     expect(Math.hypot(donde.x - 500, donde.y - 400)).toBeLessThan(20);
   });
 
   it.each<Idioma>(['es', 'en'])(
-    'al mover el mouse, la flecha vuelve, el puntero reaparece y el pato hace cuac (%s)',
+    'al mover el mouse, la flecha vuelve, el puntero reaparece y el ganso grazna (%s)',
     (idioma) => {
       medios({fino: true});
-      const {container} = render(<Pato idioma={idioma} azar={azarConSemilla(1)} />);
+      const {container} = render(<Ganso idioma={idioma} azar={azarConSemilla(1)} />);
       moverMouse(500, 400);
       esperarSecuestro();
       vi.advanceTimersByTime(1000);
-      const flecha = container.querySelector<HTMLElement>('.pato-flecha') as HTMLElement;
+      const flecha = container.querySelector<HTMLElement>('.ganso-flecha') as HTMLElement;
       expect(posicion(flecha)).not.toEqual({x: 500, y: 400});
 
       moverMouse(505, 402);
-      const pato = container.firstElementChild as HTMLElement;
-      expect(pato.dataset.cuac).toBe('true');
-      expect(pato.textContent).toContain(TEXTOS[idioma]['pato.cuac']);
+      const ganso = container.firstElementChild as HTMLElement;
+      expect(ganso.dataset.graznido).toBe('true');
+      expect(ganso.textContent).toContain(TEXTOS[idioma]['ganso.graznido']);
       expect(posicion(flecha)).toEqual({x: 505, y: 402});
       vi.advanceTimersByTime(200);
       expect(secuestrado()).toBe(false);
@@ -174,7 +183,7 @@ describe('el secuestro del cursor', () => {
 
   it('con el dedo pasea pero no se lleva nada', () => {
     medios({fino: false});
-    render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     moverMouse(500, 400);
     esperarSecuestro(120_000);
     expect(secuestrado()).toBe(false);
@@ -182,7 +191,7 @@ describe('el secuestro del cursor', () => {
 
   it('al irse de la página no deja el puntero escondido', () => {
     medios({fino: true});
-    const {unmount} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    const {unmount} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     moverMouse(500, 400);
     esperarSecuestro();
     expect(secuestrado()).toBe(true);
@@ -190,24 +199,24 @@ describe('el secuestro del cursor', () => {
     expect(secuestrado()).toBe(false);
   });
 
-  it('el pato y la flecha no atajan ningún click: su CSS dice pointer-events: none', () => {
+  it('el ganso y la flecha no atajan ningún click: su CSS dice pointer-events: none', () => {
     // jsdom no aplica CSS, así que se lee la hoja. Vitest corre desde la raíz del repo.
-    const css = readFileSync(resolve(process.cwd(), 'src/hub/pato.css'), 'utf8');
-    expect(css).toMatch(/\.pato\s*\{[^}]*pointer-events:\s*none/);
-    expect(css).toMatch(/\.pato-flecha\s*\{[^}]*pointer-events:\s*none/);
+    const css = readFileSync(resolve(process.cwd(), 'src/hub/ganso.css'), 'utf8');
+    expect(css).toMatch(/\.ganso\s*\{[^}]*pointer-events:\s*none/);
+    expect(css).toMatch(/\.ganso-flecha\s*\{[^}]*pointer-events:\s*none/);
   });
 });
 
-describe('el cuac con sonido', () => {
-  it('antes de un click o una tecla no hay sonido, pero el cartelito del cuac sale igual', () => {
+describe('el graznido con sonido', () => {
+  it('antes de un click o una tecla no hay sonido, pero el cartelito del graznido sale igual', () => {
     medios({});
     const audio = conAudio();
-    const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
-    const pato = container.firstElementChild as HTMLElement;
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    const ganso = container.firstElementChild as HTMLElement;
     let cartelito = false;
     for (let pasado = 0; pasado < 60_000; pasado += 100) {
       vi.advanceTimersByTime(100);
-      cartelito ||= pato.dataset.cuac === 'true';
+      cartelito ||= ganso.dataset.graznido === 'true';
     }
     expect(cartelito).toBe(true);
     expect(audio.contextos).toBe(0);
@@ -216,19 +225,19 @@ describe('el cuac con sonido', () => {
   it.each([
     ['un click', () => window.dispatchEvent(new MouseEvent('pointerdown'))],
     ['una tecla', () => window.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}))],
-  ])('después de %s en la página, cada cuac suena', (_gesto, tocar) => {
+  ])('después de %s en la página, cada graznido suena', (_gesto, tocar) => {
     medios({});
     const audio = conAudio();
-    render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     tocar();
     vi.advanceTimersByTime(60_000);
     expect(audio.contextos).toBe(1);
     expect(audio.osciladores).toBeGreaterThan(0);
   });
 
-  it('sin Web Audio, como en jsdom, el cuac no rompe nada', () => {
+  it('sin Web Audio, como en jsdom, el graznido no rompe nada', () => {
     medios({});
-    render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
     expect(() => {
       window.dispatchEvent(new MouseEvent('pointerdown'));
       vi.advanceTimersByTime(60_000);

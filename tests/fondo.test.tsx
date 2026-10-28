@@ -88,7 +88,7 @@ describe('el cielo del fondo', () => {
     }).not.toThrow();
   });
 
-  it('la flecha que arrastra el pato corre las luces y enciende el polvo, igual que el puntero', () => {
+  it('la flecha que arrastra el ganso corre las luces y enciende el polvo, igual que el puntero', () => {
     movimientoReducido(false);
     const cuadros = conCanvas();
     const {container} = render(<Fondo />);
