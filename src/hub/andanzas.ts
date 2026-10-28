@@ -29,6 +29,10 @@ export interface Pato {
   proximoAtaque: number;
   /** Cuánto le queda al «¡CUAC!», en segundos. */
   cuac: number;
+  /** Cuántos cuacs hizo: cada uno es un cartelito y, si el navegador deja, un sonido (ADR-0015). */
+  cuacs: number;
+  /** En qué momento del reloj hace el próximo cuac, aunque nadie lo moleste. */
+  proximoCuac: number;
 }
 
 /**
@@ -70,6 +74,11 @@ const ESPERA_MINIMA = 30;
 const ESPERA_MAXIMA = 60;
 /** Lo que dura el «¡CUAC!», en segundos. */
 const CUAC = 1.2;
+/** Cuándo hace el primer cuac solo, y cada cuánto los siguientes, en segundos (ADR-0015). */
+const PRIMER_CUAC_MINIMO = 8;
+const PRIMER_CUAC_MAXIMO = 20;
+const CUAC_CADA_MINIMO = 20;
+const CUAC_CADA_MAXIMO = 45;
 /** Dónde está la punta del pico respecto de los pies, mirando a la derecha (el dibujo de Pato.tsx). */
 const PICO = {x: 30.5, y: 37.5};
 
@@ -119,6 +128,8 @@ export function nacer(ancho: number, alto: number, azar: () => number): Pato {
     pausa: 0,
     proximoAtaque: PRIMER_ATAQUE,
     cuac: 0,
+    cuacs: 0,
+    proximoCuac: PRIMER_CUAC_MINIMO + azar() * (PRIMER_CUAC_MAXIMO - PRIMER_CUAC_MINIMO),
   };
 }
 
@@ -152,13 +163,29 @@ function caminar(desde: Punto, hacia: Punto, velocidad: number, segundos: number
 }
 
 /**
- * Un paso del pato. Pasea: camina hacia su destino, se para al llegar y, cuando se le acaba la
+ * Un paso del pato: se mueve y, si le toca, hace cuac. El primer cuac es entre los 8 y los 20 s de
+ * reloj, y después cada 20 a 45 s, haga lo que haga.
+ */
+export function andar(pato: Pato, mundo: Mundo, segundos: number, azar: () => number): Pato {
+  const movido = moverse(pato, mundo, segundos, azar);
+  const reloj = mundo.reloj;
+  if (reloj === undefined || reloj < movido.proximoCuac) return movido;
+  return {
+    ...movido,
+    cuac: CUAC,
+    cuacs: movido.cuacs + 1,
+    proximoCuac: reloj + CUAC_CADA_MINIMO + azar() * (CUAC_CADA_MAXIMO - CUAC_CADA_MINIMO),
+  };
+}
+
+/**
+ * Cómo se mueve el pato en un paso. Pasea: camina hacia su destino, se para al llegar y, cuando se le acaba la
  * pausa, elige otro. Pasados los 10 s, cuando termina una pausa y hay un cursor quieto hace 3 s,
  * puede ir a buscarlo; si el cursor se mueve, lo deja. Cuando lo tiene en el pico se lo lleva a la
  * otra mitad de la pantalla y lo suelta ahí. Depende del tiempo y no de los cuadros, y paseando
  * nunca sale de la ventana.
  */
-export function andar(pato: Pato, mundo: Mundo, segundos: number, azar: () => number): Pato {
+function moverse(pato: Pato, mundo: Mundo, segundos: number, azar: () => number): Pato {
   const cuac = Math.max(0, pato.cuac - segundos);
 
   if (pato.fase === 'yendo') {
@@ -204,7 +231,8 @@ export function andar(pato: Pato, mundo: Mundo, segundos: number, azar: () => nu
 
 /**
  * El cursor se le escapó: el visitante movió el mouse. El pato suelta lo que tenía, hace «¡CUAC!»
- * si tenía algo, y no vuelve a atacar por 30 a 60 s.
+ * si tenía algo (y el cuac siguiente se corre, para que no salgan dos seguidos), y no vuelve a
+ * atacar por 30 a 60 s.
  */
 export function escapar(pato: Pato, reloj: number, azar: () => number): Pato {
   const persiguiendo = pato.fase === 'yendo' || pato.fase === 'arrastrando';
@@ -216,5 +244,7 @@ export function escapar(pato: Pato, reloj: number, azar: () => number): Pato {
     presa: undefined,
     proximoAtaque: reloj + ESPERA_MINIMA + azar() * (ESPERA_MAXIMA - ESPERA_MINIMA),
     cuac: pato.presa ? CUAC : pato.cuac,
+    cuacs: pato.presa ? pato.cuacs + 1 : pato.cuacs,
+    proximoCuac: pato.presa ? Math.max(pato.proximoCuac, reloj + CUAC_CADA_MINIMO) : pato.proximoCuac,
   };
 }

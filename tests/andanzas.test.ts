@@ -238,3 +238,56 @@ describe('el pato que secuestra el cursor', () => {
     }
   });
 });
+
+/** En qué momentos del reloj hizo cuac: cada vez que sube la cuenta. */
+function cuandoHizoCuac(instantes: Instante[], desde = 0): number[] {
+  const momentos: number[] = [];
+  let antes = desde;
+  for (const {reloj, pato} of instantes) {
+    if (pato.cuacs > antes) momentos.push(reloj);
+    antes = pato.cuacs;
+  }
+  return momentos;
+}
+
+/** Un mundo sin cursor: el pato sólo pasea, con el reloj corriendo. */
+const sinCursor = (reloj: number): Mundo => ({...VENTANA, reloj});
+
+describe('el cuac del pato', () => {
+  it('hace cuac solo, cada tanto: el primero entre los 8 y los 20 s, y en tres minutos entre 4 y 9', () => {
+    for (const semilla of SEMILLAS) {
+      const azar = azarConSemilla(semilla);
+      const momentos = cuandoHizoCuac(vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 180, azar, sinCursor));
+      expect(momentos[0]).toBeGreaterThanOrEqual(8);
+      expect(momentos[0]).toBeLessThan(20);
+      expect(momentos.length).toBeGreaterThanOrEqual(4);
+      expect(momentos.length).toBeLessThanOrEqual(9);
+    }
+  });
+
+  it('nunca hace dos cuacs con menos de 20 s entre ellos', () => {
+    for (const semilla of SEMILLAS) {
+      const azar = azarConSemilla(semilla);
+      const momentos = cuandoHizoCuac(vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, sinCursor));
+      for (let i = 1; i < momentos.length; i++) {
+        expect((momentos[i] ?? 0) - (momentos[i - 1] ?? 0)).toBeGreaterThanOrEqual(20);
+      }
+    }
+  });
+
+  it('cada cuac muestra el cartelito', () => {
+    const azar = azarConSemilla(1);
+    const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 120, azar, sinCursor);
+    let antes = 0;
+    for (const {pato} of instantes) {
+      if (pato.cuacs > antes) expect(pato.cuac).toBeGreaterThan(0);
+      antes = pato.cuacs;
+    }
+  });
+
+  it('cuando se le escapa el cursor, también cuenta un cuac', () => {
+    const {instantes, indice, azar} = primerSecuestro(1);
+    const {pato, reloj} = en(instantes, indice);
+    expect(escapar(pato, reloj, azar).cuacs).toBe(pato.cuacs + 1);
+  });
+});

@@ -6,6 +6,7 @@ import {andar, escapar, nacer} from './andanzas.ts';
 import {sinMovimiento} from './movimiento.ts';
 import type {Punto} from './puntero.ts';
 import {PUNTERO_DIBUJADO} from './puntero.ts';
+import {crearVoz} from './sonido.ts';
 import './pato.css';
 
 /** Lo que tarda la flecha en volver al puntero real cuando se le escapa al pato, en milisegundos. */
@@ -37,6 +38,7 @@ interface Props {
  * azar, se para un rato y vuelve a caminar. Pasados los 10 s puede llevarse un cursor quieto: el
  * puntero real no se mueve, se esconde, y lo que se lleva en el pico es una flecha dibujada. Apenas
  * el mouse se mueve, la flecha vuelve al puntero real, el puntero reaparece y el pato hace «¡CUAC!».
+ * También hace cuac cada tanto, con sonido desde el primer click, toque o tecla (ADR-0015).
  * Es decorado: queda fuera del árbol de accesibilidad y no ataja ningún click. Con movimiento
  * reducido no hay pato.
  */
@@ -54,6 +56,8 @@ export function Pato({idioma, azar = Math.random}: Props) {
     const fino = hayMouse();
     const ventana = medirVentana();
     let pato: ElPato = nacer(ventana.ancho, ventana.alto, azar);
+    const voz = crearVoz();
+    let cuacsOidos = pato.cuacs;
     // El reloj del pato cuenta sólo los segundos de pestaña a la vista: sin cuadros, no corre.
     let reloj = 0;
     let puntero: Punto | undefined;
@@ -68,6 +72,10 @@ export function Pato({idioma, azar = Math.random}: Props) {
       elemento.dataset.fase = pato.fase;
       elemento.dataset.mirando = String(pato.mirando);
       elemento.dataset.cuac = String(pato.cuac > 0);
+      if (pato.cuacs !== cuacsOidos) {
+        cuacsOidos = pato.cuacs;
+        voz.cuac();
+      }
       if (!pato.presa) return;
       moverA(dibujada, pato.presa);
       dibujada.dataset.visible = 'true';
@@ -118,6 +126,11 @@ export function Pato({idioma, azar = Math.random}: Props) {
       soltar();
     }
 
+    // El navegador deja sonar desde el primer gesto del visitante en la página.
+    function alTocar() {
+      voz.destrabar();
+    }
+
     function paso(ahora: number) {
       // Un cuadro larguísimo (la pestaña que vuelve) cuenta como uno corto: el pato no se teletransporta.
       const segundos = Math.min(Math.max((ahora - antes) / 1000, 0), 0.1);
@@ -131,13 +144,18 @@ export function Pato({idioma, azar = Math.random}: Props) {
     window.addEventListener('pointermove', alMover);
     document.addEventListener('mouseout', alSalir);
     window.addEventListener('pagehide', alIrse);
+    window.addEventListener('pointerdown', alTocar, true);
+    window.addEventListener('keydown', alTocar, true);
     pintar();
     cuadro = requestAnimationFrame(paso);
     return () => {
       window.removeEventListener('pointermove', alMover);
       document.removeEventListener('mouseout', alSalir);
       window.removeEventListener('pagehide', alIrse);
+      window.removeEventListener('pointerdown', alTocar, true);
+      window.removeEventListener('keydown', alTocar, true);
       cancelAnimationFrame(cuadro);
+      voz.cerrar();
       window.clearTimeout(vuelta);
       // Que el pato se vaya nunca deja el puntero escondido.
       delete raiz.dataset.pato;

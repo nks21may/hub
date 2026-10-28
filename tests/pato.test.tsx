@@ -51,6 +51,43 @@ function posicion(elemento: HTMLElement): {x: number; y: number} {
   return {x, y};
 }
 
+/** Un Web Audio de mentira: cuenta los contextos que se crean y los osciladores que arrancan. */
+function conAudio(): {contextos: number; osciladores: number} {
+  const registro = {contextos: 0, osciladores: 0};
+  const parametro = () => ({
+    value: 0,
+    setValueAtTime: vi.fn(),
+    linearRampToValueAtTime: vi.fn(),
+    exponentialRampToValueAtTime: vi.fn(),
+  });
+  const nodo = () => ({connect: vi.fn((destino: unknown) => destino), disconnect: vi.fn()});
+  class ContextoDeMentira {
+    state = 'running';
+    currentTime = 0;
+    destination = nodo();
+    constructor() {
+      registro.contextos++;
+    }
+    resume() {
+      return Promise.resolve();
+    }
+    close() {
+      return Promise.resolve();
+    }
+    createOscillator() {
+      return {...nodo(), type: 'sine', frequency: parametro(), start: () => registro.osciladores++, stop: vi.fn()};
+    }
+    createGain() {
+      return {...nodo(), gain: parametro()};
+    }
+    createBiquadFilter() {
+      return {...nodo(), type: 'lowpass', frequency: parametro(), Q: parametro(), gain: parametro()};
+    }
+  }
+  vi.stubGlobal('AudioContext', ContextoDeMentira);
+  return registro;
+}
+
 beforeEach(() => {
   // El reloj de mentira: los cuadros y `performance.now` avanzan cuando el test lo dice.
   vi.useFakeTimers({
@@ -158,5 +195,43 @@ describe('el secuestro del cursor', () => {
     const css = readFileSync(resolve(process.cwd(), 'src/hub/pato.css'), 'utf8');
     expect(css).toMatch(/\.pato\s*\{[^}]*pointer-events:\s*none/);
     expect(css).toMatch(/\.pato-flecha\s*\{[^}]*pointer-events:\s*none/);
+  });
+});
+
+describe('el cuac con sonido', () => {
+  it('antes de un click o una tecla no hay sonido, pero el cartelito del cuac sale igual', () => {
+    medios({});
+    const audio = conAudio();
+    const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    const pato = container.firstElementChild as HTMLElement;
+    let cartelito = false;
+    for (let pasado = 0; pasado < 60_000; pasado += 100) {
+      vi.advanceTimersByTime(100);
+      cartelito ||= pato.dataset.cuac === 'true';
+    }
+    expect(cartelito).toBe(true);
+    expect(audio.contextos).toBe(0);
+  });
+
+  it.each([
+    ['un click', () => window.dispatchEvent(new MouseEvent('pointerdown'))],
+    ['una tecla', () => window.dispatchEvent(new KeyboardEvent('keydown', {key: 'a'}))],
+  ])('después de %s en la página, cada cuac suena', (_gesto, tocar) => {
+    medios({});
+    const audio = conAudio();
+    render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    tocar();
+    vi.advanceTimersByTime(60_000);
+    expect(audio.contextos).toBe(1);
+    expect(audio.osciladores).toBeGreaterThan(0);
+  });
+
+  it('sin Web Audio, como en jsdom, el cuac no rompe nada', () => {
+    medios({});
+    render(<Pato idioma="es" azar={azarConSemilla(1)} />);
+    expect(() => {
+      window.dispatchEvent(new MouseEvent('pointerdown'));
+      vi.advanceTimersByTime(60_000);
+    }).not.toThrow();
   });
 });
