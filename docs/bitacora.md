@@ -1382,3 +1382,93 @@ pedido 2: HTTP/1.1 200 OK, nonce nonce-58347b2ffa6b2445da8d937eb48236ba
 La prueba en producción, con la segunda carga, va después del deploy.
 
 **Sha:** `aa80793`
+
+## H22 — Al ganso se le puede hacer click, y grazna · 2026-10-28
+
+Lo pidió el usuario: «hacé que el ganso haga sonido al hacerle click». El ganso sigue con
+`pointer-events: none` (ADR-0014): el click se mira desde la ventana, con la caja del ganso, y sigue
+de largo. Como el click es un gesto, destraba el audio y el graznido suena en ese mismo click
+(ADR-0015). En el mismo mensaje pidió que el ganso sea 3D como el de Desktop Goose y que ensucie la
+pantalla con pisadas. Eso no entró: es el dibujo y el barro de ese programa, y ADR-0016 deja afuera
+todo lo que no sea la idea. Se le propusieron alternativas propias.
+
+**Archivos:** `src/hub/andanzas.ts` (`tocar`: grazna en el momento salvo que ya esté graznando, y
+corre el graznido solo siguiente), `src/hub/Ganso.tsx` (el `pointerdown` destraba la voz y, si cae
+en la caja del ganso, lo toca; el `keydown` sólo destraba), `src/hub/sonido.ts` (`graznar` espera a
+que arranque un contexto recién creado), `tests/andanzas.test.ts`, `tests/ganso.test.tsx` y
+`DESIGN.md`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el código (`npx vitest run tests/andanzas.test.ts tests/ganso.test.tsx`):
+
+```
+     × lo hace graznar en el momento, sin cambiarle lo que estaba haciendo 2ms
+     × mientras todavía grazna, otro click no suma otro graznido 0ms
+     × el graznido solo que seguía se corre, para que no salgan dos seguidos 0ms
+     × un click sobre el ganso lo hace graznar, y suena en ese mismo click 6ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+TypeError: tocar is not a function
+AssertionError: expected 'false' to be 'true' // Object.is equality
+EXIT=1
+```
+
+«Un click lejos no grazna» y «el click no se cancela» pasaron desde el principio: son guardas.
+
+**Verde:** `Test Files 10 passed (10)`, `Tests 120 passed (120)`, `✓ built`, `EXIT=0`.
+
+**Sha:** `91681b5`
+
+## H23 — Las patas se mueven también cuando corre y cuando arrastra · 2026-10-28
+
+Lo pidió el usuario: «que las patas se muevan cuando va corriendo a buscar el mouse». Hasta acá el
+CSS animaba las patas sólo en `caminando`, y el ganso se deslizaba al correr y al arrastrar.
+
+**Archivos:** `src/hub/ganso.css` (el paso en 0,2 s corriendo y en 0,28 s arrastrando, al ritmo de
+los 200 y 150 px/s), `tests/ganso.test.tsx` (lee el CSS: las dos patas en cada fase, más rápido
+corriendo, quietas paradas), `DESIGN.md` y `.impeccable/design.json`.
+
+**Gate:** `npm run gate`
+
+**Rojo** (`npx vitest run tests/ganso.test.tsx`):
+
+```
+     × se mueven las dos cuando está yendo 2ms
+     × se mueven las dos cuando está arrastrando 0ms
+     × corriendo a buscar el cursor, van más rápido que caminando 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+ Test Files  1 failed (1)
+      Tests  3 failed | 21 passed (24)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  125 passed (125)
+✓ built in 90ms
+EXIT=0
+```
+
+**Revisión en el navegador de H22 y H23** (Chrome sin cabeza por CDP, contra el servidor de
+desarrollo, con los contextos de audio y los osciladores contados):
+
+```
+antes del click: {"fase":"caminando","graznido":"false",…,"contextos":0,"osciladores":0,"estadoAudio":null} debajo del ganso: Audio
+después del click: {"fase":"caminando","graznido":"true",…,"contextos":1,"osciladores":2,"estadoAudio":"running"} el click llegó a: Audio
+click lejos: {"graznido":"false","osciladoresNuevos":0}
+fase caminando: patas ganso-paso 0.42s
+fase parado: patas none 0s
+fase yendo: patas ganso-paso 0.2s
+fase arrastrando: patas ganso-paso 0.28s
+```
+
+El click sobre el ganso crea el contexto de audio, que queda sonando, y el graznido arranca sus dos
+osciladores en ese mismo click. El click llegó igual al recuadro de Audio, que estaba debajo.
+
+**Sha:** `73173a9`

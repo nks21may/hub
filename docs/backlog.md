@@ -222,7 +222,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       todo lo de H15 a H18 sigue igual con los nombres nuevos (`graznidos` en lugar de `cuacs`,
       `data-ganso` en `<html>`). El dibujo y el graznido se revisan en Chrome, con captura y WAV.
       **Se espera rojo:** falla el import de `src/hub/Ganso.tsx`.
-- [ ] **H22 — Al ganso se le puede hacer click, y grazna.** *Depende de H19.* Lo pidió el usuario.
+- [x] **H22 — Al ganso se le puede hacer click, y grazna.** *Depende de H19.* Lo pidió el usuario.
       El click es un gesto, así que destraba el audio y el graznido suena en ese mismo click
       ([ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md)). El ganso sigue sin atajar nada
       ([ADR-0014](adr/0014-el-pato-secuestra-el-cursor.md)): el click se mira desde la ventana y sigue
@@ -232,7 +232,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       (jsdom) un click sobre el ganso muestra el cartelito y arranca el sonido en ese mismo click; un
       click lejos no; el click sobre el ganso no se cancela y llega a lo que está debajo.
       **Se espera rojo:** falla el import de `tocar`.
-- [ ] **H23 — Las patas se mueven también cuando corre y cuando arrastra.** *Depende de H19.* Lo
+- [x] **H23 — Las patas se mueven también cuando corre y cuando arrastra.** *Depende de H19.* Lo
       pidió el usuario: hoy, cuando va a buscar el cursor, el ganso se desliza con las patas quietas.
       *Test:* (node) el CSS del ganso anima las dos patas en `caminando`, `yendo` y `arrastrando`, y
       en `yendo` más rápido que caminando. Se revisa en Chrome.
