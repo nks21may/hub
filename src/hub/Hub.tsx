@@ -4,6 +4,7 @@ import type {Maquina} from '../catalogo/tipos.ts';
 import type {Idioma} from '../i18n/textos.ts';
 import {texto} from '../i18n/textos.ts';
 import {Fondo} from './Fondo.tsx';
+import {Pato} from './Pato.tsx';
 import {Recuadro} from './Recuadro.tsx';
 import './hub.css';
 
@@ -128,6 +129,8 @@ export function Hub({idioma, navegar = irA}: Props) {
       <footer className="pie">
         <p className="pie__marca">{texto(idioma, 'hub.marca')}</p>
       </footer>
+
+      <Pato />
     </div>
   );
 }

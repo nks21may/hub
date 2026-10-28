@@ -23,6 +23,7 @@ colors:
   cielo-indigo: "#15287a"
   cielo-claro: "#4a8fe6"
   particula: "#d6e4ff"
+  pato-pico: "#f2a03d"
 typography:
   display:
     fontFamily: "Geist Variable, system-ui, sans-serif"
@@ -111,6 +112,8 @@ El mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la iz
 
 La interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con el dedo el polvo deriva pero no reacciona. Con movimiento reducido el cielo queda quieto, el polvo tenue y sin reaccionar, y no hay zoom.
 
+Encima de todo pasea un pato (ADR-0014): blanco, vectorial, con el pico y las patas en el único naranja del hub. Camina a un punto al azar de la ventana, se para un rato y vuelve a caminar. No ataja ningún click y queda fuera del árbol de accesibilidad; con movimiento reducido no está.
+
 **Key Characteristics:**
 - Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que deriva solo y se enciende por donde pasa el puntero.
 - Recuadros navy traslúcidos de radio 14px con borde blanco al 8% y un filo de luz interior arriba.
@@ -134,6 +137,7 @@ Las tres luces van en `mix-blend-mode: screen` y son también tres cuadrados del
 
 ### Tertiary
 - **Polvo** (`particula`): el color de las motas del canvas, que lo lee de la propiedad `color` del canvas. En reposo se ven al 4–14% de opacidad (unas pocas, al 26–36%); encendidas llegan a opacidad plena.
+- **Pico de pato** (`pato-pico`): el pico y las patas del pato, y nada más. Es el único color cálido del hub.
 
 ### Neutral
 - **Navy noche** (`fondo`): el fondo de la página, la base y la esquina inferior izquierda del cielo, el `theme-color` y la base del favicon.
@@ -230,6 +234,13 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Polvo:** un canvas 2D con una mota cada 28px (el 62% de las celdas, corrida al azar, con semilla fija: el mismo cielo en cada visita). El mouse enciende las motas a menos de 190px según cuánto se mueve, las agranda hasta el doble y las empuja hasta 8px hacia afuera; una mota encendida lleva un halo de 2,6 veces su radio al 8% de su energía y se apaga con τ de 1,2 s. Las motas derivan solas hacia abajo a la izquierda, a 35° de la horizontal y a 8–24 px/s según su tamaño (las grandes, más rápido); la que sale por un borde entra por el opuesto, y la estela deriva con ellas. Las motas en reposo titilan un poco. El puntero se suaviza con τ de 0,12 s. El canvas se dibuja en cada cuadro mientras la pestaña está a la vista (ADR-0013).
 - **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo deriva pero no reacciona.
 
+### Pato
+El easter egg de ADR-0014. Un pato blanco de 64×56px, dibujado en SVG con formas lisas y sin contorno: plumas en `texto`, ala en `texto-2`, ojo en `fondo`, y pico y patas en `pato-pico`.
+- **Lugar:** fijo a la ventana, por encima de la grilla y del pie (`z-index` 2), con `pointer-events: none`. Su posición es la de los pies, y el dibujo se espeja alrededor de ese punto según para dónde camina.
+- **Paseo:** camina a 60 px/s hacia un punto al azar, a 40px de los costados, 70px de arriba y 12px de abajo; al llegar se queda parado entre 1 y 4 s y elige otro.
+- **Paso:** caminando, las patas giran ±22° desde la cadera, en contrafase, y el cuerpo se bambolea ±3° con 1,5px de rebote, en 0,42 s alternados. Parado no se mueve.
+- **Quieto:** con `prefers-reduced-motion` no hay pato.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -240,6 +251,7 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Do** apagar el movimiento con `prefers-reduced-motion`: cielo quieto, polvo tenue sin reaccionar, sin zoom y sin transiciones en el recuadro.
 - **Do** asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro.
 - **Do** mantener el cielo como decorado: fijo, `aria-hidden` y sin quitarle contraste a ningún recuadro.
+- **Do** dejar al pato fuera del camino: `pointer-events: none`, `aria-hidden`, y sin pato con `prefers-reduced-motion`.
 
 ### Don't:
 - **Don't** poner una etiqueta o línea chica encima del título; el dominio va al pie, en mono.
@@ -249,3 +261,4 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Don't** traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.
 - **Don't** copiar las identidades vecinas: ni la ficha técnica de `portfolio4` (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de `museo`.
 - **Don't** mostrar la tecla en pantallas táctiles sin puntero fino.
+- **Don't** llevar `pato-pico` fuera del pato, ni dibujar al pato como sprite o pixel art, ni darle sombra proyectada.

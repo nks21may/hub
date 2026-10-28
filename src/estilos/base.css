@@ -26,6 +26,8 @@
   --cielo-indigo: #15287a;
   --cielo-claro: #4a8fe6;
   --particula: #d6e4ff;
+  /* El pico y las patas del pato (ADR-0014): el único color cálido del hub, y no sale del pato. */
+  --pato-pico: #f2a03d;
 
   --letra: 'Geist Variable', system-ui, sans-serif;
   --letra-mono: 'Geist Mono Variable', ui-monospace, monospace;

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-27T12:00:00Z",
+  "generatedAt": "2026-10-28T12:00:00Z",
   "title": "Design System: hub de nicolasdalessandro.dev",
   "extensions": {
     "colorMeta": {
@@ -82,6 +82,21 @@
           "oklch(75% 0.04 262)",
           "oklch(85% 0.04 262)",
           "oklch(92% 0.04 262)"
+        ]
+      },
+      "pato-pico": {
+        "role": "tertiary",
+        "displayName": "Pico de pato",
+        "canonical": "#f2a03d",
+        "tonalRamp": [
+          "oklch(15% 0.03 68)",
+          "oklch(27% 0.06 68)",
+          "oklch(39% 0.09 68)",
+          "oklch(51% 0.12 68)",
+          "oklch(63% 0.14 68)",
+          "oklch(77% 0.15 68)",
+          "oklch(86% 0.1 68)",
+          "oklch(94% 0.04 68)"
         ]
       },
       "fondo": {
@@ -311,6 +326,11 @@
         "name": "estela",
         "value": "apagado exponencial, τ 1,2 s; radio 190px; empuje hasta 8px",
         "purpose": "Cómo se encienden, se corren y se apagan las motas del polvo."
+      },
+      {
+        "name": "paso-de-pato",
+        "value": "60 px/s; patas ±22° desde la cadera y cuerpo ±3° con 1,5px de rebote, 0.42s ease-in-out infinite alternate",
+        "purpose": "El pato caminando (ADR-0014). Parado no se mueve; con prefers-reduced-motion no hay pato."
       }
     ],
     "breakpoints": [
@@ -368,6 +388,14 @@
       "description": "El fondo: degradé de navy a azul francia con tres luces que derivan y un grano fino. El polvo lo dibuja un canvas: deriva solo hacia abajo a la izquierda y el mouse lo enciende; en esta muestra quieta va como motas tenues.",
       "html": "<div class=\"ds-cielo\"><span class=\"ds-luz ds-luz--azul\"></span><span class=\"ds-luz ds-luz--indigo\"></span><span class=\"ds-luz ds-luz--claro\"></span><span class=\"ds-polvo\"></span></div>",
       "css": ".ds-cielo { position: relative; height: 320px; overflow: hidden; background: radial-gradient(120% 90% at 0% 100%, var(--fondo) 0%, transparent 60%), linear-gradient(205deg, color-mix(in srgb, var(--cielo-azul) 42%, var(--fondo)) 0%, var(--fondo) 72%); } .ds-luz { --tam: 420px; position: absolute; width: var(--tam); height: var(--tam); border-radius: 50%; mix-blend-mode: screen; animation: ds-deriva 30s ease-in-out infinite alternate; } .ds-luz--azul { top: calc(var(--tam) * -0.42); right: calc(var(--tam) * -0.28); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-azul) 72%, transparent), transparent); } .ds-luz--indigo { top: 18%; left: calc(var(--tam) * -0.45); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-indigo) 70%, transparent), transparent); animation-duration: 38s; animation-direction: alternate-reverse; } .ds-luz--claro { --tam: 220px; top: calc(var(--tam) * -0.4); right: calc(var(--tam) * -0.25); background: radial-gradient(closest-side, color-mix(in srgb, var(--cielo-claro) 48%, transparent), transparent); animation-duration: 26s; } .ds-polvo { position: absolute; inset: 0; background-image: radial-gradient(circle, color-mix(in srgb, var(--particula) 14%, transparent) 1px, transparent 1.6px); background-size: 28px 28px; } @keyframes ds-deriva { from { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(-8%, 6%, 0) scale(1.06); } to { transform: translate3d(5%, 10%, 0) scale(0.95); } } @media (prefers-reduced-motion: reduce) { .ds-luz { animation: none; } }"
+    },
+    {
+      "name": "Pato",
+      "kind": "custom",
+      "refersTo": "pato-pico",
+      "description": "El easter egg de ADR-0014: un pato blanco vectorial de 64×56px que pasea por encima de la grilla, fijo a la ventana, sin atajar clicks y fuera del árbol de accesibilidad. Plumas en texto, ala en texto-2, ojo en fondo, y el pico y las patas en pato-pico. Se espeja alrededor de sus pies según para dónde camina.",
+      "html": "<div class=\"ds-pato\"><svg viewBox=\"0 0 64 56\" width=\"64\" height=\"56\"><g class=\"ds-pato__pata ds-pato__pata--atras\"><path class=\"ds-pato__pierna\" d=\"M27.5 46 L27 53\"/><path class=\"ds-pato__pie\" d=\"M25.5 52.6 C28.5 52.6 31.6 53.4 33.6 55.2 L33.6 56 H25 Z\"/></g><path class=\"ds-pato__pluma\" d=\"M4 23 C9 26 15 28.5 21 29 C27 29.5 33 28 36 25.5 C37.6 23.5 37 21.5 36.8 18.5 C36.8 12.5 41 8 45.5 8 C50 8 53.5 11.5 53.8 15.5 C54 19.5 51.5 21.5 50.5 23.5 C49.5 26 52.5 29 51.5 35 C50.5 43 42 48.5 30 48.5 C19 48.5 11.5 44 9.5 37 C8 32 6 27.5 4 23 Z\"/><path class=\"ds-pato__ala\" d=\"M17 34 C23.5 29.5 34 30 41 34.5 C36 42 24.5 43 17 34 Z\"/><path class=\"ds-pato__pico\" d=\"M52.5 13.8 C57 13.3 61 14.5 62.8 17.4 C63.3 18.3 62.7 19.4 61.6 19.7 C58.4 20.6 55 21 52.5 20.6 Z\"/><circle class=\"ds-pato__ojo\" cx=\"48\" cy=\"13.5\" r=\"1.5\"/><g class=\"ds-pato__pata ds-pato__pata--adelante\"><path class=\"ds-pato__pierna\" d=\"M35.5 46 L36 53\"/><path class=\"ds-pato__pie\" d=\"M34.5 52.6 C37.5 52.6 40.6 53.4 42.6 55.2 L42.6 56 H34 Z\"/></g></svg></div>",
+      "css": ".ds-pato { width: 64px; height: 56px; pointer-events: none; } .ds-pato svg { display: block; overflow: visible; } .ds-pato__pluma { fill: var(--texto); } .ds-pato__ala { fill: var(--texto-2); } .ds-pato__ojo { fill: var(--fondo); } .ds-pato__pico, .ds-pato__pie { fill: var(--pato-pico); } .ds-pato__pierna { fill: none; stroke: var(--pato-pico); stroke-width: 2.4; stroke-linecap: round; } .ds-pato__pata--atras { opacity: 0.8; }"
     }
   ],
   "narrative": {
@@ -409,7 +437,8 @@
       "Do repetir la respuesta firma en todo lo que sea entrar a un proyecto: borde a borde-fuerte, superficie a superficie-alta, preview a 1.03 y luz de puntero.",
       "Do apagar el movimiento con prefers-reduced-motion: cielo quieto, polvo tenue sin reaccionar, sin zoom y sin transiciones en el recuadro.",
       "Do asentar toda captura con el anillo oscuro y claro y el velo inferior antes de ponerla dentro de un recuadro.",
-      "Do mantener el cielo como decorado: fijo, aria-hidden y sin quitarle contraste a ningún recuadro."
+      "Do mantener el cielo como decorado: fijo, aria-hidden y sin quitarle contraste a ningún recuadro.",
+      "Do dejar al pato fuera del camino: pointer-events none, aria-hidden, y sin pato con prefers-reduced-motion."
     ],
     "donts": [
       "Don't poner una etiqueta o línea chica encima del título; el dominio va al pie, en mono.",
@@ -418,7 +447,8 @@
       "Don't poner la estrella de Gemini ni ninguna forma de una marca ajena en el cielo; de deepmind.google se toma la técnica, no la identidad.",
       "Don't traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.",
       "Don't copiar las identidades vecinas: ni la ficha técnica de portfolio4 (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de museo.",
-      "Don't mostrar la tecla en pantallas táctiles sin puntero fino."
+      "Don't mostrar la tecla en pantallas táctiles sin puntero fino.",
+      "Don't llevar pato-pico fuera del pato, ni dibujar al pato como sprite o pixel art, ni darle sombra proyectada."
     ]
   }
 }
