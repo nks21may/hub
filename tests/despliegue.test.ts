@@ -105,6 +105,16 @@ describe('la imagen', () => {
   it('la CSP no deja nada abierto por defecto', () => {
     expect(csp()['default-src']).toEqual(["'none'"]);
   });
+
+  it('la CSP lleva un nonce que cambia en cada pedido, para el script que inyecta Cloudflare (ADR-0017)', () => {
+    // $request_id son 16 bytes al azar por pedido; Cloudflare lee el nonce de esta cabecera.
+    expect(csp()['script-src']).toContain("'nonce-$request_id'");
+  });
+
+  it('la CSP sigue sin dejar pasar cualquier script inline', () => {
+    expect(csp()['script-src']).toContain("'self'");
+    expect(csp()['script-src']).not.toContain("'unsafe-inline'");
+  });
 });
 
 describe('el build de la imagen', () => {
