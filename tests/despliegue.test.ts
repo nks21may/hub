@@ -111,6 +111,15 @@ describe('la imagen', () => {
     expect(csp()['script-src']).toContain("'nonce-$request_id'");
   });
 
+  it('el HTML nunca contesta 304, para que el nonce del cuerpo sea el de la cabecera (ADR-0018)', () => {
+    // Con un 304, el navegador junta la CSP nueva con el HTML guardado, que tiene el nonce de otro
+    // pedido, y bloquea el script de Cloudflare.
+    const bloque = /location\s+=\s+\/index\.html\s*\{([^}]*)\}/.exec(CONF);
+    expect(bloque?.[1]).toBeDefined();
+    expect(bloque?.[1]).toMatch(/if_modified_since\s+off;/);
+    expect(bloque?.[1]).toMatch(/etag\s+off;/);
+  });
+
   it('la CSP sigue sin dejar pasar cualquier script inline', () => {
     expect(csp()['script-src']).toContain("'self'");
     expect(csp()['script-src']).not.toContain("'unsafe-inline'");
