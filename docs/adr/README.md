@@ -24,6 +24,7 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0014](0014-el-pato-secuestra-el-cursor.md) | Un pato pasea por el hub y secuestra el cursor quieto | aceptado; 0015 baja la espera y suma el sonido; 0016 lo hace ganso |
 | [0015](0015-el-pato-hace-cuac-con-sonido.md) | El pato ataca a los 10 segundos y hace cuac con sonido cada tanto | aceptado; 0016 cambia el cuac por un graznido |
 | [0016](0016-el-pato-pasa-a-ser-un-ganso.md) | El pato pasa a ser un ganso | aceptado |
+| [0017](0017-la-csp-lleva-un-nonce-para-cloudflare.md) | La CSP lleva un nonce por pedido, para el script que inyecta Cloudflare | aceptado |
 
 ## Cuándo escribir uno
 

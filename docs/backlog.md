@@ -223,6 +223,18 @@ ataque antes de los 20 segundos (después pidió 10, en
       `data-ganso` en `<html>`). El dibujo y el graznido se revisan en Chrome, con captura y WAV.
       **Se espera rojo:** falla el import de `src/hub/Ganso.tsx`.
 
+## Fase 4 — En producción
+
+- [ ] **H20 — La CSP deja pasar el script de detección de bots de Cloudflare, con un nonce.**
+      *Depende de H14.* Lo pidió el usuario: «arreglá el error de Cloudflare». El Bot Fight Mode
+      inyecta un script inline en cada HTML, y la CSP lo bloquea
+      ([ADR-0017](adr/0017-la-csp-lleva-un-nonce-para-cloudflare.md)).
+      *Test:* (node) el `script-src` de `deploy/nginx.conf` lleva `'nonce-$request_id'`, un nonce
+      que cambia en cada pedido, y sigue sin `'unsafe-inline'`. Fuera del gate, `docker run` de la
+      imagen da un nonce distinto en cada pedido; y en producción, con el deploy, la consola queda
+      sin errores de la CSP.
+      **Se espera rojo:** el `script-src` no tiene nonce.
+
 ## Descartados por ADR-0011
 
 Eran de la placa. Quedan anotados para que nadie los busque.
