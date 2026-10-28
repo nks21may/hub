@@ -66,8 +66,9 @@ detrás, fijo. Interacción firma: con hover o foco, el borde se aclara, la prev
 luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo deriva solo, se enciende por donde
 pasa el mouse y las luces del cielo se corren. Con movimiento reducido, el cielo queda quieto, el
 polvo no reacciona y no hay zoom. Encima de todo pasea un pato vectorial desde que carga; pasados
-20 s puede llevarse en el pico un cursor quieto, dibujado, que se le escapa apenas se mueve el mouse
-(ADR-0014). Con movimiento reducido no hay pato.
+10 s puede llevarse en el pico un cursor quieto, dibujado, que se le escapa apenas se mueve el mouse
+(ADR-0014). Cada tanto hace «¡CUAC!», con sonido desde que el visitante tocó la página (ADR-0015).
+Con movimiento reducido no hay pato.
 
 FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a (la imprimió concept-seed el
 2026-10-26; la página de decisión fue b7f6db46), elegida por el usuario con

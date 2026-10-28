@@ -170,7 +170,8 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
 
 Lo pidió el usuario el 2026-10-28: un pato que pasee por el hub y que, al azar, le secuestre el
 cursor y se lo lleve de un lado a otro de la pantalla. Lo quiere desde que carga, pero sin que
-ataque antes de los 20 segundos. Los cambios de diseño actualizan `DESIGN.md` y
+ataque antes de los 20 segundos (después pidió 10, en
+[ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md)). Los cambios de diseño actualizan `DESIGN.md` y
 `.impeccable/design.json` en el mismo commit ([ADR-0007](adr/0007-frontend-disenado-con-impeccable.md)).
 
 - [x] **H15 — El pato pasea por el hub.** *Depende de H13.* Un SVG fijo a la ventana, por encima de
@@ -194,6 +195,25 @@ ataque antes de los 20 segundos. Los cambios de diseño actualizan `DESIGN.md` y
       dos idiomas; el cielo enciende el polvo con la flecha dibujada igual que con el puntero. (node)
       el CSS del pato y de la flecha dice `pointer-events: none`, así que no atajan ningún click.
       **Se espera rojo:** `andar` nunca deja de pasear, aunque el cursor esté quieto.
+- [ ] **H17 — El pato parece un pato, y ataca a los 10 s.** *Depende de H16.* Lo pidió el usuario
+      después de ver H16: «parece una gaviota». El blanco con el ala gris, el cuerpo flaco y la cola
+      en punta son de gaviota. Pasa a ser amarillo, panzón, de cuello corto y cabeza grande, con el
+      pico ancho y chato y la cola corta para arriba
+      ([ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md) baja la espera a 10 s).
+      *Test:* (node) antes de los 10 s de reloj, `andar` no va a buscar el cursor; con varias
+      semillas, alguna ataca entre los 10 y los 20 s; con el dibujo nuevo, la presa sigue en la punta
+      del `pico`. (jsdom) el secuestro llega pasados los 10 s. El dibujo se revisa en el navegador,
+      con captura.
+      **Se espera rojo:** ninguna semilla ataca antes de los 20 s.
+- [ ] **H18 — El pato hace cuac cada tanto, con sonido.** *Depende de H17.* El sonido se genera con
+      Web Audio, sin archivos, y suena desde el primer click, toque o tecla en la página
+      ([ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md)).
+      *Test:* (node) `andar` hace cuac solo: el primero entre los 8 y los 20 s, y en tres minutos
+      entre 4 y 9, nunca dos con menos de 20 s entre ellos; cada cuac muestra el cartelito; `escapar`
+      también cuenta un cuac. (jsdom) antes de un click o una tecla, el pato no crea ningún contexto de
+      audio; después de un click, cada cuac arranca un oscilador; sin Web Audio, como en jsdom, el cuac
+      no rompe nada.
+      **Se espera rojo:** `andar` no hace cuac nunca si nadie mueve el mouse.
 
 ## Descartados por ADR-0011
 

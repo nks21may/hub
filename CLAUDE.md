@@ -34,12 +34,14 @@ aunque los tests pasen.
    verdad. El fondo es un cielo azul con partículas que derivan solas hacia abajo a la izquierda y
    se encienden con el mouse, y queda quieto con movimiento reducido. Nada retro. Un pato pasea por
    encima y secuestra un cursor quieto, que es uno dibujado: el real no se mueve. No ataca antes de
-   los 20 s, suelta apenas se mueve el mouse, no ataja clicks ni teclas, y con movimiento reducido
-   no está.
+   los 10 s, suelta apenas se mueve el mouse, no ataja clicks ni teclas, y con movimiento reducido
+   no está. Hace cuac cada tanto, con un sonido generado por código que recién suena después del
+   primer click, toque o tecla en la página.
    [ADR-0011](docs/adr/0011-el-hub-es-una-grilla-de-proyectos.md),
    [ADR-0012](docs/adr/0012-el-fondo-es-un-cielo-de-particulas.md),
    [ADR-0013](docs/adr/0013-el-polvo-deriva-siempre.md),
-   [ADR-0014](docs/adr/0014-el-pato-secuestra-el-cursor.md)
+   [ADR-0014](docs/adr/0014-el-pato-secuestra-el-cursor.md),
+   [ADR-0015](docs/adr/0015-el-pato-hace-cuac-con-sonido.md)
 7. **El diseño sale de `PRODUCT.md` y `DESIGN.md`**, escritos con `impeccable`; hasta que exista
    `DESIGN.md`, del contrato de dirección en `.impeccable/surfaces/index-html.md`. Un color, una
    tipografía o un espaciado que no sale de ahí es un hallazgo de review.
