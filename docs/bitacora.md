@@ -1489,3 +1489,53 @@ documento: 200  nonce de la cabecera b36fee2d43861d4d370ea993cc7e4625
 Un pedido con `If-Modified-Since` trae el HTML entero, y ninguna de las dos cargas, con un perfil
 limpio de Chrome sin cabeza, muestra violaciones de la CSP. El error de la consola desde el primer
 deploy, el del script de detección de bots de Cloudflare, ya no está.
+
+## H24 — El ganso tiene volumen · 2026-10-28
+
+Lo pidió el usuario: «que sea 3D como el Desktop Goose». El dibujo de ese programa no se toma
+(ADR-0016), así que el volumen es propio y sale del tono, como pide la regla «Plano con luz» de
+`DESIGN.md`, sin sombra en el piso: la panza en sombra, una luz que corre bajo el lomo, baja por la
+nuca y toca la cabeza, el ala del otro lado asomando oscura detrás del lomo, y la pata de atrás en un
+naranja más oscuro, en vez de la misma pata con transparencia.
+
+**Archivos:** `src/hub/Ganso.tsx` (la sombra, tres luces y el ala de atrás, todas adentro de la
+silueta), `src/hub/ganso.css` (sus colores y la pata de atrás), `src/estilos/base.css`
+(`--ganso-sombra`, `--ganso-luz`, `--ganso-ala-de-atras` y `--ganso-pico-sombra`),
+`tests/ganso.test.tsx`, `DESIGN.md`, `.impeccable/design.json` y la captura
+`.impeccable/review/ganso-dibujo.png`, rehecha.
+
+**Gate:** `npm run gate`
+
+**Rojo** (`npx vitest run tests/ganso.test.tsx`):
+
+```
+     × el dibujo trae la sombra de la panza, las luces del lomo y la cabeza, y el ala de atrás 4ms
+     × la pata de atrás va en un naranja más oscuro que la de adelante, no transparente 1ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected null not to be null
+AssertionError: expected '/* El ganso (ADR-0014): fijo a la ven…' to match /\.ganso__pata--atras\s+\.ganso__pie\s…/
+ Test Files  1 failed (1)
+      Tests  2 failed | 24 passed (26)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  127 passed (127)
+✓ built in 85ms
+EXIT=0
+```
+
+**Revisión en el navegador** (Chrome sin cabeza por CDP): el ganso ampliado a 5×, parado y
+caminando, y a su tamaño sobre la grilla. A 5× se ven las cuatro capas de tono; a 64px, la panza más
+oscura y la luz de la nuca alcanzan para que deje de verse plano, sin cambiar la silueta.
+
+**Detector:** `[]`.
+
+**Sha:** `128e6e9`
