@@ -318,3 +318,21 @@ describe('las patas del ganso', () => {
     expect(pasoDeLaPata(css, 'parado', 'atras')).toBeUndefined();
   });
 });
+
+describe('el volumen del ganso', () => {
+  it('el dibujo trae la sombra de la panza, las luces del lomo y la cabeza, y el ala de atrás', () => {
+    medios({});
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    const dibujo = container.querySelector('.ganso__dibujo');
+    expect(dibujo?.querySelector('.ganso__sombra')).not.toBeNull();
+    expect(dibujo?.querySelectorAll('.ganso__luz').length).toBeGreaterThanOrEqual(2);
+    expect(dibujo?.querySelector('.ganso__ala-de-atras')).not.toBeNull();
+  });
+
+  it('la pata de atrás va en un naranja más oscuro que la de adelante, no transparente', () => {
+    const css = readFileSync(resolve(process.cwd(), 'src/hub/ganso.css'), 'utf8');
+    expect(css).toMatch(/\.ganso__pata--atras\s+\.ganso__pie\s*\{[^}]*fill:\s*var\(--ganso-pico-sombra\)/);
+    expect(css).toMatch(/\.ganso__pata--atras\s+\.ganso__pierna\s*\{[^}]*stroke:\s*var\(--ganso-pico-sombra\)/);
+    expect(css).not.toMatch(/\.ganso__pata--atras\s*\{[^}]*opacity/);
+  });
+});

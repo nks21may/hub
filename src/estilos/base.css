@@ -31,6 +31,12 @@
   --ganso-pluma: #a3937e;
   --ganso-ala: #75675a;
   --ganso-pico: #f0832a;
+  /* El volumen del ganso (H24): la sombra de la panza, la luz de arriba, el ala del otro lado y la
+     pata de atrás, todos del mismo pardo o del mismo naranja. */
+  --ganso-sombra: #857663;
+  --ganso-luz: #c2b5a1;
+  --ganso-ala-de-atras: #5c5047;
+  --ganso-pico-sombra: #c0651f;
 
   --letra: 'Geist Variable', system-ui, sans-serif;
   --letra-mono: 'Geist Mono Variable', ui-monospace, monospace;

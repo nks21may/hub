@@ -189,10 +189,27 @@ export function Ganso({idioma, azar = Math.random}: Props) {
               className="ganso__pico"
               d="M52.5 8.6 C56.5 8.2 60.5 9.6 62.8 11.8 C63.6 12.6 63.3 13.7 62.3 14 C59.2 14.9 55.6 15 52.5 14.6 Z"
             />
+            {/* El ala del otro lado asoma detrás del lomo: es la que da la idea de cuerpo redondo. */}
+            <path
+              className="ganso__ala-de-atras"
+              d="M15 37.6 C21 33.8 31 33 39 34.4 C32 36.8 22.5 38.2 15 37.6 Z"
+            />
             <path
               className="ganso__pluma"
               d="M3 35 C7 38 12 39.5 18 39 C26 38 32 37 36 35.5 C41 33 43 26 44 19 C44.5 12.5 46 6 50.5 5 C54.5 4.5 57 8 56.5 11.5 C56 14.5 54 16.5 52.5 19 C50.5 24 49.5 29 48.5 34 C50.5 37 52 41.5 50.5 46 C48.5 52.5 40 56.5 28 56.5 C17 56.5 9.5 53 7.5 47 C6.5 43 5 39 3 35 Z"
             />
+            {/* El volumen sale del tono (la regla «Plano con luz»): la panza en sombra, y la luz de arriba
+                en el lomo, el cuello y la cabeza. Ninguna forma se sale de la silueta. */}
+            <path
+              className="ganso__sombra"
+              d="M50.5 46 C48.5 52.5 40 56.5 28 56.5 C17 56.5 9.5 53 7.5 47 C15 51.5 37 52.5 50.5 46 Z"
+            />
+            <path className="ganso__luz" d="M9 38.6 C15 40.6 27 40 35.5 36.6 C29 40 17 42 9 38.6 Z" />
+            <path
+              className="ganso__luz"
+              d="M37.8 34.2 C41.8 31 43.9 25 44.8 19.5 C45.3 14.5 46.4 10.5 48.6 8.2 C47 12 46.6 16 46.1 20.2 C45.2 26.2 42.9 31.6 37.8 34.2 Z"
+            />
+            <ellipse className="ganso__luz" cx="50.2" cy="7.4" rx="2.4" ry="1.2" />
             <path className="ganso__rabadilla" d="M6.5 44 C9 47.5 13 49.5 17 50 C14 52.5 9.5 51.5 7.5 47.5 Z" />
             <path
               className="ganso__ala"

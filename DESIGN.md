@@ -26,6 +26,10 @@ colors:
   ganso-pluma: "#a3937e"
   ganso-ala: "#75675a"
   ganso-pico: "#f0832a"
+  ganso-sombra: "#857663"
+  ganso-luz: "#c2b5a1"
+  ganso-ala-de-atras: "#5c5047"
+  ganso-pico-sombra: "#c0651f"
 typography:
   display:
     fontFamily: "Geist Variable, system-ui, sans-serif"
@@ -141,7 +145,11 @@ Las tres luces van en `mix-blend-mode: screen` y son también tres cuadrados del
 - **Polvo** (`particula`): el color de las motas del canvas, que lo lee de la propiedad `color` del canvas. En reposo se ven al 4–14% de opacidad (unas pocas, al 26–36%); encendidas llegan a opacidad plena.
 - **Pluma de ganso** (`ganso-pluma`): el cuerpo, el cuello y la cabeza del ganso, y las dos plumas marcadas del ala.
 - **Ala de ganso** (`ganso-ala`): el ala, más oscura que la pluma.
-- **Pico de ganso** (`ganso-pico`): el pico y las patas del ganso. Es el único naranja del hub.
+- **Pico de ganso** (`ganso-pico`): el pico y la pata de adelante. Es el único naranja del hub.
+- **Sombra de ganso** (`ganso-sombra`): la panza, en sombra.
+- **Luz de ganso** (`ganso-luz`): la luz de arriba, en el lomo, el cuello y la cabeza.
+- **Ala de atrás** (`ganso-ala-de-atras`): el ala del otro lado, que asoma detrás del lomo.
+- **Pata de atrás** (`ganso-pico-sombra`): la pata del otro lado, un tono más oscura que la de adelante.
 
 Los tres son los únicos colores cálidos del hub, y no salen del ganso.
 
@@ -241,7 +249,8 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo deriva pero no reacciona.
 
 ### Ganso
-El easter egg de ADR-0014. Un ganso común (ADR-0016) de 64×64px, dibujado en SVG con formas lisas y sin contorno: gris pardo, de cuello largo y cuerpo pesado, con la cabeza chica, la rabadilla blanca y la cola corta. Antes fue un pato: blanco, que parecía una gaviota (H15), y después amarillo (H17). Plumas en `ganso-pluma`, ala en `ganso-ala` con dos plumas marcadas en `ganso-pluma`, rabadilla en `texto`, ojo en `fondo` con un brillo en `texto`, y pico y patas en `ganso-pico`. El pico se dibuja detrás de la cabeza, que le tapa la base. No es el ganso blanco de Desktop Goose: de ahí se toma sólo la idea.
+El easter egg de ADR-0014. Un ganso común (ADR-0016) de 64×64px, dibujado en SVG con formas lisas y sin contorno: gris pardo, de cuello largo y cuerpo pesado, con la cabeza chica, la rabadilla blanca y la cola corta. Antes fue un pato: blanco, que parecía una gaviota (H15), y después amarillo (H17). Plumas en `ganso-pluma`, ala en `ganso-ala` con dos plumas marcadas en `ganso-pluma`, rabadilla en `texto`, ojo en `fondo` con un brillo en `texto`, y pico y patas en `ganso-pico`. El pico se dibuja detrás de la cabeza, que le tapa la base.
+- **Volumen** (H24): sale del tono, como pide «Plano con luz», y no de una sombra en el piso. La panza va en `ganso-sombra`; una luz en `ganso-luz` corre bajo el lomo, baja por la nuca y toca la cabeza; el ala del otro lado asoma en `ganso-ala-de-atras` detrás del lomo, y la pata de atrás va en `ganso-pico-sombra`. Ninguna forma se sale de la silueta. Es un dibujo propio, no el de Desktop Goose (ADR-0016). No es el ganso blanco de Desktop Goose: de ahí se toma sólo la idea.
 - **Lugar:** fijo a la ventana, por encima de la grilla y del pie (`z-index` 2), con `pointer-events: none`. Su posición es la de los pies, y el dibujo se espeja alrededor de ese punto según para dónde camina.
 - **Paseo:** camina a 60 px/s hacia un punto al azar, a 40px de los costados, 70px de arriba y 12px de abajo; al llegar se queda parado entre 1 y 4 s y elige otro.
 - **Paso:** caminando, las patas giran ±22° desde la cadera, en contrafase, y el cuerpo se bambolea ±3° con 1,5px de rebote, en 0,42 s alternados. Corriendo a buscar el cursor, el mismo paso en 0,2 s; llevándoselo, en 0,28 s, aunque vaya para atrás. Parado no se mueve.

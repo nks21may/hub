@@ -61,6 +61,28 @@
   stroke-linecap: round;
 }
 
+/* El volumen, con tono y sin sombra en el piso: la panza más oscura, la luz de arriba en el lomo, el
+   cuello y la cabeza, el ala del otro lado y la pata de atrás un tono más atrás. */
+.ganso__sombra {
+  fill: var(--ganso-sombra);
+}
+
+.ganso__luz {
+  fill: var(--ganso-luz);
+}
+
+.ganso__ala-de-atras {
+  fill: var(--ganso-ala-de-atras);
+}
+
+.ganso__pata--atras .ganso__pie {
+  fill: var(--ganso-pico-sombra);
+}
+
+.ganso__pata--atras .ganso__pierna {
+  stroke: var(--ganso-pico-sombra);
+}
+
 /* Las patas giran desde la cadera y el cuerpo se bambolea apoyado en ellas. */
 .ganso__pata,
 .ganso__cuerpo {
@@ -69,7 +91,6 @@
 
 .ganso__pata--atras {
   transform-origin: 24.5px 55px;
-  opacity: 0.8;
 }
 
 .ganso__pata--adelante {
