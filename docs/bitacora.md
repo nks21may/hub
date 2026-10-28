@@ -1241,3 +1241,67 @@ el mouse el ganso grazna «¡JONK!» y el puntero vuelve.
 **Detector:** `[]`.
 
 **Sha:** `88190c6`
+
+## H20 — La CSP deja pasar el script de detección de bots de Cloudflare, con un nonce · 2026-10-28
+
+Lo pidió el usuario: «arreglá el error de Cloudflare». Es la violación de la CSP que se ve en la
+consola desde el primer deploy: el script inline que el Bot Fight Mode de la zona inyecta en cada
+HTML. Bajado de producción, es éste (recortado):
+
+```
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a51d58f8485eca14',t:'MTc5MzIyNjIzMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';…
+```
+
+El `r` es el ray y el `t` un timestamp: cambian en cada pedido, así que un hash no lo deja pasar.
+La documentación de Cloudflare dice que, si la CSP de la respuesta trae un nonce, Cloudflare lo
+copia a los scripts que inyecta. Antes del test, la decisión:
+[ADR-0017](adr/0017-la-csp-lleva-un-nonce-para-cloudflare.md) (commit `5faf22a`).
+
+**Archivos:** `deploy/nginx.conf` (`script-src` suma `'nonce-$request_id'`, con su comentario) y
+`tests/despliegue.test.ts` (dos tests: el nonce por pedido, y que siga sin `'unsafe-inline'`).
+
+**Gate:** `npm run gate`
+
+**Rojo:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+     × la CSP lleva un nonce que cambia en cada pedido, para el script que inyecta Cloudflare (ADR-0017) 4ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected [ '\'self\'', …(1) ] to include '\'nonce-$request_id\''
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 112 passed (113)
+EXIT=1
+```
+
+El de «sigue sin `'unsafe-inline'`» pasó desde el principio: es una guarda.
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  113 passed (113)
+✓ built in 98ms
+EXIT=0
+```
+
+**Fuera del gate.** `docker build -t hub:nonce .` terminó con el gate adentro (`Tests 113 passed`).
+`docker run` con `ejemplos/` montado en `/usr/share/nginx/catalogo`, y dos pedidos a la portada:
+
+```
+script-src 'self' 'nonce-716cb8a4a8ec97ad6ad7b4407d5a1ff5' https://static.cloudflareinsights.com
+script-src 'self' 'nonce-b0420e346d61348825c19092cbd3f716' https://static.cloudflareinsights.com
+catalogo: 200
+```
+
+nginx arranca con el conf nuevo y el nonce cambia en cada pedido. Que Cloudflare copie el nonce a
+su script sólo se puede ver en producción, después del deploy: queda pendiente.
+
+**Sha:** `4ad5af8`

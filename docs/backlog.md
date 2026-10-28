@@ -225,7 +225,7 @@ ataque antes de los 20 segundos (después pidió 10, en
 
 ## Fase 4 — En producción
 
-- [ ] **H20 — La CSP deja pasar el script de detección de bots de Cloudflare, con un nonce.**
+- [x] **H20 — La CSP deja pasar el script de detección de bots de Cloudflare, con un nonce.**
       *Depende de H14.* Lo pidió el usuario: «arreglá el error de Cloudflare». El Bot Fight Mode
       inyecta un script inline en cada HTML, y la CSP lo bloquea
       ([ADR-0017](adr/0017-la-csp-lleva-un-nonce-para-cloudflare.md)).
