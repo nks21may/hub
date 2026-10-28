@@ -130,7 +130,7 @@ export function Hub({idioma, navegar = irA}: Props) {
         <p className="pie__marca">{texto(idioma, 'hub.marca')}</p>
       </footer>
 
-      <Pato />
+      <Pato idioma={idioma} />
     </div>
   );
 }

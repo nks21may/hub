@@ -20,6 +20,7 @@ const es = {
   'hub.cargando': 'Buscando lo que está andando…',
   'hub.sin-lista': 'No pude leer la lista de proyectos. Probá en un rato.',
   'hub.vacio': 'Todavía no hay nada publicado. Volvé en unos días.',
+  'pato.cuac': '¡CUAC!',
 } as const;
 
 export type ClaveDeTexto = keyof typeof es;
@@ -38,6 +39,7 @@ const en: Textos = {
   'hub.cargando': 'Looking up what’s running…',
   'hub.sin-lista': 'Couldn’t read the project list. Try again in a bit.',
   'hub.vacio': 'Nothing’s live yet. Check back in a few days.',
+  'pato.cuac': 'QUACK!',
 };
 
 export const TEXTOS: Record<Idioma, Textos> = {es, en};

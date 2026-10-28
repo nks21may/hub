@@ -2,6 +2,7 @@
 import {cleanup, render} from '@testing-library/react';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {Fondo} from '../src/hub/Fondo.tsx';
+import {PUNTERO_DIBUJADO} from '../src/hub/puntero.ts';
 
 /** jsdom no trae matchMedia: el cielo lo usa para saber si tiene que quedarse quieto. */
 function movimientoReducido(reducido: boolean): void {
@@ -30,7 +31,7 @@ function conCanvas() {
   vi.mocked(HTMLCanvasElement.prototype.getContext).mockReturnValue(
     contexto as unknown as CanvasRenderingContext2D,
   );
-  const cuadros = vi.fn(() => 1);
+  const cuadros = vi.fn<(cuadro: FrameRequestCallback) => number>(() => 1);
   vi.stubGlobal('requestAnimationFrame', cuadros);
   vi.stubGlobal('cancelAnimationFrame', vi.fn());
   return cuadros;
@@ -85,5 +86,21 @@ describe('el cielo del fondo', () => {
       window.dispatchEvent(new MouseEvent('pointermove', {clientX: 200, clientY: 100}));
       window.dispatchEvent(new Event('resize'));
     }).not.toThrow();
+  });
+
+  it('la flecha que arrastra el pato corre las luces y enciende el polvo, igual que el puntero', () => {
+    movimientoReducido(false);
+    const cuadros = conCanvas();
+    const {container} = render(<Fondo />);
+    const cielo = container.firstElementChild as HTMLElement;
+    const paso = cuadros.mock.calls[0]?.[0];
+    expect(paso).toBeDefined();
+
+    paso?.(performance.now() + 16);
+    expect(cielo.style.getPropertyValue('--px')).toBe('');
+
+    window.dispatchEvent(new CustomEvent(PUNTERO_DIBUJADO, {detail: {x: 100, y: 100}}));
+    paso?.(performance.now() + 32);
+    expect(cielo.style.getPropertyValue('--px')).not.toBe('');
   });
 });

@@ -35,3 +35,10 @@ export function paralaje(punto: Punto, ancho: number, alto: number): Punto {
     y: entreMenosUnoYUno((punto.y / alto) * 2 - 1),
   };
 }
+
+/**
+ * El evento con el que el pato avisa dónde está el cursor que se lleva (ADR-0014): el cielo lo trata
+ * como al puntero, así que la flecha dibujada enciende el polvo por donde pasa. El detalle es un
+ * `Punto`.
+ */
+export const PUNTERO_DIBUJADO = 'hub:puntero-dibujado';

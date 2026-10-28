@@ -331,6 +331,16 @@
         "name": "paso-de-pato",
         "value": "60 px/s; patas ±22° desde la cadera y cuerpo ±3° con 1,5px de rebote, 0.42s ease-in-out infinite alternate",
         "purpose": "El pato caminando (ADR-0014). Parado no se mueve; con prefers-reduced-motion no hay pato."
+      },
+      {
+        "name": "secuestro",
+        "value": "corrida 200 px/s; arrastre 150 px/s; no antes de 20 s, cursor quieto 3 s, espera de 30 a 60 s",
+        "purpose": "El pato yendo por el cursor y llevándose la flecha dibujada a la otra mitad de la pantalla."
+      },
+      {
+        "name": "vuelta-de-la-flecha",
+        "value": "transform 0.15s ease-out",
+        "purpose": "La flecha que vuelve al puntero real cuando el mouse se mueve; el cuac aparece en opacity 0.12s ease-out y dura 1,2 s."
       }
     ],
     "breakpoints": [
@@ -393,9 +403,9 @@
       "name": "Pato",
       "kind": "custom",
       "refersTo": "pato-pico",
-      "description": "El easter egg de ADR-0014: un pato blanco vectorial de 64×56px que pasea por encima de la grilla, fijo a la ventana, sin atajar clicks y fuera del árbol de accesibilidad. Plumas en texto, ala en texto-2, ojo en fondo, y el pico y las patas en pato-pico. Se espeja alrededor de sus pies según para dónde camina.",
-      "html": "<div class=\"ds-pato\"><svg viewBox=\"0 0 64 56\" width=\"64\" height=\"56\"><g class=\"ds-pato__pata ds-pato__pata--atras\"><path class=\"ds-pato__pierna\" d=\"M27.5 46 L27 53\"/><path class=\"ds-pato__pie\" d=\"M25.5 52.6 C28.5 52.6 31.6 53.4 33.6 55.2 L33.6 56 H25 Z\"/></g><path class=\"ds-pato__pluma\" d=\"M4 23 C9 26 15 28.5 21 29 C27 29.5 33 28 36 25.5 C37.6 23.5 37 21.5 36.8 18.5 C36.8 12.5 41 8 45.5 8 C50 8 53.5 11.5 53.8 15.5 C54 19.5 51.5 21.5 50.5 23.5 C49.5 26 52.5 29 51.5 35 C50.5 43 42 48.5 30 48.5 C19 48.5 11.5 44 9.5 37 C8 32 6 27.5 4 23 Z\"/><path class=\"ds-pato__ala\" d=\"M17 34 C23.5 29.5 34 30 41 34.5 C36 42 24.5 43 17 34 Z\"/><path class=\"ds-pato__pico\" d=\"M52.5 13.8 C57 13.3 61 14.5 62.8 17.4 C63.3 18.3 62.7 19.4 61.6 19.7 C58.4 20.6 55 21 52.5 20.6 Z\"/><circle class=\"ds-pato__ojo\" cx=\"48\" cy=\"13.5\" r=\"1.5\"/><g class=\"ds-pato__pata ds-pato__pata--adelante\"><path class=\"ds-pato__pierna\" d=\"M35.5 46 L36 53\"/><path class=\"ds-pato__pie\" d=\"M34.5 52.6 C37.5 52.6 40.6 53.4 42.6 55.2 L42.6 56 H34 Z\"/></g></svg></div>",
-      "css": ".ds-pato { width: 64px; height: 56px; pointer-events: none; } .ds-pato svg { display: block; overflow: visible; } .ds-pato__pluma { fill: var(--texto); } .ds-pato__ala { fill: var(--texto-2); } .ds-pato__ojo { fill: var(--fondo); } .ds-pato__pico, .ds-pato__pie { fill: var(--pato-pico); } .ds-pato__pierna { fill: none; stroke: var(--pato-pico); stroke-width: 2.4; stroke-linecap: round; } .ds-pato__pata--atras { opacity: 0.8; }"
+      "description": "El easter egg de ADR-0014: un pato blanco vectorial de 64×56px que pasea por encima de la grilla, fijo a la ventana, sin atajar clicks y fuera del árbol de accesibilidad. Plumas en texto, ala en texto-2, ojo en fondo, y el pico y las patas en pato-pico. Se espeja alrededor de sus pies según para dónde camina. Pasados 20 s puede llevarse un cursor quieto: esconde el puntero real y se lleva en el pico una flecha dibujada (texto con trazo en fondo); al mover el mouse la flecha vuelve, el puntero reaparece y el pato hace «¡CUAC!» en un cartelito de texto sobre fondo.",
+      "html": "<div class=\"ds-pato\"><span class=\"ds-pato__cuac\">¡CUAC!</span><svg viewBox=\"0 0 64 56\" width=\"64\" height=\"56\"><g class=\"ds-pato__pata ds-pato__pata--atras\"><path class=\"ds-pato__pierna\" d=\"M27.5 46 L27 53\"/><path class=\"ds-pato__pie\" d=\"M25.5 52.6 C28.5 52.6 31.6 53.4 33.6 55.2 L33.6 56 H25 Z\"/></g><path class=\"ds-pato__pluma\" d=\"M4 23 C9 26 15 28.5 21 29 C27 29.5 33 28 36 25.5 C37.6 23.5 37 21.5 36.8 18.5 C36.8 12.5 41 8 45.5 8 C50 8 53.5 11.5 53.8 15.5 C54 19.5 51.5 21.5 50.5 23.5 C49.5 26 52.5 29 51.5 35 C50.5 43 42 48.5 30 48.5 C19 48.5 11.5 44 9.5 37 C8 32 6 27.5 4 23 Z\"/><path class=\"ds-pato__ala\" d=\"M17 34 C23.5 29.5 34 30 41 34.5 C36 42 24.5 43 17 34 Z\"/><path class=\"ds-pato__pico\" d=\"M52.5 13.8 C57 13.3 61 14.5 62.8 17.4 C63.3 18.3 62.7 19.4 61.6 19.7 C58.4 20.6 55 21 52.5 20.6 Z\"/><circle class=\"ds-pato__ojo\" cx=\"48\" cy=\"13.5\" r=\"1.5\"/><g class=\"ds-pato__pata ds-pato__pata--adelante\"><path class=\"ds-pato__pierna\" d=\"M35.5 46 L36 53\"/><path class=\"ds-pato__pie\" d=\"M34.5 52.6 C37.5 52.6 40.6 53.4 42.6 55.2 L42.6 56 H34 Z\"/></g></svg></div><div class=\"ds-flecha\"><svg viewBox=\"0 0 14 22\" width=\"14\" height=\"22\"><path d=\"M1 1 V17.6 L5 13.9 L7.9 20.4 L10.6 19.2 L7.8 12.9 H13 Z\"/></svg></div>",
+      "css": ".ds-pato { width: 64px; height: 56px; pointer-events: none; } .ds-pato svg { display: block; overflow: visible; } .ds-pato__pluma { fill: var(--texto); } .ds-pato__ala { fill: var(--texto-2); } .ds-pato__ojo { fill: var(--fondo); } .ds-pato__pico, .ds-pato__pie { fill: var(--pato-pico); } .ds-pato__pierna { fill: none; stroke: var(--pato-pico); stroke-width: 2.4; stroke-linecap: round; } .ds-pato__pata--atras { opacity: 0.8; } .ds-pato { position: relative; } .ds-pato__cuac { position: absolute; bottom: 100%; left: 50%; margin-bottom: 2px; padding: 3px 8px; border-radius: 6px; background: var(--texto); color: var(--fondo); font: 600 13px/1.2 'Geist Variable', system-ui, sans-serif; letter-spacing: 0.02em; white-space: nowrap; transform: translateX(-50%); } .ds-flecha { width: 14px; height: 22px; pointer-events: none; } .ds-flecha svg { display: block; overflow: visible; fill: var(--texto); stroke: var(--fondo); stroke-width: 1.2; stroke-linejoin: round; }"
     }
   ],
   "narrative": {

@@ -3,7 +3,7 @@ import {sinMovimiento} from './movimiento.ts';
 import type {Particula} from './particulas.ts';
 import {apagar, azarConSemilla, derivar, empuje, encender, sembrar} from './particulas.ts';
 import type {Punto} from './puntero.ts';
-import {acercar, paralaje} from './puntero.ts';
+import {PUNTERO_DIBUJADO, acercar, paralaje} from './puntero.ts';
 
 /** La semilla del polvo: el mismo cielo en cada visita. */
 const SEMILLA = 2026;
@@ -13,7 +13,8 @@ const MOVIMIENTO_PLENO = 6;
 /**
  * El cielo del fondo (ADR-0012): un navy casi negro con luces grandes de azul y de índigo que
  * derivan lento, un grano fino y un polvo de motas que deriva solo hacia abajo a la izquierda
- * (ADR-0013) y se enciende por donde pasa el mouse, deja estela y se apaga solo. Es decorado: queda
+ * (ADR-0013) y se enciende por donde pasa el mouse (o la flecha que se lleva el pato, ADR-0014),
+ * deja estela y se apaga solo. Es decorado: queda
  * fuera del árbol de accesibilidad. Con el dedo el polvo deriva pero no reacciona; con movimiento
  * reducido se ve tenue y quieto.
  */
@@ -105,6 +106,12 @@ export function Fondo() {
       cursor = {x: evento.clientX, y: evento.clientY};
     }
 
+    // La flecha que se lleva el pato cuenta como el puntero: el polvo se enciende por donde pasa.
+    function alArrastrar(evento: Event) {
+      const {x, y} = (evento as CustomEvent<Punto>).detail;
+      cursor = {x, y};
+    }
+
     function alSalir(evento: MouseEvent) {
       if (evento.relatedTarget) return;
       cursor = undefined;
@@ -115,6 +122,7 @@ export function Fondo() {
     window.addEventListener('resize', medir);
     if (!quieto) {
       window.addEventListener('pointermove', alMover);
+      window.addEventListener(PUNTERO_DIBUJADO, alArrastrar);
       document.addEventListener('mouseout', alSalir);
       antes = performance.now();
       cuadro = requestAnimationFrame(paso);
@@ -122,6 +130,7 @@ export function Fondo() {
     return () => {
       window.removeEventListener('resize', medir);
       window.removeEventListener('pointermove', alMover);
+      window.removeEventListener(PUNTERO_DIBUJADO, alArrastrar);
       document.removeEventListener('mouseout', alSalir);
       cancelAnimationFrame(cuadro);
     };

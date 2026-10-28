@@ -1,13 +1,14 @@
 import {describe, expect, it} from 'vitest';
-import type {Pato} from '../src/hub/andanzas.ts';
-import {andar, nacer} from '../src/hub/andanzas.ts';
+import type {Mundo, Pato} from '../src/hub/andanzas.ts';
+import {andar, escapar, nacer, pico} from '../src/hub/andanzas.ts';
 import {azarConSemilla} from '../src/hub/particulas.ts';
+import type {Punto} from '../src/hub/puntero.ts';
 
 const VENTANA = {ancho: 1280, alto: 800};
 
 /** Un pato caminando hacia un destino lejano, para medirle el paso sin que llegue. */
 function caminando(x: number, y: number, destino = {x: 1200, y}): Pato {
-  return {x, y, mirando: 1, fase: 'caminando', destino, pausa: 0};
+  return {...nacer(VENTANA.ancho, VENTANA.alto, azarConSemilla(1)), x, y, mirando: 1, fase: 'caminando', destino, pausa: 0};
 }
 
 function adentro(pato: Pato, ancho: number, alto: number): void {
@@ -88,5 +89,144 @@ describe('el pato que pasea', () => {
     const chica = {ancho: 400, alto: 300};
     const pato = andar(caminando(1100, 700, {x: 1200, y: 750}), chica, 1 / 60, azar);
     adentro(pato, chica.ancho, chica.alto);
+  });
+});
+
+/** El cursor del visitante, quieto en la mitad derecha de la ventana. */
+const CURSOR = {x: 900, y: 300};
+const CUADRO = 1 / 60;
+
+/** Un mundo con el cursor quieto desde el principio y un mouse de verdad. */
+function conCursor(reloj: number, extra: Partial<Mundo> = {}): Mundo {
+  return {...VENTANA, reloj, puntero: CURSOR, quietoDesde: 0, fino: true, ...extra};
+}
+
+interface Instante {
+  reloj: number;
+  pato: Pato;
+}
+
+/**
+ * Lo hace vivir de a cuadros de 60 Hz, de un reloj a otro, y devuelve cada instante. `mundo` dice
+ * cómo está el mundo en cada momento; por defecto, con el cursor quieto desde el principio.
+ */
+function vivir(
+  pato: Pato,
+  desde: number,
+  hasta: number,
+  azar: () => number,
+  mundo: (reloj: number) => Mundo = conCursor,
+): Instante[] {
+  const instantes: Instante[] = [];
+  let actual = pato;
+  for (let reloj = desde; reloj < hasta; reloj += CUADRO) {
+    actual = andar(actual, mundo(reloj), CUADRO, azar);
+    instantes.push({reloj, pato: actual});
+  }
+  return instantes;
+}
+
+/** El instante de un índice que el test ya buscó: si no está, el test falla acá con su motivo. */
+function en(instantes: Instante[], indice: number): Instante {
+  const instante = instantes[indice];
+  if (!instante) throw new Error(`no hay un instante ${indice}`);
+  return instante;
+}
+
+function distancia(a: Punto, b: Punto): number {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+/** El primer instante en que el pato agarra el cursor, con varias semillas. */
+function primerSecuestro(semilla: number): {instantes: Instante[]; indice: number; azar: () => number} {
+  const azar = azarConSemilla(semilla);
+  const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar);
+  const indice = instantes.findIndex(({pato}) => pato.fase === 'arrastrando');
+  return {instantes, indice, azar};
+}
+
+const SEMILLAS = [1, 2, 3, 4, 5, 6, 7, 8];
+
+describe('el pato que secuestra el cursor', () => {
+  it('antes de los 20 s no va a buscar el cursor, aunque esté quieto desde el principio', () => {
+    for (const semilla of SEMILLAS) {
+      const azar = azarConSemilla(semilla);
+      const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 20, azar);
+      expect(instantes.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
+    }
+  });
+
+  it('después de los 20 s, con el cursor quieto, va a buscarlo hasta tenerlo en el pico', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, indice} = primerSecuestro(semilla);
+      expect(indice).toBeGreaterThan(0);
+      const yendo = instantes.findIndex(({pato}) => pato.fase === 'yendo');
+      expect(en(instantes, yendo).reloj).toBeGreaterThanOrEqual(20);
+      const {pato} = en(instantes, indice);
+      expect(pato.presa).toEqual(CURSOR);
+      expect(distancia(pico(pato), CURSOR)).toBeLessThan(10);
+    }
+  });
+
+  it('un cursor que no se queda quieto 3 s no le interesa', () => {
+    for (const semilla of SEMILLAS) {
+      const azar = azarConSemilla(semilla);
+      // El visitante mueve el mouse cada dos segundos.
+      const inquieto = (reloj: number) => conCursor(reloj, {quietoDesde: Math.floor(reloj / 2) * 2});
+      const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, inquieto);
+      expect(instantes.some(({pato}) => pato.fase === 'yendo')).toBe(false);
+    }
+  });
+
+  it('si el cursor se mueve mientras va a buscarlo, lo deja', () => {
+    const azar = azarConSemilla(1);
+    const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar);
+    const yendo = instantes.find(({pato}) => pato.fase === 'yendo');
+    expect(yendo).toBeDefined();
+    if (!yendo) return;
+    const movido = andar(yendo.pato, conCursor(yendo.reloj, {quietoDesde: yendo.reloj}), CUADRO, azar);
+    expect(movido.fase).not.toBe('yendo');
+    expect(movido.presa).toBeUndefined();
+  });
+
+  it('con el dedo nunca va: no hay cursor que robar', () => {
+    for (const semilla of SEMILLAS) {
+      const azar = azarConSemilla(semilla);
+      const tactil = (reloj: number) => conCursor(reloj, {fino: false});
+      const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, tactil);
+      expect(instantes.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
+    }
+  });
+
+  it('cuando lo agarra, se lleva la presa en el pico hasta la otra mitad de la pantalla y la suelta ahí', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, indice, azar} = primerSecuestro(semilla);
+      const agarrado = en(instantes, indice);
+      const despues = vivir(agarrado.pato, agarrado.reloj, agarrado.reloj + 60, azar);
+      for (const {pato} of despues.filter(({pato}) => pato.fase === 'arrastrando')) {
+        expect(pato.presa).toBeDefined();
+        expect(distancia(pico(pato), pato.presa ?? CURSOR)).toBeLessThan(1);
+      }
+      const soltado = despues.findIndex(({pato}) => pato.fase !== 'arrastrando');
+      expect(soltado).toBeGreaterThan(0);
+      const presa = en(despues, soltado).pato.presa;
+      expect(presa?.x).toBeLessThan(VENTANA.ancho / 2);
+      // Soltada, la presa se queda donde quedó aunque el pato siga paseando.
+      expect(despues.at(-1)?.pato.presa).toEqual(presa);
+    }
+  });
+
+  it('si se le escapa, queda parado haciendo cuac, y no vuelve a atacar por 30 s', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, indice, azar} = primerSecuestro(semilla);
+      const {pato, reloj} = en(instantes, indice);
+      const escapado = escapar(pato, reloj, azar);
+      expect(escapado.presa).toBeUndefined();
+      expect(escapado.fase).toBe('parado');
+      expect(escapado.cuac).toBeGreaterThan(0);
+      const despues = vivir(escapado, reloj, reloj + 30, azar);
+      expect(despues.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
+      expect(despues.at(-1)?.pato.cuac).toBe(0);
+    }
   });
 });

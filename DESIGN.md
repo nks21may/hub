@@ -239,6 +239,10 @@ El easter egg de ADR-0014. Un pato blanco de 64×56px, dibujado en SVG con forma
 - **Lugar:** fijo a la ventana, por encima de la grilla y del pie (`z-index` 2), con `pointer-events: none`. Su posición es la de los pies, y el dibujo se espeja alrededor de ese punto según para dónde camina.
 - **Paseo:** camina a 60 px/s hacia un punto al azar, a 40px de los costados, 70px de arriba y 12px de abajo; al llegar se queda parado entre 1 y 4 s y elige otro.
 - **Paso:** caminando, las patas giran ±22° desde la cadera, en contrafase, y el cuerpo se bambolea ±3° con 1,5px de rebote, en 0,42 s alternados. Parado no se mueve.
+- **Secuestro:** pasados 20 s de pestaña a la vista, al terminar una pausa y con un cursor quieto hace 3 s, va por él a 200 px/s (una chance de 0,6 cada vez). Si el cursor se mueve, lo deja. Cuando tiene la punta del pico sobre el cursor, `<html>` pasa a `data-pato="secuestro"`, que esconde el puntero real (`cursor: none`), y aparece la flecha dibujada. El pato la lleva mirándola, tironeando para atrás si hace falta, a 150 px/s, hasta la otra mitad de la pantalla, y la suelta ahí. La flecha enciende el polvo del cielo como el puntero.
+- **Flecha:** la flecha de un cursor de sistema, de 14×22px, en `texto` con un trazo de 1,2px en `fondo` y la punta en el punto exacto (`z-index` 3, `pointer-events: none`).
+- **Escape:** apenas el mouse se mueve, la flecha vuelve al puntero real en 0,15 s ease-out, el puntero reaparece y el pato hace «¡CUAC!» durante 1,2 s: un cartelito sobre el pato en `texto` con letra en `fondo`, Geist 600 a 13px, radio 6px, que aparece en 0,12 s. Después espera entre 30 y 60 s antes de volver a atacar.
+- **Táctil:** con el dedo pasea pero no ataca.
 - **Quieto:** con `prefers-reduced-motion` no hay pato.
 
 ## Do's and Don'ts
