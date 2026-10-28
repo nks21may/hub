@@ -195,7 +195,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       dos idiomas; el cielo enciende el polvo con la flecha dibujada igual que con el puntero. (node)
       el CSS del pato y de la flecha dice `pointer-events: none`, así que no atajan ningún click.
       **Se espera rojo:** `andar` nunca deja de pasear, aunque el cursor esté quieto.
-- [ ] **H17 — El pato parece un pato, y ataca a los 10 s.** *Depende de H16.* Lo pidió el usuario
+- [x] **H17 — El pato parece un pato, y ataca a los 10 s.** *Depende de H16.* Lo pidió el usuario
       después de ver H16: «parece una gaviota». El blanco con el ala gris, el cuerpo flaco y la cola
       en punta son de gaviota. Pasa a ser amarillo, panzón, de cuello corto y cabeza grande, con el
       pico ancho y chato y la cola corta para arriba

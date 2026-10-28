@@ -1010,3 +1010,72 @@ secuestro, la flecha, el escape y el cuac en el componente Pato, y los movimient
 `vuelta-de-la-flecha`. No hay colores nuevos: la flecha y el cuac usan `texto` y `fondo`.
 
 **Sha:** `8dfb240`
+
+## H17 — El pato parece un pato, y ataca a los 10 s · 2026-10-28
+
+Lo pidió el usuario después de ver H16: «que sean 10 segundos y el pato parece una gaviota ahora».
+Antes del test, la decisión de los 10 s y del sonido (H18):
+[ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md) (commit `b60731e`), que suma a ADR-0014.
+
+**Por qué parecía una gaviota:** blanco con el ala gris, el cuerpo flaco, el cuello largo y la cola en
+punta. El dibujo nuevo es amarillo, panzón, de cuello corto y cabeza grande, con el pico ancho y chato
+y la cola corta para arriba. El pico se dibuja detrás de la cabeza: la primera versión lo ponía
+encima, y se le veía el corte recto pegado a la cara.
+
+**Archivos:** `src/hub/andanzas.ts` (`PRIMER_ATAQUE` a 10 s y la punta del `pico` del dibujo
+nuevo), `src/hub/Pato.tsx` (el dibujo), `src/hub/pato.css` (los colores y las caderas nuevas),
+`src/estilos/base.css` (`--pato-pluma`, `--pato-ala` y `--pato-pico`, que pasa a un naranja más
+fuerte), `tests/andanzas.test.ts` (los 10 s y un test nuevo: alguna semilla ataca entre los 10 y los
+20 s), `tests/pato.test.tsx` (el secuestro llega pasados los 10 s), `DESIGN.md`,
+`.impeccable/design.json` y las capturas del pato en `.impeccable/review/` (`pato-dibujo.png` es
+nueva; `pato-secuestro.png` y `pato-cuac.png`, rehechas).
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests pasados a 10 s y sin el código:
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+     × a los 10 s ya puede ir: con varias semillas, alguna va por el cursor antes de los 20 s 48ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected false to be true // Object.is equality
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 100 passed (101)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  101 passed (101)
+✓ built in 108ms
+EXIT=0
+```
+
+**Revisión en el navegador** (Chrome sin cabeza por CDP, 1280×800, con el mismo recorrido que en
+H16):
+
+```
+secuestro: secuestro a los 23.1 s (fase arrastrando)
+en vuelo: {"pico":{"izquierda":700,"derecha":716,"arriba":342,"abajo":349},"flecha":{"x":700.7,"y":345.2,"visible":"visible"},"cursorReal":"none","bajoFlecha":"IMG","bajoPato":"IMG"}
+clicks: ["Neonduel"]
+al mover: {"transform":"translate(906px, 303px)","cuac":"true","pato":"secuestro"}
+después: {"pato":null,"flecha":"hidden","cursor":"pointer"}
+```
+
+La punta de la flecha cae en la punta del pico nuevo, que con el pato mirando a la izquierda es su
+borde izquierdo. En esta corrida el primer ataque llegó a los 23 s: desde los 10 s *puede* ir, y
+cuándo va depende del azar (dónde termina cada pausa y la chance de 0,6). Lo demás quedó igual que
+en H16.
+
+**Detector:** `[]`.
+
+**Sha:** `83cafb1`
