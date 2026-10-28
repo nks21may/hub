@@ -237,6 +237,15 @@ ataque antes de los 20 segundos (después pidió 10, en
       *Test:* (node) el CSS del ganso anima las dos patas en `caminando`, `yendo` y `arrastrando`, y
       en `yendo` más rápido que caminando. Se revisa en Chrome.
       **Se espera rojo:** no hay animación de las patas para `yendo` ni para `arrastrando`.
+- [ ] **H24 — El ganso tiene volumen.** *Depende de H23.* Lo pidió el usuario («que sea 3D»), con
+      un dibujo propio y no el de Desktop Goose ([ADR-0016](adr/0016-el-pato-pasa-a-ser-un-ganso.md)):
+      sombra en la panza, luz en el lomo, el cuello y la cabeza, el ala del otro lado asomando detrás
+      del lomo, y la pata de atrás más oscura. Todo con tono, sin sombra en el piso, como pide la
+      regla «Plano con luz» de `DESIGN.md`. Los colores nuevos entran a `.impeccable/design.json`.
+      *Test:* (jsdom) el dibujo del ganso trae la sombra de la panza, las luces y el ala de atrás;
+      (node) la pata de atrás va en un naranja más oscuro que la de adelante. El dibujo se revisa en
+      Chrome, con captura.
+      **Se espera rojo:** el dibujo no tiene sombra ni luces.
 
 ## Fase 4 — En producción
 
