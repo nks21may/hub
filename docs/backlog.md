@@ -235,7 +235,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       sin errores de la CSP.
       **Se espera rojo:** el `script-src` no tiene nonce.
 
-- [ ] **H21 — El HTML no contesta 304.** *Depende de H20.* Con H20 en producción, la segunda visita
+- [x] **H21 — El HTML no contesta 304.** *Depende de H20.* Con H20 en producción, la segunda visita
       vuelve a mostrar el error: el navegador revalida el HTML, nginx contesta 304 con un nonce nuevo
       y el navegador lo junta con el HTML guardado, que tiene el viejo
       ([ADR-0018](adr/0018-el-html-no-contesta-304.md)).

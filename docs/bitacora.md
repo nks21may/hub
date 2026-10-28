@@ -1305,3 +1305,80 @@ nginx arranca con el conf nuevo y el nonce cambia en cada pedido. Que Cloudflare
 su script sólo se puede ver en producción, después del deploy: queda pendiente.
 
 **Sha:** `4ad5af8`
+
+## H21 — El HTML no contesta 304 · 2026-10-28
+
+Con H20 en producción (`282543a`), Cloudflare copió el nonce a su script: el HTML salía con
+`<script nonce="841a9b50…">`, igual a la cabecera, y los dos scripts que arma adentro del iframe
+también. Pero Chrome sin cabeza seguía mostrando la violación. Con un perfil limpio, la primera carga
+quedaba sin errores y la segunda no:
+
+```
+--- primera carga
+documento: 200  nonce de la cabecera 74693b4a7a30b284ce5bc48d8f4b6f3f
+--- segunda carga (revalida)
+documento: 200  nonce de la cabecera 6e119d845b8a96cb1890d466f3893d29
+CSP {"directiva":"script-src-elem","bloqueado":"inline","muestra":"","archivo":"https://hub.nicolasdalessandro.dev/","linea":14,…}
+```
+
+Con curl, la causa:
+
+```
+HTTP/1.1 200 OK                  content-security-policy: … nonce-39e5507924d8c43755aa4108668df472 …
+nonce del cuerpo: nonce="39e5507924d8c43755aa4108668df472"
+--- revalidando con If-Modified-Since: Wed, 28 Oct 2026 22:11:35 GMT
+HTTP/1.1 304 Not Modified        content-security-policy: … nonce-a47920269adea6db0730806e9dfbbb9e …
+```
+
+El navegador junta el 304, que trae un nonce nuevo, con el HTML que tenía guardado, que trae el
+viejo. (DevTools lo reporta como 200 porque muestra la respuesta ya combinada.) Antes del test, la
+decisión: [ADR-0018](adr/0018-el-html-no-contesta-304.md) (commit `4ba882c`), que suma a ADR-0017 y
+corrige su «no pesa, porque el HTML ya sale con `no-cache`».
+
+**Archivos:** `deploy/nginx.conf` (`location = /index.html` con `if_modified_since off` y
+`etag off`) y `tests/despliegue.test.ts`.
+
+**Gate:** `npm run gate`
+
+**Rojo:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+     × el HTML nunca contesta 304, para que el nonce del cuerpo sea el de la cabecera (ADR-0018) 3ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected undefined to be defined
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 113 passed (114)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  114 passed (114)
+✓ built in 94ms
+EXIT=0
+```
+
+**Fuera del gate.** `docker build` terminó con el gate adentro (`Tests 114 passed`). Con `docker run`
+y pedidos condicionales:
+
+```
+/  sin condición: 200  con If-Modified-Since: 200 (522 B)  etag: 0
+/index.html  sin condición: 200  con If-Modified-Since: 200 (522 B)  etag: 0
+/catalogo.json  sin condición: 200  con If-Modified-Since: 304 (0 B)  etag: 1
+pedido 1: HTTP/1.1 200 OK, nonce nonce-df7a679fa6fea0cf5cb7ae6517f1990b
+pedido 2: HTTP/1.1 200 OK, nonce nonce-58347b2ffa6b2445da8d937eb48236ba
+```
+
+La prueba en producción, con la segunda carga, va después del deploy.
+
+**Sha:** `aa80793`
