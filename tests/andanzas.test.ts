@@ -148,20 +148,28 @@ function primerSecuestro(semilla: number): {instantes: Instante[]; indice: numbe
 const SEMILLAS = [1, 2, 3, 4, 5, 6, 7, 8];
 
 describe('el pato que secuestra el cursor', () => {
-  it('antes de los 20 s no va a buscar el cursor, aunque esté quieto desde el principio', () => {
+  it('antes de los 10 s no va a buscar el cursor, aunque esté quieto desde el principio', () => {
     for (const semilla of SEMILLAS) {
       const azar = azarConSemilla(semilla);
-      const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 20, azar);
+      const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 10, azar);
       expect(instantes.some(({pato}) => pato.fase === 'yendo' || pato.presa)).toBe(false);
     }
   });
 
-  it('después de los 20 s, con el cursor quieto, va a buscarlo hasta tenerlo en el pico', () => {
+  it('a los 10 s ya puede ir: con varias semillas, alguna va por el cursor antes de los 20 s', () => {
+    const primeros = SEMILLAS.map((semilla) => {
+      const {instantes} = primerSecuestro(semilla);
+      return instantes.find(({pato}) => pato.fase === 'yendo')?.reloj ?? Infinity;
+    });
+    expect(primeros.some((reloj) => reloj >= 10 && reloj < 20)).toBe(true);
+  });
+
+  it('pasados los 10 s, con el cursor quieto, va a buscarlo hasta tenerlo en el pico', () => {
     for (const semilla of SEMILLAS) {
       const {instantes, indice} = primerSecuestro(semilla);
       expect(indice).toBeGreaterThan(0);
       const yendo = instantes.findIndex(({pato}) => pato.fase === 'yendo');
-      expect(en(instantes, yendo).reloj).toBeGreaterThanOrEqual(20);
+      expect(en(instantes, yendo).reloj).toBeGreaterThanOrEqual(10);
       const {pato} = en(instantes, indice);
       expect(pato.presa).toEqual(CURSOR);
       expect(distancia(pico(pato), CURSOR)).toBeLessThan(10);

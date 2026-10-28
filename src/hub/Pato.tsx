@@ -34,7 +34,7 @@ interface Props {
 
 /**
  * El pato que pasea por encima del hub (ADR-0014): un SVG fijo a la ventana que camina a un punto al
- * azar, se para un rato y vuelve a caminar. Pasados los 20 s puede llevarse un cursor quieto: el
+ * azar, se para un rato y vuelve a caminar. Pasados los 10 s puede llevarse un cursor quieto: el
  * puntero real no se mueve, se esconde, y lo que se lleva en el pico es una flecha dibujada. Apenas
  * el mouse se mueve, la flecha vuelve al puntero real, el puntero reaparece y el pato hace «¡CUAC!».
  * Es decorado: queda fuera del árbol de accesibilidad y no ataja ningún click. Con movimiento
@@ -151,27 +151,29 @@ export function Pato({idioma, azar = Math.random}: Props) {
         <span className="pato__cuac">{texto(idioma, 'pato.cuac')}</span>
         <svg className="pato__dibujo" viewBox="0 0 64 56" width="64" height="56">
           <g className="pato__pata pato__pata--atras">
-            <path className="pato__pierna" d="M27.5 46 L27 53" />
-            <path className="pato__pie" d="M25.5 52.6 C28.5 52.6 31.6 53.4 33.6 55.2 L33.6 56 H25 Z" />
+            <path className="pato__pierna" d="M27.5 48 L27 53.5" />
+            <path className="pato__pie" d="M25 53.2 C28.5 53 31.8 53.6 33.8 55.2 L33.8 56 H24.4 Z" />
           </g>
           <g className="pato__cuerpo">
+            {/* El pico va primero: la cabeza le tapa la base, y nace de adentro. */}
+            <path
+              className="pato__pico"
+              d="M47.5 15.2 C53 14.6 59.5 15.2 62.5 17.2 C64 18.2 63.8 20.6 62 21.2 C58 22.4 52.5 22.4 47.5 21.6 Z"
+            />
             <path
               className="pato__pluma"
-              d="M4 23 C9 26 15 28.5 21 29 C27 29.5 33 28 36 25.5 C37.6 23.5 37 21.5 36.8 18.5 C36.8 12.5 41 8 45.5 8 C50 8 53.5 11.5 53.8 15.5 C54 19.5 51.5 21.5 50.5 23.5 C49.5 26 52.5 29 51.5 35 C50.5 43 42 48.5 30 48.5 C19 48.5 11.5 44 9.5 37 C8 32 6 27.5 4 23 Z"
+              d="M5 25.5 C8 28.5 12 30 17 30.5 C24 31 31 30 35 27.5 C36.5 26 35.5 23.5 34.6 21 C33.5 12 38.5 7 44 7 C50 7 54 11.5 54 17 C54 21 51.5 23.5 50.5 26 C54 29 55.5 34 53.5 39.5 C51 46.5 42 50.5 30 50.5 C19 50.5 11 47 8.5 40 C7.5 36 7 31 5 25.5 Z"
             />
             <path
               className="pato__ala"
-              d="M17 34 C23.5 29.5 34 30 41 34.5 C36 42 24.5 43 17 34 Z"
+              d="M17.5 34.5 C24 30.5 35.5 31.5 40 36.5 C36 43.5 25 44.5 16 38.5 C15 37 15.8 35.4 17.5 34.5 Z"
             />
-            <path
-              className="pato__pico"
-              d="M52.5 13.8 C57 13.3 61 14.5 62.8 17.4 C63.3 18.3 62.7 19.4 61.6 19.7 C58.4 20.6 55 21 52.5 20.6 Z"
-            />
-            <circle className="pato__ojo" cx="48" cy="13.5" r="1.5" />
+            <circle className="pato__ojo" cx="47" cy="14" r="1.9" />
+            <circle className="pato__brillo" cx="47.6" cy="13.3" r="0.6" />
           </g>
           <g className="pato__pata pato__pata--adelante">
-            <path className="pato__pierna" d="M35.5 46 L36 53" />
-            <path className="pato__pie" d="M34.5 52.6 C37.5 52.6 40.6 53.4 42.6 55.2 L42.6 56 H34 Z" />
+            <path className="pato__pierna" d="M35.5 48 L36 53.5" />
+            <path className="pato__pie" d="M34 53.2 C37.5 53 40.8 53.6 42.8 55.2 L42.8 56 H33.4 Z" />
           </g>
         </svg>
       </div>

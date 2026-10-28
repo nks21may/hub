@@ -100,13 +100,13 @@ describe('el pato del hub', () => {
 });
 
 describe('el secuestro del cursor', () => {
-  it('pasados los 20 s se lleva el cursor quieto: el real se esconde y la flecha aparece en su lugar', () => {
+  it('pasados los 10 s se lleva el cursor quieto: el real se esconde y la flecha aparece en su lugar', () => {
     medios({fino: true});
     const {container} = render(<Pato idioma="es" azar={azarConSemilla(1)} />);
     moverMouse(500, 400);
     const tardo = esperarSecuestro();
     expect(secuestrado()).toBe(true);
-    expect(tardo).toBeGreaterThanOrEqual(20_000);
+    expect(tardo).toBeGreaterThanOrEqual(10_000);
     const flecha = container.querySelector<HTMLElement>('.pato-flecha');
     expect(flecha?.dataset.visible).toBe('true');
     const donde = posicion(flecha as HTMLElement);

@@ -59,8 +59,8 @@ const PAUSA_MAXIMA = 4;
 const MARGEN_COSTADO = 40;
 const MARGEN_ARRIBA = 70;
 const MARGEN_ABAJO = 12;
-/** Antes de esto no ataca nunca (lo pidió el usuario), en segundos de reloj. */
-const PRIMER_ATAQUE = 20;
+/** Antes de esto no ataca nunca (lo pidió el usuario, ADR-0015), en segundos de reloj. */
+const PRIMER_ATAQUE = 10;
 /** Lo que tiene que llevar quieto el cursor para que le interese, en segundos. */
 const QUIETO = 3;
 /** La chance de ir por el cursor cada vez que termina una pausa, si puede. */
@@ -71,7 +71,7 @@ const ESPERA_MAXIMA = 60;
 /** Lo que dura el «¡CUAC!», en segundos. */
 const CUAC = 1.2;
 /** Dónde está la punta del pico respecto de los pies, mirando a la derecha (el dibujo de Pato.tsx). */
-const PICO = {x: 29.5, y: 38};
+const PICO = {x: 30.5, y: 37.5};
 
 function entre(valor: number, minimo: number, maximo: number): number {
   // Una ventana más chica que los márgenes deja al pato en el medio.
@@ -153,7 +153,7 @@ function caminar(desde: Punto, hacia: Punto, velocidad: number, segundos: number
 
 /**
  * Un paso del pato. Pasea: camina hacia su destino, se para al llegar y, cuando se le acaba la
- * pausa, elige otro. Pasados los 20 s, cuando termina una pausa y hay un cursor quieto hace 3 s,
+ * pausa, elige otro. Pasados los 10 s, cuando termina una pausa y hay un cursor quieto hace 3 s,
  * puede ir a buscarlo; si el cursor se mueve, lo deja. Cuando lo tiene en el pico se lo lleva a la
  * otra mitad de la pantalla y lo suelta ahí. Depende del tiempo y no de los cuadros, y paseando
  * nunca sale de la ventana.

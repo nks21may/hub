@@ -23,15 +23,19 @@
 }
 
 .pato__pluma {
-  fill: var(--texto);
+  fill: var(--pato-pluma);
 }
 
 .pato__ala {
-  fill: var(--texto-2);
+  fill: var(--pato-ala);
 }
 
 .pato__ojo {
   fill: var(--fondo);
+}
+
+.pato__brillo {
+  fill: var(--texto);
 }
 
 .pato__pico,
@@ -53,16 +57,16 @@
 }
 
 .pato__pata--atras {
-  transform-origin: 27.5px 46px;
+  transform-origin: 27.5px 48px;
   opacity: 0.8;
 }
 
 .pato__pata--adelante {
-  transform-origin: 35.5px 46px;
+  transform-origin: 35.5px 48px;
 }
 
 .pato__cuerpo {
-  transform-origin: 30px 48px;
+  transform-origin: 30px 50px;
 }
 
 .pato[data-fase='caminando'] .pato__pata--atras {

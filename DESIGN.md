@@ -23,7 +23,9 @@ colors:
   cielo-indigo: "#15287a"
   cielo-claro: "#4a8fe6"
   particula: "#d6e4ff"
-  pato-pico: "#f2a03d"
+  pato-pluma: "#f7d44c"
+  pato-ala: "#e5ae32"
+  pato-pico: "#f0832a"
 typography:
   display:
     fontFamily: "Geist Variable, system-ui, sans-serif"
@@ -112,7 +114,7 @@ El mundo es un cielo azul fijo detrás de todo: un navy casi negro abajo a la iz
 
 La interacción firma del recuadro es una sola y se repite en cada uno: con hover o foco el borde se aclara, la superficie sube un tono, la preview se acerca un 3% y una luz radial sigue al puntero. Con el dedo el polvo deriva pero no reacciona. Con movimiento reducido el cielo queda quieto, el polvo tenue y sin reaccionar, y no hay zoom.
 
-Encima de todo pasea un pato (ADR-0014): blanco, vectorial, con el pico y las patas en el único naranja del hub. Camina a un punto al azar de la ventana, se para un rato y vuelve a caminar. No ataja ningún click y queda fuera del árbol de accesibilidad; con movimiento reducido no está.
+Encima de todo pasea un pato (ADR-0014): amarillo, vectorial, panzón y de pico ancho, con el pico y las patas naranjas; son los únicos colores cálidos del hub. Camina a un punto al azar de la ventana, se para un rato y vuelve a caminar. No ataja ningún click y queda fuera del árbol de accesibilidad; con movimiento reducido no está.
 
 **Key Characteristics:**
 - Un cielo azul fijo a pantalla completa: degradé de navy a azul francia, tres luces que derivan y se corren con el mouse, grano y un polvo que deriva solo y se enciende por donde pasa el puntero.
@@ -137,7 +139,11 @@ Las tres luces van en `mix-blend-mode: screen` y son también tres cuadrados del
 
 ### Tertiary
 - **Polvo** (`particula`): el color de las motas del canvas, que lo lee de la propiedad `color` del canvas. En reposo se ven al 4–14% de opacidad (unas pocas, al 26–36%); encendidas llegan a opacidad plena.
-- **Pico de pato** (`pato-pico`): el pico y las patas del pato, y nada más. Es el único color cálido del hub.
+- **Pluma de pato** (`pato-pluma`): el cuerpo del pato.
+- **Ala de pato** (`pato-ala`): el ala, un tono más oscura que la pluma.
+- **Pico de pato** (`pato-pico`): el pico y las patas del pato.
+
+Los tres son los únicos colores cálidos del hub, y no salen del pato.
 
 ### Neutral
 - **Navy noche** (`fondo`): el fondo de la página, la base y la esquina inferior izquierda del cielo, el `theme-color` y la base del favicon.
@@ -235,11 +241,11 @@ Fijo a pantalla completa, detrás de todo y fuera del árbol de accesibilidad.
 - **Quieto:** con `prefers-reduced-motion` las luces no derivan, no siguen al mouse y el polvo queda tenue y quieto; con el dedo el polvo deriva pero no reacciona.
 
 ### Pato
-El easter egg de ADR-0014. Un pato blanco de 64×56px, dibujado en SVG con formas lisas y sin contorno: plumas en `texto`, ala en `texto-2`, ojo en `fondo`, y pico y patas en `pato-pico`.
+El easter egg de ADR-0014. Un pato amarillo de 64×56px, dibujado en SVG con formas lisas y sin contorno: panzón, de cuello corto y cabeza grande, con el pico ancho y chato y la cola corta para arriba (el blanco con ala gris y cola en punta de H15 parecía una gaviota). Plumas en `pato-pluma`, ala en `pato-ala`, ojo en `fondo` con un brillo en `texto`, y pico y patas en `pato-pico`. El pico se dibuja detrás de la cabeza, que le tapa la base.
 - **Lugar:** fijo a la ventana, por encima de la grilla y del pie (`z-index` 2), con `pointer-events: none`. Su posición es la de los pies, y el dibujo se espeja alrededor de ese punto según para dónde camina.
 - **Paseo:** camina a 60 px/s hacia un punto al azar, a 40px de los costados, 70px de arriba y 12px de abajo; al llegar se queda parado entre 1 y 4 s y elige otro.
 - **Paso:** caminando, las patas giran ±22° desde la cadera, en contrafase, y el cuerpo se bambolea ±3° con 1,5px de rebote, en 0,42 s alternados. Parado no se mueve.
-- **Secuestro:** pasados 20 s de pestaña a la vista, al terminar una pausa y con un cursor quieto hace 3 s, va por él a 200 px/s (una chance de 0,6 cada vez). Si el cursor se mueve, lo deja. Cuando tiene la punta del pico sobre el cursor, `<html>` pasa a `data-pato="secuestro"`, que esconde el puntero real (`cursor: none`), y aparece la flecha dibujada. El pato la lleva mirándola, tironeando para atrás si hace falta, a 150 px/s, hasta la otra mitad de la pantalla, y la suelta ahí. La flecha enciende el polvo del cielo como el puntero.
+- **Secuestro:** pasados 10 s de pestaña a la vista (ADR-0015), al terminar una pausa y con un cursor quieto hace 3 s, va por él a 200 px/s (una chance de 0,6 cada vez). Si el cursor se mueve, lo deja. Cuando tiene la punta del pico sobre el cursor, `<html>` pasa a `data-pato="secuestro"`, que esconde el puntero real (`cursor: none`), y aparece la flecha dibujada. El pato la lleva mirándola, tironeando para atrás si hace falta, a 150 px/s, hasta la otra mitad de la pantalla, y la suelta ahí. La flecha enciende el polvo del cielo como el puntero.
 - **Flecha:** la flecha de un cursor de sistema, de 14×22px, en `texto` con un trazo de 1,2px en `fondo` y la punta en el punto exacto (`z-index` 3, `pointer-events: none`).
 - **Escape:** apenas el mouse se mueve, la flecha vuelve al puntero real en 0,15 s ease-out, el puntero reaparece y el pato hace «¡CUAC!» durante 1,2 s: un cartelito sobre el pato en `texto` con letra en `fondo`, Geist 600 a 13px, radio 6px, que aparece en 0,12 s. Después espera entre 30 y 60 s antes de volver a atacar.
 - **Táctil:** con el dedo pasea pero no ataca.
@@ -265,4 +271,4 @@ El easter egg de ADR-0014. Un pato blanco de 64×56px, dibujado en SVG con forma
 - **Don't** traer CRT, pixel art, neón ni arcoíris al cromo del hub. Las previews de los proyectos muestran lo que cada proyecto es, aunque sea pixel art o neón, y no se retocan.
 - **Don't** copiar las identidades vecinas: ni la ficha técnica de `portfolio4` (Schibsted Grotesk e IBM Plex Mono, filas etiqueta/valor) ni la tele de `museo`.
 - **Don't** mostrar la tecla en pantallas táctiles sin puntero fino.
-- **Don't** llevar `pato-pico` fuera del pato, ni dibujar al pato como sprite o pixel art, ni darle sombra proyectada.
+- **Don't** llevar los colores del pato fuera del pato, ni dibujar al pato como sprite o pixel art, ni darle sombra proyectada.

@@ -201,9 +201,8 @@ ataque antes de los 20 segundos (después pidió 10, en
       pico ancho y chato y la cola corta para arriba
       ([ADR-0015](adr/0015-el-pato-hace-cuac-con-sonido.md) baja la espera a 10 s).
       *Test:* (node) antes de los 10 s de reloj, `andar` no va a buscar el cursor; con varias
-      semillas, alguna ataca entre los 10 y los 20 s; con el dibujo nuevo, la presa sigue en la punta
-      del `pico`. (jsdom) el secuestro llega pasados los 10 s. El dibujo se revisa en el navegador,
-      con captura.
+      semillas, alguna ataca entre los 10 y los 20 s. (jsdom) el secuestro llega pasados los 10 s. El
+      dibujo, y que la flecha quede en la punta del pico nuevo, se revisan en el navegador, con captura.
       **Se espera rojo:** ninguna semilla ataca antes de los 20 s.
 - [ ] **H18 — El pato hace cuac cada tanto, con sonido.** *Depende de H17.* El sonido se genera con
       Web Audio, sin archivos, y suena desde el primer click, toque o tecla en la página
