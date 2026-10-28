@@ -21,6 +21,7 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0011](0011-el-hub-es-una-grilla-de-proyectos.md) | El hub es una grilla de proyectos con su vista previa, sobre una aurora | aceptado; su fondo lo reemplaza 0012 |
 | [0012](0012-el-fondo-es-un-cielo-de-particulas.md) | El fondo es un cielo azul con partículas que se encienden con el mouse | aceptado; 0013 le suma la deriva |
 | [0013](0013-el-polvo-deriva-siempre.md) | El polvo del cielo deriva siempre hacia abajo a la izquierda | aceptado |
+| [0014](0014-el-pato-secuestra-el-cursor.md) | Un pato pasea por el hub y secuestra el cursor quieto | aceptado |
 
 ## Cuándo escribir uno
 

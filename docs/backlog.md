@@ -166,6 +166,35 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       **Se espera rojo:** quedan afuera del contexto `.impeccable/design.json` y el propio
       `.dockerignore`, que lee el test del despliegue.
 
+## Fase 3 — El pato ([ADR-0014](adr/0014-el-pato-secuestra-el-cursor.md))
+
+Lo pidió el usuario el 2026-10-28: un pato que pasee por el hub y que, al azar, le secuestre el
+cursor y se lo lleve de un lado a otro de la pantalla. Lo quiere desde que carga, pero sin que
+ataque antes de los 20 segundos. Los cambios de diseño actualizan `DESIGN.md` y
+`.impeccable/design.json` en el mismo commit ([ADR-0007](adr/0007-frontend-disenado-con-impeccable.md)).
+
+- [ ] **H15 — El pato pasea por el hub.** *Depende de H13.* Un SVG fijo a la ventana, por encima de
+      la grilla, que camina a un punto al azar, se para un rato y vuelve a caminar. No ataca todavía.
+      *Test:* (node) `nacer` pone al pato adentro de la ventana, con un destino adentro; `andar` lo
+      lleva hacia el destino a paso de pato (unos 60 px/s) y depende del tiempo y no de los cuadros;
+      mira para el lado al que camina; al llegar se para entre 1 y 4 s y después elige otro destino
+      adentro de la ventana; si la ventana se achica, vuelve adentro. (jsdom) el pato está desde que
+      carga, fuera del árbol de accesibilidad, y camina solo sin que nadie mueva el mouse; con
+      movimiento reducido no hay pato.
+      **Se espera rojo:** falla el import del módulo `andanzas`.
+- [ ] **H16 — El pato secuestra el cursor quieto.** *Depende de H15.* El puntero real no se mueve:
+      se esconde y el pato se lleva una flecha dibujada (ADR-0014).
+      *Test:* (node) antes de los 20 s de reloj, `andar` no va a buscar el cursor aunque esté quieto;
+      después, con el cursor quieto hace 3 s, va a buscarlo hasta tenerlo en el `pico`; si el cursor
+      se mueve mientras va, lo deja; con el dedo nunca va; cuando lo agarra, se lleva la presa en el
+      pico hasta la otra mitad de la pantalla y la suelta ahí; `escapar` lo deja parado, con su cuac,
+      y sin volver a atacar por 30 a 60 s. (jsdom) durante el secuestro, `<html>` lleva
+      `data-pato="secuestro"` (que esconde el puntero) y la flecha dibujada está donde está la presa;
+      al mover el mouse, la flecha vuelve, el puntero reaparece y el cuac sale del diccionario en los
+      dos idiomas; el cielo enciende el polvo con la flecha dibujada igual que con el puntero. (node)
+      el CSS del pato y de la flecha dice `pointer-events: none`, así que no atajan ningún click.
+      **Se espera rojo:** `andar` nunca deja de pasear, aunque el cursor esté quieto.
+
 ## Descartados por ADR-0011
 
 Eran de la placa. Quedan anotados para que nadie los busque.
@@ -188,7 +217,8 @@ dato. Van **sin checkbox** para que el loop no las tome ni las cuente.
   ([ADR-0010](adr/0010-formato-de-la-ficha-y-del-catalogo.md)): hay que grabarlos y sumar el
   `vista.mp4` en cada repo, y es trabajo de esos repos, no de éste. Hasta entonces, las fichas van
   sin `vista` y la placa muestra su relleno.
-- **Los easter eggs.** Es la rama del grill que falta: cuáles, cuántos al principio, y si C y D
+- **Los easter eggs que siguen al pato.** El primero es el pato (H15 y H16,
+  [ADR-0014](adr/0014-el-pato-secuestra-el-cursor.md)). Falta decidir cuáles más, y si C y D
   vuelven como modos escondidos ([docs/conceptos.md](conceptos.md)).
 - **El estado en vivo** (caído / *healthy*) en la sala. [ADR-0004](adr/0004-el-catalogo-llega-en-runtime.md)
   lo habilita; falta decidir si se muestra y cómo.
