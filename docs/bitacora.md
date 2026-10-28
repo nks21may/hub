@@ -757,3 +757,63 @@ camino.
 **Detector:** `[]`.
 
 **Sha:** `33bf8bc`
+
+## H14 — La imagen ve todo lo que lee el gate · 2026-10-28
+
+El usuario pidió publicar el repo en GitHub (`nks21may/hub`, público) con `main` al día. El primer
+push a `main` disparó `build & publish` y falló en el `docker build`: el gate corre adentro y
+`tests/tokens.test.ts` (H5) no encontró `.impeccable/design.json`, porque el `.dockerignore` de H4
+dejaba afuera toda la carpeta. H4 había probado la imagen antes de que existiera ese test, y nadie
+volvió a construirla.
+
+**Archivos:** `.dockerignore` (de `.impeccable` entra sólo el `design.json`, y el archivo ya no se
+excluye a sí mismo), `tests/despliegue.test.ts` (dos tests nuevos: junta los archivos que los tests
+abren con `resolve(...)` o `new URL(...)` y evalúa el `.dockerignore` como Docker, con la última regla
+que coincide ganando y `!` volviendo a meter) y `docs/backlog.md`.
+
+**Gate:** `npm run gate`
+
+**Rojo**, con los tests escritos y sin el arreglo (`npx vitest run tests/despliegue.test.ts`). Además
+del `design.json`, apareció un segundo agujero del mismo tipo: el test del despliegue lee el
+`.dockerignore`, que se excluía a sí mismo, así que adentro del build también habría fallado.
+
+```
+     × ve todo lo que leen los tests, porque el gate corre adentro 5ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected [ '.dockerignore', …(1) ] to deeply equal []
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
++ [
++   ".dockerignore",
++   ".impeccable/design.json",
++ ]
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  8 passed (8)
+      Tests  75 passed (75)
+✓ built in 224ms
+EXIT=0
+```
+
+**La imagen**, fuera del gate (`docker build --progress=plain -t hub:local .`), con el gate adentro:
+
+```
+#12 6.775  Test Files  8 passed (8)
+#12 6.775       Tests  75 passed (75)
+#12 7.175 ✓ built in 171ms
+#15 naming to docker.io/library/hub:local done
+EXIT=0
+```
+
+Con el catálogo de ejemplo montado en `/usr/share/nginx/catalogo`, `docker run` sirve `/` con 200 y
+`/catalogo.json` con 200 y `Cache-Control: no-cache`.
+
+**Sha:** `f9b49d4`

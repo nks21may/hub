@@ -156,7 +156,7 @@ recuadros con su vista previa, sobre una aurora. El contrato de dirección nuevo
       movimiento, el cielo se anima solo sin mover el mouse; con movimiento reducido no pide cuadros.
       **Se espera rojo:** `derivar` no existe, y el cielo sólo pide cuadros cuando se mueve el mouse.
 
-- [ ] **H14 — La imagen ve todo lo que lee el gate.** *Depende de H13.* El primer push a `main`
+- [x] **H14 — La imagen ve todo lo que lee el gate.** *Depende de H13.* El primer push a `main`
       rompió la CI: el gate corre adentro del `docker build` y `tests/tokens.test.ts` (H5) lee
       `.impeccable/design.json`, que el `.dockerignore` de H4 dejaba afuera con toda la carpeta.
       *Test:* (node) cada archivo del repo que nombra un test entra al contexto de la imagen, evaluando
