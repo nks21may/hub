@@ -246,7 +246,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       (node) la pata de atrás va en un naranja más oscuro que la de adelante. El dibujo se revisa en
       Chrome, con captura.
       **Se espera rojo:** el dibujo no tiene sombra ni luces.
-- [ ] **H25 — El ganso persigue el cursor aunque se mueva, 8 s como mucho.** *Depende de H24.* Lo
+- [x] **H25 — El ganso persigue el cursor aunque se mueva, 8 s como mucho.** *Depende de H24.* Lo
       pidió el usuario: que vaya por el cursor aunque no esté quieto, que lo siga 8 s, que se lo
       lleve si lo alcanza y, si no, que grazne y vuelva a pasear
       ([ADR-0019](adr/0019-el-ganso-persigue-el-cursor.md)). Se va la regla de los 3 s quieto.
@@ -256,7 +256,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       de la ventana mientras lo persigue, se rinde igual. Lo de antes de los 10 s y lo del dedo sigue.
       **Se espera rojo:** el ganso no va nunca por un cursor que se mueve: sin `quietoDesde`, el
       mundo de hoy lo da por recién movido.
-- [ ] **H26 — Con el cursor en el pico, hay que sacudir el mouse para que lo suelte.** *Depende de
+- [x] **H26 — Con el cursor en el pico, hay que sacudir el mouse para que lo suelte.** *Depende de
       H25.* Si no, un cursor alcanzado mientras se mueve se libera en el cuadro siguiente
       ([ADR-0019](adr/0019-el-ganso-persigue-el-cursor.md)).
       *Test:* (node) `sacudir` con el cursor en el pico: un movimiento corto no lo suelta, y 400 px
@@ -264,7 +264,7 @@ ataque antes de los 20 segundos (después pidió 10, en
       libera; sin presa, no le hace nada. (jsdom) durante el secuestro, mover un poco el mouse deja la
       flecha y el puntero escondido; sacudirlo hace volver la flecha al puntero real; mientras dura,
       el puntero real no enciende el polvo del cielo. Se revisa en Chrome.
-      **Se espera rojo:** falla el import de `sacudir`.
+      **Se espera rojo:** `sacudir` no existe.
 
 ## Fase 4 — En producción
 

@@ -1539,3 +1539,130 @@ oscura y la luz de la nuca alcanzan para que deje de verse plano, sin cambiar la
 **Detector:** `[]`.
 
 **Sha:** `128e6e9`
+
+## H25 — El ganso persigue el cursor aunque se mueva, 8 s como mucho · 2026-10-28
+
+Lo pidió el usuario: que vaya por el cursor aunque no esté quieto, que lo siga 8 s, que se lo lleve
+si lo alcanza y, si no, que grazne y vuelva a pasear. Antes, el ADR
+([ADR-0019](adr/0019-el-ganso-persigue-el-cursor.md)): cambia la caza de ADR-0014, que había
+descartado justo esto. Se va `quietoDesde` del mundo y la regla de los 3 s; el ganso lleva la
+`caza` que le queda, y `rendirse` lo para con su «¡JONK!» y la espera de 30 a 60 s. En el
+refactor, el «¡JONK!» fuera de la cuenta, que estaba repetido en `escapar`, `tocar` y `rendirse`,
+quedó en `graznar`.
+
+**Archivos:** `src/hub/andanzas.ts`, `src/hub/Ganso.tsx` (sin `quietoDesde`),
+`tests/andanzas.test.ts` (dos tests de la regla vieja reemplazados por cuatro), `DESIGN.md`,
+`.impeccable/design.json`, `.impeccable/surfaces/index-html.md` y `PRODUCT.md`. El ADR, el índice,
+el estado de ADR-0014 y la regla 6 del `CLAUDE.md` van en su propio commit (`9c223c0`).
+
+**Gate:** `npm run gate`
+
+**Rojo** (`npx vitest run tests/andanzas.test.ts`): sin `quietoDesde`, el mundo de hoy da el cursor
+por recién movido, y el ganso no va nunca.
+
+```
+     × a los 10 s ya puede ir: con varias semillas, alguna va por el cursor antes de los 20 s 26ms
+     × pasados los 10 s, con el cursor quieto, va a buscarlo hasta tenerlo en el pico 3ms
+     × va por un cursor que se mueve todo el tiempo y, si lo alcanza, se lo lleva 3ms
+     × lo sigue: si el cursor se va para el otro lado, el ganso da la vuelta y va para allá 3ms
+     × si en 8 s no lo alcanza, se para, grazna y vuelve a pasear, y no ataca de nuevo por 30 s 2ms
+     × si el puntero sale de la ventana mientras lo persigue, se rinde igual, graznando 3ms
+     × cuando lo agarra, se lleva la presa en el pico hasta la otra mitad de la pantalla y la suelta ahí 3ms
+     × si se le escapa, queda parado graznando, y no vuelve a atacar por 30 s 4ms
+     × cuando se le escapa el cursor, también cuenta un graznido 2ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected false to be true // Object.is equality
+AssertionError: expected -1 to be greater than 0
+AssertionError: expected undefined to be defined
+Error: no hay un instante -1
+ Test Files  1 failed (1)
+      Tests  9 failed | 15 passed (24)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  129 passed (129)
+✓ built in 91ms
+EXIT=0
+```
+
+**Sha:** `52432b7`
+
+---
+
+## H26 — Con el cursor en el pico, hay que sacudir el mouse para que lo suelte · 2026-10-28
+
+Con el escape de ADR-0014, un cursor alcanzado mientras se mueve se liberaba en el cuadro siguiente.
+Se le preguntó al usuario cómo se saca, y eligió sacudirlo
+([ADR-0019](adr/0019-el-ganso-persigue-el-cursor.md)). `sacudir` suma el `forcejeo` mientras el
+ganso arrastra y lo suelta a los 400 px; si ya lo dejó en la otra mitad, cualquier movimiento lo
+libera. El componente le pasa lo que recorrió cada `pointermove`, y `soltar` queda para cuando el
+puntero sale de la ventana o la página se va. El cielo ignora el puntero real mientras `<html>`
+dice `data-ganso="secuestro"`: si no, el polvo delataba dónde estaba el puntero escondido, y como
+los `pointermove` llegan entre cuadros, le ganaban a la flecha.
+
+**Archivos:** `src/hub/andanzas.ts`, `src/hub/Ganso.tsx`, `src/hub/Fondo.tsx`,
+`tests/andanzas.test.ts`, `tests/ganso.test.tsx` (el test del escape pasa a sacudir),
+`tests/fondo.test.tsx`, `DESIGN.md`, `.impeccable/design.json` y
+`.impeccable/surfaces/index-html.md`.
+
+**Gate:** `npm run gate`
+
+**Rojo** (`npx vitest run tests/andanzas.test.ts tests/ganso.test.tsx tests/fondo.test.tsx`):
+
+```
+     × con el cursor en el pico, un movimiento corto no lo suelta 5ms
+     × sacudiéndolo 400 px en total, lo suelta, grazna y no vuelve a atacar por 30 s 5ms
+     × lo que sacude cuenta aunque el ganso siga caminando entre una sacudida y otra 2ms
+     × si ya lo dejó en la otra mitad, cualquier movimiento lo libera 3ms
+     × sin presa, mover el mouse no le hace nada 0ms
+     × mientras el ganso tiene el cursor, el puntero real, que no se ve, no corre las luces ni enciende el polvo 8ms
+     × mientras se lo lleva, mover un poco el mouse no alcanza: la flecha sigue en el pico 44ms
+     × sacudiendo el mouse, la flecha vuelve, el puntero reaparece y el ganso grazna (es) 26ms
+     × sacudiendo el mouse, la flecha vuelve, el puntero reaparece y el ganso grazna (en) 26ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+TypeError: sacudir is not a function
+AssertionError: expected '0.000' to be '' // Object.is equality
+AssertionError: expected { x: 520, y: 410 } to deeply equal { x: 534.4, y: 373.8 }
+AssertionError: expected { x: 600, y: 400 } to deeply equal { x: 500, y: 400 }
+ Test Files  3 failed (3)
+      Tests  9 failed | 54 passed (63)
+EXIT=1
+```
+
+**Verde:**
+
+```
+> hub@0.0.0 gate
+> tsc --noEmit && npm run lint && vitest run && vite build
+> hub@0.0.0 lint
+> eslint . --max-warnings=0
+ Test Files  10 passed (10)
+      Tests  136 passed (136)
+✓ built in 115ms
+EXIT=0
+```
+
+**Revisión en el navegador** (Chrome sin cabeza por CDP, con el servidor de desarrollo; los tiempos
+se cuentan desde 2,5 s después de cargar). H25 y H26 juntos:
+
+```
+A: fue a los 10.8 s; lo agarró a los 12.3 s, moviéndose: true
+A: tras 40 px de mouse, sigue con el cursor: true flecha true fase arrastrando
+A: tras sacudirlo 480 px, graznido true ; suelto: true flecha false
+B: fue a los 9.2 s; se rindió 8.00 s después: parado graznido true secuestro false
+B: vuelve a pasear 2.3 s después de rendirse
+```
+
+En A el mouse da vueltas a 60 px/s y el ganso lo alcanza; en B el mouse se queda siempre 400 px al
+costado del pico. Las capturas muestran la flecha en el pico durante el forcejeo, y al ganso parado
+con su «¡JONK!» después de rendirse.
+
+**Sha:** `1765fa6`
