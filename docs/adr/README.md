@@ -21,11 +21,12 @@ Plantilla: [0000-plantilla.md](0000-plantilla.md).
 | [0011](0011-el-hub-es-una-grilla-de-proyectos.md) | El hub es una grilla de proyectos con su vista previa, sobre una aurora | aceptado; su fondo lo reemplaza 0012 |
 | [0012](0012-el-fondo-es-un-cielo-de-particulas.md) | El fondo es un cielo azul con partículas que se encienden con el mouse | aceptado; 0013 le suma la deriva |
 | [0013](0013-el-polvo-deriva-siempre.md) | El polvo del cielo deriva siempre hacia abajo a la izquierda | aceptado |
-| [0014](0014-el-pato-secuestra-el-cursor.md) | Un pato pasea por el hub y secuestra el cursor quieto | aceptado; 0015 baja la espera y suma el sonido; 0016 lo hace ganso |
+| [0014](0014-el-pato-secuestra-el-cursor.md) | Un pato pasea por el hub y secuestra el cursor quieto | aceptado; 0015 baja la espera y suma el sonido; 0016 lo hace ganso; 0019 le cambia la caza |
 | [0015](0015-el-pato-hace-cuac-con-sonido.md) | El pato ataca a los 10 segundos y hace cuac con sonido cada tanto | aceptado; 0016 cambia el cuac por un graznido |
 | [0016](0016-el-pato-pasa-a-ser-un-ganso.md) | El pato pasa a ser un ganso | aceptado |
 | [0017](0017-la-csp-lleva-un-nonce-para-cloudflare.md) | La CSP lleva un nonce por pedido, para el script que inyecta Cloudflare | aceptado; 0018 le suma que el HTML no conteste 304 |
 | [0018](0018-el-html-no-contesta-304.md) | El HTML no contesta 304, para que el nonce del cuerpo sea el de la cabecera | aceptado |
+| [0019](0019-el-ganso-persigue-el-cursor.md) | El ganso persigue el cursor aunque se mueva, y hay que sacudírselo | aceptado |
 
 ## Cuándo escribir uno
 
