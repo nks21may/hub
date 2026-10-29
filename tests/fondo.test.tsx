@@ -103,4 +103,22 @@ describe('el cielo del fondo', () => {
     paso?.(performance.now() + 32);
     expect(cielo.style.getPropertyValue('--px')).not.toBe('');
   });
+
+  it('mientras el ganso tiene el cursor, el puntero real, que no se ve, no corre las luces ni enciende el polvo', () => {
+    movimientoReducido(false);
+    const cuadros = conCanvas();
+    const {container} = render(<Fondo />);
+    const cielo = container.firstElementChild as HTMLElement;
+    const paso = cuadros.mock.calls[0]?.[0];
+    expect(paso).toBeDefined();
+
+    document.documentElement.dataset.ganso = 'secuestro';
+    try {
+      window.dispatchEvent(new MouseEvent('pointermove', {clientX: 200, clientY: 100}));
+      paso?.(performance.now() + 16);
+      expect(cielo.style.getPropertyValue('--px')).toBe('');
+    } finally {
+      delete document.documentElement.dataset.ganso;
+    }
+  });
 });

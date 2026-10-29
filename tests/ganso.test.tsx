@@ -159,22 +159,39 @@ describe('el secuestro del cursor', () => {
     expect(Math.hypot(donde.x - 500, donde.y - 400)).toBeLessThan(20);
   });
 
+  it('mientras se lo lleva, mover un poco el mouse no alcanza: la flecha sigue en el pico', () => {
+    medios({fino: true});
+    const {container} = render(<Ganso idioma="es" azar={azarConSemilla(1)} />);
+    moverMouse(500, 400);
+    esperarSecuestro();
+    vi.advanceTimersByTime(300);
+    const flecha = container.querySelector<HTMLElement>('.ganso-flecha') as HTMLElement;
+    const antes = posicion(flecha);
+
+    moverMouse(520, 410);
+    moverMouse(540, 420);
+    expect(secuestrado()).toBe(true);
+    expect(flecha.dataset.visible).toBe('true');
+    expect(posicion(flecha)).toEqual(antes);
+  });
+
   it.each<Idioma>(['es', 'en'])(
-    'al mover el mouse, la flecha vuelve, el puntero reaparece y el ganso grazna (%s)',
+    'sacudiendo el mouse, la flecha vuelve, el puntero reaparece y el ganso grazna (%s)',
     (idioma) => {
       medios({fino: true});
       const {container} = render(<Ganso idioma={idioma} azar={azarConSemilla(1)} />);
       moverMouse(500, 400);
       esperarSecuestro();
-      vi.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(300);
       const flecha = container.querySelector<HTMLElement>('.ganso-flecha') as HTMLElement;
       expect(posicion(flecha)).not.toEqual({x: 500, y: 400});
 
-      moverMouse(505, 402);
+      // Cuatro sacudidas de 100 px: la cuarta completa los 400 y lo suelta donde quedó el mouse.
+      for (const x of [600, 500, 600, 500]) moverMouse(x, 400);
       const ganso = container.firstElementChild as HTMLElement;
       expect(ganso.dataset.graznido).toBe('true');
       expect(ganso.textContent).toContain(TEXTOS[idioma]['ganso.graznido']);
-      expect(posicion(flecha)).toEqual({x: 505, y: 402});
+      expect(posicion(flecha)).toEqual({x: 500, y: 400});
       vi.advanceTimersByTime(200);
       expect(secuestrado()).toBe(false);
       expect(flecha.dataset.visible).toBe('false');

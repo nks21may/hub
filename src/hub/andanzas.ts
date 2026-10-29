@@ -29,6 +29,8 @@ export interface Ganso {
   proximoAtaque: number;
   /** Cuánto le queda de persecución mientras va por el cursor, en segundos. */
   caza: number;
+  /** Cuánto sacudió el visitante el mouse desde que el ganso le agarró el cursor, en píxeles. */
+  forcejeo: number;
   /** Cuánto le queda al «¡JONK!», en segundos. */
   graznido: number;
   /** Cuántos graznidos hizo: cada uno es un cartelito y, si el navegador deja, un sonido (ADR-0015). */
@@ -67,6 +69,8 @@ const MARGEN_ABAJO = 12;
 const PRIMER_ATAQUE = 10;
 /** Lo que persigue el cursor antes de rendirse, en segundos (ADR-0019). */
 const CAZA = 8;
+/** Lo que hay que sacudir el mouse para sacarle el cursor del pico, en píxeles sumados (ADR-0019). */
+const SACUDIDA = 400;
 /** La chance de ir por el cursor cada vez que termina una pausa, si puede. */
 const GANAS = 0.6;
 /** Lo que espera después de que se le escapa, en segundos: entre el mínimo y el máximo. */
@@ -128,6 +132,7 @@ export function nacer(ancho: number, alto: number, azar: () => number): Ganso {
     pausa: 0,
     proximoAtaque: PRIMER_ATAQUE,
     caza: 0,
+    forcejeo: 0,
     graznido: 0,
     graznidos: 0,
     proximoGraznido: PRIMER_GRAZNIDO_MINIMO + azar() * (PRIMER_GRAZNIDO_MAXIMO - PRIMER_GRAZNIDO_MINIMO),
@@ -232,7 +237,8 @@ function moverse(ganso: Ganso, mundo: Mundo, segundos: number, azar: () => numbe
     const paso = caminar(ganso, pies, CORRIDA, segundos);
     if (paso.llego) {
       const destino = otraMitad(cursor, mundo, azar);
-      return {...ganso, x: paso.x, y: paso.y, mirando, fase: 'arrastrando', destino, presa: {...cursor}, caza: 0, graznido};
+      const presa = {...cursor};
+      return {...ganso, x: paso.x, y: paso.y, mirando, fase: 'arrastrando', destino, presa, caza: 0, forcejeo: 0, graznido};
     }
     const caza = ganso.caza - segundos;
     const corrido: Ganso = {...ganso, x: paso.x, y: paso.y, mirando, destino: pies, caza, graznido};
@@ -269,9 +275,9 @@ function moverse(ganso: Ganso, mundo: Mundo, segundos: number, azar: () => numbe
 }
 
 /**
- * El cursor se le escapó: el visitante movió el mouse. El ganso suelta lo que tenía, hace «¡JONK!»
- * si tenía algo (y el graznido siguiente se corre, para que no salgan dos seguidos), y no vuelve a
- * atacar por 30 a 60 s.
+ * El cursor se le escapó: el visitante lo sacudió, el puntero salió de la ventana o la página se va.
+ * El ganso suelta lo que tenía, hace «¡JONK!» si tenía algo (y el graznido siguiente se corre, para
+ * que no salgan dos seguidos), y no vuelve a atacar por 30 a 60 s.
  */
 export function escapar(ganso: Ganso, reloj: number, azar: () => number): Ganso {
   const persiguiendo = ganso.fase === 'yendo' || ganso.fase === 'arrastrando';
@@ -284,6 +290,18 @@ export function escapar(ganso: Ganso, reloj: number, azar: () => number): Ganso 
     proximoAtaque: reloj + esperaAlAzar(azar),
   };
   return ganso.presa ? graznar(suelto, reloj) : suelto;
+}
+
+/**
+ * El visitante movió el mouse tantos píxeles. Con el cursor en el pico, el ganso no lo suelta por un
+ * movimiento: hay que sacudirlo 400 px en total (ADR-0019). Si ya lo dejó en la otra mitad, no lo
+ * tiene agarrado, y cualquier movimiento lo libera. Sin presa, no le hace nada.
+ */
+export function sacudir(ganso: Ganso, pixeles: number, reloj: number, azar: () => number): Ganso {
+  if (!ganso.presa) return ganso;
+  if (ganso.fase !== 'arrastrando') return escapar(ganso, reloj, azar);
+  const forcejeo = ganso.forcejeo + pixeles;
+  return forcejeo < SACUDIDA ? {...ganso, forcejeo} : escapar(ganso, reloj, azar);
 }
 
 /**

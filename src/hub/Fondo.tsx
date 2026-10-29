@@ -103,6 +103,9 @@ export function Fondo() {
 
     function alMover(evento: PointerEvent) {
       if (evento.pointerType === 'touch') return;
+      // Mientras el ganso tiene el cursor, el puntero real se mueve escondido: el que cuenta es la
+      // flecha, y el polvo no delata dónde está el otro (ADR-0019).
+      if (document.documentElement.dataset.ganso === 'secuestro') return;
       cursor = {x: evento.clientX, y: evento.clientY};
     }
 

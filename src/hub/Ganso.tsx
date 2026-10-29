@@ -2,7 +2,7 @@ import {useEffect, useRef} from 'react';
 import type {Idioma} from '../i18n/textos.ts';
 import {texto} from '../i18n/textos.ts';
 import type {Ganso as ElGanso} from './andanzas.ts';
-import {andar, escapar, nacer, tocar} from './andanzas.ts';
+import {andar, escapar, nacer, sacudir, tocar} from './andanzas.ts';
 import {sinMovimiento} from './movimiento.ts';
 import type {Punto} from './puntero.ts';
 import {PUNTERO_DIBUJADO} from './puntero.ts';
@@ -37,9 +37,9 @@ interface Props {
  * El ganso que pasea por encima del hub (ADR-0014): un SVG fijo a la ventana que camina a un punto al
  * azar, se para un rato y vuelve a caminar. Pasados los 10 s puede perseguir el cursor, hasta 8 s, y
  * si lo alcanza se lo lleva (ADR-0019): el puntero real no se mueve, se esconde, y lo que se lleva en
- * el pico es una flecha dibujada. Si no lo alcanza, grazna y vuelve a pasear. Apenas
- * el mouse se mueve, la flecha vuelve al puntero real, el puntero reaparece y el ganso hace «¡JONK!».
- * También grazna cada tanto, con sonido desde el primer click, toque o tecla (ADR-0015).
+ * el pico es una flecha dibujada. Si no lo alcanza, grazna y vuelve a pasear. Para sacárselo hay
+ * que sacudir el mouse: la flecha vuelve al puntero real, el puntero reaparece y el ganso hace
+ * «¡JONK!». También grazna cada tanto, con sonido desde el primer click, toque o tecla (ADR-0015).
  * Es decorado: queda fuera del árbol de accesibilidad y no ataja ningún click. Con movimiento
  * reducido no hay ganso.
  */
@@ -90,10 +90,9 @@ export function Ganso({idioma, azar = Math.random}: Props) {
       delete raiz.dataset.ganso;
     }
 
-    /** El cursor se le escapa al ganso: la flecha vuelve al puntero real, o desaparece si no hay. */
-    function soltar(hacia?: Punto) {
-      if (!dibujada || !ganso.presa) return;
-      ganso = escapar(ganso, reloj, azar);
+    /** El ganso ya no tiene el cursor: la flecha vuelve al puntero real, o desaparece si no hay. */
+    function volver(hacia?: Punto) {
+      if (!dibujada) return;
       window.clearTimeout(vuelta);
       if (hacia) {
         dibujada.dataset.volviendo = 'true';
@@ -102,17 +101,30 @@ export function Ganso({idioma, azar = Math.random}: Props) {
       } else {
         devolver();
       }
+    }
+
+    /** El cursor se le escapa de golpe: el puntero salió de la ventana o la página se va. */
+    function soltar() {
+      if (!ganso.presa) return;
+      ganso = escapar(ganso, reloj, azar);
+      volver();
       pintar();
     }
 
+    // Con el cursor en el pico, el ganso lo suelta recién cuando el visitante lo sacudió bastante
+    // (ADR-0019): cada movimiento suma lo que recorrió.
     function alMover(evento: PointerEvent) {
       if (evento.pointerType === 'touch') return;
       const nuevo = {x: evento.clientX, y: evento.clientY};
       // Un aviso sin movimiento, como el que manda el navegador cuando cambia lo que hay debajo, no
       // cuenta: el que suelta el cursor es el visitante.
       if (puntero && nuevo.x === puntero.x && nuevo.y === puntero.y) return;
+      const recorrido = puntero ? Math.hypot(nuevo.x - puntero.x, nuevo.y - puntero.y) : 0;
       puntero = nuevo;
-      soltar(nuevo);
+      if (!ganso.presa) return;
+      ganso = sacudir(ganso, recorrido, reloj, azar);
+      if (!ganso.presa) volver(nuevo);
+      pintar();
     }
 
     function alSalir(evento: MouseEvent) {

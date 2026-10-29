@@ -67,8 +67,9 @@ luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo deriva sol
 pasa el mouse y las luces del cielo se corren. Con movimiento reducido, el cielo queda quieto, el
 polvo no reacciona y no hay zoom. Encima de todo pasea un ganso vectorial desde que carga (era un
 pato hasta ADR-0016); pasados 10 s persigue el cursor hasta 8 s y, si lo alcanza, se lleva en el
-pico uno dibujado, que se le escapa apenas se mueve el mouse (ADR-0014, ADR-0019). Cada tanto grazna «¡JONK!», con sonido desde que el
-visitante tocó la página (ADR-0015). Con movimiento reducido no hay ganso.
+pico uno dibujado, que hay que sacudirle con el mouse para que lo suelte (ADR-0014, ADR-0019). Cada
+tanto grazna «¡JONK!», con sonido desde que el visitante tocó la página (ADR-0015). Con movimiento
+reducido no hay ganso.
 
 FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a (la imprimió concept-seed el
 2026-10-26; la página de decisión fue b7f6db46), elegida por el usuario con

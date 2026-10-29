@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 import type {Mundo, Ganso} from '../src/hub/andanzas.ts';
-import {andar, escapar, nacer, pico, tocar} from '../src/hub/andanzas.ts';
+import {andar, escapar, nacer, pico, sacudir, tocar} from '../src/hub/andanzas.ts';
 import {azarConSemilla} from '../src/hub/particulas.ts';
 import type {Punto} from '../src/hub/puntero.ts';
 
@@ -290,6 +290,70 @@ describe('el ganso que secuestra el cursor', () => {
       expect(despues.some(({ganso}) => ganso.fase === 'yendo' || ganso.presa)).toBe(false);
       expect(despues.at(-1)?.ganso.graznido).toBe(0);
     }
+  });
+});
+
+/** Lo sacude tantas veces, de a tantos píxeles cada vez; devuelve cómo quedó después de cada una. */
+function sacudidas(ganso: Ganso, veces: number, pixeles: number, reloj: number, azar: () => number): Ganso[] {
+  const despues: Ganso[] = [];
+  let actual = ganso;
+  for (let vez = 0; vez < veces; vez++) {
+    actual = sacudir(actual, pixeles, reloj, azar);
+    despues.push(actual);
+  }
+  return despues;
+}
+
+describe('el forcejeo por el cursor', () => {
+  it('con el cursor en el pico, un movimiento corto no lo suelta', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, indice, azar} = primerSecuestro(semilla);
+      const {ganso, reloj} = en(instantes, indice);
+      const movido = sacudir(ganso, 50, reloj, azar);
+      expect(movido.fase).toBe('arrastrando');
+      expect(movido.presa).toEqual(ganso.presa);
+      expect(movido.graznidos).toBe(ganso.graznidos);
+    }
+  });
+
+  it('sacudiéndolo 400 px en total, lo suelta, grazna y no vuelve a atacar por 30 s', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, indice, azar} = primerSecuestro(semilla);
+      const {ganso, reloj} = en(instantes, indice);
+      const despues = sacudidas(ganso, 8, 50, reloj, azar);
+      expect(despues.slice(0, 7).every((sacudido) => sacudido.presa)).toBe(true);
+      const suelto = despues.at(-1) ?? ganso;
+      expect(suelto.presa).toBeUndefined();
+      expect(suelto.fase).toBe('parado');
+      expect(suelto.graznidos).toBe(ganso.graznidos + 1);
+      expect(suelto.proximoAtaque).toBeGreaterThanOrEqual(reloj + 30);
+    }
+  });
+
+  it('lo que sacude cuenta aunque el ganso siga caminando entre una sacudida y otra', () => {
+    const {instantes, indice, azar} = primerSecuestro(1);
+    const {ganso, reloj} = en(instantes, indice);
+    let actual = ganso;
+    for (let vez = 0; vez < 7; vez++) actual = andar(sacudir(actual, 50, reloj, azar), conCursor(reloj), CUADRO, azar);
+    expect(actual.presa).toBeDefined();
+    expect(sacudir(actual, 50, reloj, azar).presa).toBeUndefined();
+  });
+
+  it('si ya lo dejó en la otra mitad, cualquier movimiento lo libera', () => {
+    const {instantes, indice, azar} = primerSecuestro(1);
+    const agarrado = en(instantes, indice);
+    const despues = vivir(agarrado.ganso, agarrado.reloj, agarrado.reloj + 60, azar);
+    const dejado = despues.find(({ganso}) => ganso.fase !== 'arrastrando');
+    expect(dejado?.ganso.presa).toBeDefined();
+    if (!dejado) return;
+    const libre = sacudir(dejado.ganso, 3, dejado.reloj, azar);
+    expect(libre.presa).toBeUndefined();
+    expect(libre.graznidos).toBe(dejado.ganso.graznidos + 1);
+  });
+
+  it('sin presa, mover el mouse no le hace nada', () => {
+    const ganso = caminando(600, 400);
+    expect(sacudir(ganso, 500, 20, azarConSemilla(1))).toEqual(ganso);
   });
 });
 
