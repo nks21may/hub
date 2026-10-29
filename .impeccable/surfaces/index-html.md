@@ -66,8 +66,8 @@ detrás, fijo. Interacción firma: con hover o foco, el borde se aclara, la prev
 luz radial sigue al cursor dentro del recuadro; en el fondo, el polvo deriva solo, se enciende por donde
 pasa el mouse y las luces del cielo se corren. Con movimiento reducido, el cielo queda quieto, el
 polvo no reacciona y no hay zoom. Encima de todo pasea un ganso vectorial desde que carga (era un
-pato hasta ADR-0016); pasados 10 s puede llevarse en el pico un cursor quieto, dibujado, que se le
-escapa apenas se mueve el mouse (ADR-0014). Cada tanto grazna «¡JONK!», con sonido desde que el
+pato hasta ADR-0016); pasados 10 s persigue el cursor hasta 8 s y, si lo alcanza, se lleva en el
+pico uno dibujado, que se le escapa apenas se mueve el mouse (ADR-0014, ADR-0019). Cada tanto grazna «¡JONK!», con sonido desde que el
 visitante tocó la página (ADR-0015). Con movimiento reducido no hay ganso.
 
 FORM: El estándar de la categoría: la carta canon de la ronda 944c3b0a (la imprimió concept-seed el

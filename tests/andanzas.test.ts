@@ -98,7 +98,7 @@ const CUADRO = 1 / 60;
 
 /** Un mundo con el cursor quieto desde el principio y un mouse de verdad. */
 function conCursor(reloj: number, extra: Partial<Mundo> = {}): Mundo {
-  return {...VENTANA, reloj, puntero: CURSOR, quietoDesde: 0, fino: true, ...extra};
+  return {...VENTANA, reloj, puntero: CURSOR, fino: true, ...extra};
 }
 
 interface Instante {
@@ -108,19 +108,20 @@ interface Instante {
 
 /**
  * Lo hace vivir de a cuadros de 60 Hz, de un reloj a otro, y devuelve cada instante. `mundo` dice
- * cómo está el mundo en cada momento; por defecto, con el cursor quieto desde el principio.
+ * cómo está el mundo en cada momento, y puede mirar al ganso; por defecto, con el cursor quieto desde
+ * el principio.
  */
 function vivir(
   ganso: Ganso,
   desde: number,
   hasta: number,
   azar: () => number,
-  mundo: (reloj: number) => Mundo = conCursor,
+  mundo: (reloj: number, ganso: Ganso) => Mundo = (reloj) => conCursor(reloj),
 ): Instante[] {
   const instantes: Instante[] = [];
   let actual = ganso;
   for (let reloj = desde; reloj < hasta; reloj += CUADRO) {
-    actual = andar(actual, mundo(reloj), CUADRO, azar);
+    actual = andar(actual, mundo(reloj, actual), CUADRO, azar);
     instantes.push({reloj, ganso: actual});
   }
   return instantes;
@@ -176,25 +177,78 @@ describe('el ganso que secuestra el cursor', () => {
     }
   });
 
-  it('un cursor que no se queda quieto 3 s no le interesa', () => {
+  it('va por un cursor que se mueve todo el tiempo y, si lo alcanza, se lo lleva', () => {
+    // El visitante da vueltas despacio con el mouse, a unos 60 px/s: el ganso corre a 200.
+    const enCirculo = (reloj: number): Punto => ({x: 900 + 60 * Math.cos(reloj), y: 300 + 60 * Math.sin(reloj)});
     for (const semilla of SEMILLAS) {
       const azar = azarConSemilla(semilla);
-      // El visitante mueve el mouse cada dos segundos.
-      const inquieto = (reloj: number) => conCursor(reloj, {quietoDesde: Math.floor(reloj / 2) * 2});
+      const inquieto = (reloj: number) => conCursor(reloj, {puntero: enCirculo(reloj)});
       const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar, inquieto);
-      expect(instantes.some(({ganso}) => ganso.fase === 'yendo')).toBe(false);
+      const yendo = instantes.findIndex(({ganso}) => ganso.fase === 'yendo');
+      expect(yendo).toBeGreaterThan(0);
+      expect(en(instantes, yendo).reloj).toBeGreaterThanOrEqual(10);
+      const agarrado = instantes.findIndex(({ganso}) => ganso.fase === 'arrastrando');
+      expect(agarrado).toBeGreaterThan(yendo);
+      const {ganso, reloj} = en(instantes, agarrado);
+      expect(distancia(ganso.presa ?? {x: NaN, y: NaN}, enCirculo(reloj))).toBeLessThan(10);
     }
   });
 
-  it('si el cursor se mueve mientras va a buscarlo, lo deja', () => {
-    const azar = azarConSemilla(1);
-    const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 300, azar);
-    const yendo = instantes.find(({ganso}) => ganso.fase === 'yendo');
-    expect(yendo).toBeDefined();
-    if (!yendo) return;
-    const movido = andar(yendo.ganso, conCursor(yendo.reloj, {quietoDesde: yendo.reloj}), CUADRO, azar);
-    expect(movido.fase).not.toBe('yendo');
-    expect(movido.presa).toBeUndefined();
+  it('lo sigue: si el cursor se va para el otro lado, el ganso da la vuelta y va para allá', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, azar} = primerSecuestro(semilla);
+      const yendo = instantes.find(({ganso}) => ganso.fase === 'yendo');
+      expect(yendo).toBeDefined();
+      if (!yendo) return;
+      const otroLado = {x: yendo.ganso.x < VENTANA.ancho / 2 ? 1200 : 80, y: 600};
+      const despues = vivir(yendo.ganso, yendo.reloj, yendo.reloj + 0.5, azar, (reloj) =>
+        conCursor(reloj, {puntero: otroLado}),
+      );
+      const ganso = despues.at(-1)?.ganso ?? yendo.ganso;
+      expect(ganso.fase).toBe('yendo');
+      expect(ganso.mirando).toBe(otroLado.x < ganso.x ? -1 : 1);
+      expect(distancia(pico(ganso), otroLado)).toBeLessThan(distancia(pico(yendo.ganso), otroLado) - 50);
+    }
+  });
+
+  it('si en 8 s no lo alcanza, se para, grazna y vuelve a pasear, y no ataca de nuevo por 30 s', () => {
+    // Un cursor que siempre se le aleja: está 400 px al costado del pico, del lado con más lugar.
+    const esquivo = (reloj: number, ganso: Ganso) => {
+      const punta = pico(ganso);
+      return conCursor(reloj, {puntero: {x: punta.x + (ganso.x < VENTANA.ancho / 2 ? 400 : -400), y: punta.y}});
+    };
+    for (const semilla of SEMILLAS) {
+      const azar = azarConSemilla(semilla);
+      const instantes = vivir(nacer(VENTANA.ancho, VENTANA.alto, azar), 0, 120, azar, esquivo);
+      const yendo = instantes.findIndex(({ganso}) => ganso.fase === 'yendo');
+      expect(yendo).toBeGreaterThan(0);
+      const rendido = instantes.findIndex(({ganso}, indice) => indice > yendo && ganso.fase !== 'yendo');
+      expect(rendido).toBeGreaterThan(yendo);
+      const cansado = en(instantes, rendido);
+      expect(cansado.reloj - en(instantes, yendo).reloj).toBeCloseTo(8, 1);
+      expect(cansado.ganso.fase).toBe('parado');
+      expect(cansado.ganso.presa).toBeUndefined();
+      expect(cansado.ganso.graznido).toBeGreaterThan(0);
+      expect(cansado.ganso.graznidos).toBe(en(instantes, rendido - 1).ganso.graznidos + 1);
+
+      const despues = instantes.filter(({reloj}) => reloj > cansado.reloj && reloj < cansado.reloj + 30);
+      expect(despues.some(({ganso}) => ganso.fase === 'yendo')).toBe(false);
+      expect(despues.some(({ganso}) => ganso.fase === 'caminando')).toBe(true);
+    }
+  });
+
+  it('si el puntero sale de la ventana mientras lo persigue, se rinde igual, graznando', () => {
+    for (const semilla of SEMILLAS) {
+      const {instantes, azar} = primerSecuestro(semilla);
+      const yendo = instantes.find(({ganso}) => ganso.fase === 'yendo');
+      expect(yendo).toBeDefined();
+      if (!yendo) return;
+      const solo = andar(yendo.ganso, conCursor(yendo.reloj, {puntero: undefined}), CUADRO, azar);
+      expect(solo.fase).toBe('parado');
+      expect(solo.presa).toBeUndefined();
+      expect(solo.graznidos).toBe(yendo.ganso.graznidos + 1);
+      expect(solo.proximoAtaque).toBeGreaterThanOrEqual(yendo.reloj + 30);
+    }
   });
 
   it('con el dedo nunca va: no hay cursor que robar', () => {

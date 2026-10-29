@@ -27,6 +27,8 @@ export interface Ganso {
   presa?: Punto;
   /** Desde qué momento del reloj puede volver a ir por el cursor. */
   proximoAtaque: number;
+  /** Cuánto le queda de persecución mientras va por el cursor, en segundos. */
+  caza: number;
   /** Cuánto le queda al «¡JONK!», en segundos. */
   graznido: number;
   /** Cuántos graznidos hizo: cada uno es un cartelito y, si el navegador deja, un sonido (ADR-0015). */
@@ -46,8 +48,6 @@ export interface Mundo {
   reloj?: number;
   /** Dónde está el puntero real, si está adentro de la ventana. */
   puntero?: Punto;
-  /** En qué momento del reloj se movió el puntero por última vez. */
-  quietoDesde?: number;
   /** Si hay un mouse (o algo que apunta fino y pasa por encima), con un cursor que robar. */
   fino?: boolean;
 }
@@ -65,8 +65,8 @@ const MARGEN_ARRIBA = 70;
 const MARGEN_ABAJO = 12;
 /** Antes de esto no ataca nunca (lo pidió el usuario, ADR-0015), en segundos de reloj. */
 const PRIMER_ATAQUE = 10;
-/** Lo que tiene que llevar quieto el cursor para que le interese, en segundos. */
-const QUIETO = 3;
+/** Lo que persigue el cursor antes de rendirse, en segundos (ADR-0019). */
+const CAZA = 8;
 /** La chance de ir por el cursor cada vez que termina una pausa, si puede. */
 const GANAS = 0.6;
 /** Lo que espera después de que se le escapa, en segundos: entre el mínimo y el máximo. */
@@ -127,6 +127,7 @@ export function nacer(ancho: number, alto: number, azar: () => number): Ganso {
     destino,
     pausa: 0,
     proximoAtaque: PRIMER_ATAQUE,
+    caza: 0,
     graznido: 0,
     graznidos: 0,
     proximoGraznido: PRIMER_GRAZNIDO_MINIMO + azar() * (PRIMER_GRAZNIDO_MAXIMO - PRIMER_GRAZNIDO_MINIMO),
@@ -138,12 +139,45 @@ export function pico(ganso: Ganso): Punto {
   return {x: ganso.x + ganso.mirando * PICO.x, y: ganso.y - PICO.y};
 }
 
-/** El cursor quieto que le interesa al ganso, si hay uno y si ya puede ir por él. */
-function cursorQuieto(ganso: Ganso, mundo: Mundo): Punto | undefined {
-  const {reloj = 0, puntero, quietoDesde = reloj, fino = false} = mundo;
-  if (!fino || !puntero || ganso.presa) return undefined;
-  if (reloj < ganso.proximoAtaque || reloj - quietoDesde < QUIETO) return undefined;
+/** El cursor que le interesa al ganso, quieto o no, si hay uno y si ya puede ir por él. */
+function cursorAMano(ganso: Ganso, mundo: Mundo): Punto | undefined {
+  const {reloj = 0, puntero, fino = false} = mundo;
+  if (!fino || !puntero || ganso.presa || reloj < ganso.proximoAtaque) return undefined;
   return puntero;
+}
+
+/** Lo que espera para volver a atacar, en segundos: entre el mínimo y el máximo, al azar. */
+function esperaAlAzar(azar: () => number): number {
+  return ESPERA_MINIMA + azar() * (ESPERA_MAXIMA - ESPERA_MINIMA);
+}
+
+/**
+ * Un «¡JONK!» fuera de la cuenta, por algo que le pasó. El graznido solo siguiente se corre, para que
+ * no salgan dos seguidos.
+ */
+function graznar(ganso: Ganso, reloj: number): Ganso {
+  return {
+    ...ganso,
+    graznido: GRAZNIDO,
+    graznidos: ganso.graznidos + 1,
+    proximoGraznido: Math.max(ganso.proximoGraznido, reloj + GRAZNIDO_CADA_MINIMO),
+  };
+}
+
+/**
+ * No lo alcanzó en 8 s, o el puntero se fue de la ventana: se para, hace «¡JONK!» y después vuelve a
+ * pasear. Espera de 30 a 60 s para el próximo ataque, como cuando se le escapa.
+ */
+function rendirse(ganso: Ganso, reloj: number, azar: () => number): Ganso {
+  const parado: Ganso = {
+    ...ganso,
+    fase: 'parado',
+    destino: {x: ganso.x, y: ganso.y},
+    pausa: pausaAlAzar(azar),
+    caza: 0,
+    proximoAtaque: reloj + esperaAlAzar(azar),
+  };
+  return graznar(parado, reloj);
 }
 
 /** Un punto de la otra mitad de la pantalla, adonde se lleva el cursor. */
@@ -180,24 +214,29 @@ export function andar(ganso: Ganso, mundo: Mundo, segundos: number, azar: () => 
 
 /**
  * Cómo se mueve el ganso en un paso. Pasea: camina hacia su destino, se para al llegar y, cuando
- * se le acaba la pausa, elige otro. Pasados los 10 s, cuando termina una pausa y hay un cursor quieto hace 3 s,
- * puede ir a buscarlo; si el cursor se mueve, lo deja. Cuando lo tiene en el pico se lo lleva a la
- * otra mitad de la pantalla y lo suelta ahí. Depende del tiempo y no de los cuadros, y paseando
- * nunca sale de la ventana.
+ * se le acaba la pausa, elige otro. Pasados los 10 s, cuando termina una pausa, puede ir por el
+ * cursor, quieto o no, y lo sigue a donde vaya durante 8 s; si no lo alcanza, o si el puntero se va
+ * de la ventana, se rinde. Cuando lo tiene en el pico se lo lleva a la otra mitad de la pantalla y lo
+ * suelta ahí. Depende del tiempo y no de los cuadros, y paseando nunca sale de la ventana.
  */
 function moverse(ganso: Ganso, mundo: Mundo, segundos: number, azar: () => number): Ganso {
   const graznido = Math.max(0, ganso.graznido - segundos);
+  const reloj = mundo.reloj ?? 0;
 
   if (ganso.fase === 'yendo') {
-    const cursor = cursorQuieto(ganso, mundo);
-    if (!cursor) return {...ganso, fase: 'parado', destino: {x: ganso.x, y: ganso.y}, pausa: pausaAlAzar(azar), graznido};
+    const cursor = cursorAMano(ganso, mundo);
+    if (!cursor) return rendirse({...ganso, graznido}, reloj, azar);
     const mirando = cursor.x < ganso.x ? -1 : 1;
     // Va a dejar la punta del pico sobre el cursor, del lado del que vino.
     const pies = {x: cursor.x - mirando * PICO.x, y: cursor.y + PICO.y};
     const paso = caminar(ganso, pies, CORRIDA, segundos);
-    if (!paso.llego) return {...ganso, x: paso.x, y: paso.y, mirando, destino: pies, graznido};
-    const destino = otraMitad(cursor, mundo, azar);
-    return {...ganso, x: paso.x, y: paso.y, mirando, fase: 'arrastrando', destino, presa: {...cursor}, graznido};
+    if (paso.llego) {
+      const destino = otraMitad(cursor, mundo, azar);
+      return {...ganso, x: paso.x, y: paso.y, mirando, fase: 'arrastrando', destino, presa: {...cursor}, caza: 0, graznido};
+    }
+    const caza = ganso.caza - segundos;
+    const corrido: Ganso = {...ganso, x: paso.x, y: paso.y, mirando, destino: pies, caza, graznido};
+    return caza > 0 ? corrido : rendirse(corrido, reloj, azar);
   }
 
   if (ganso.fase === 'arrastrando') {
@@ -215,9 +254,9 @@ function moverse(ganso: Ganso, mundo: Mundo, segundos: number, azar: () => numbe
   if (ganso.fase === 'parado') {
     const pausa = ganso.pausa - segundos;
     if (pausa > 0) return {...ganso, x, y, destino, pausa, graznido};
-    const cursor = cursorQuieto(ganso, mundo);
+    const cursor = cursorAMano(ganso, mundo);
     if (cursor && azar() < GANAS) {
-      return {...ganso, x, y, mirando: cursor.x < x ? -1 : 1, fase: 'yendo', destino: cursor, pausa: 0, graznido};
+      return {...ganso, x, y, mirando: cursor.x < x ? -1 : 1, fase: 'yendo', destino: cursor, pausa: 0, caza: CAZA, graznido};
     }
     return {...ganso, x, y, fase: 'caminando', destino: alAzar(mundo, azar), pausa: 0, graznido};
   }
@@ -236,17 +275,15 @@ function moverse(ganso: Ganso, mundo: Mundo, segundos: number, azar: () => numbe
  */
 export function escapar(ganso: Ganso, reloj: number, azar: () => number): Ganso {
   const persiguiendo = ganso.fase === 'yendo' || ganso.fase === 'arrastrando';
-  return {
+  const suelto: Ganso = {
     ...ganso,
     fase: persiguiendo ? 'parado' : ganso.fase,
     destino: persiguiendo ? {x: ganso.x, y: ganso.y} : ganso.destino,
     pausa: persiguiendo ? pausaAlAzar(azar) : ganso.pausa,
     presa: undefined,
-    proximoAtaque: reloj + ESPERA_MINIMA + azar() * (ESPERA_MAXIMA - ESPERA_MINIMA),
-    graznido: ganso.presa ? GRAZNIDO : ganso.graznido,
-    graznidos: ganso.presa ? ganso.graznidos + 1 : ganso.graznidos,
-    proximoGraznido: ganso.presa ? Math.max(ganso.proximoGraznido, reloj + GRAZNIDO_CADA_MINIMO) : ganso.proximoGraznido,
+    proximoAtaque: reloj + esperaAlAzar(azar),
   };
+  return ganso.presa ? graznar(suelto, reloj) : suelto;
 }
 
 /**
@@ -254,11 +291,5 @@ export function escapar(ganso: Ganso, reloj: number, azar: () => number): Ganso 
  * El graznido solo siguiente se corre, para que no salgan dos seguidos.
  */
 export function tocar(ganso: Ganso, reloj: number): Ganso {
-  if (ganso.graznido > 0) return ganso;
-  return {
-    ...ganso,
-    graznido: GRAZNIDO,
-    graznidos: ganso.graznidos + 1,
-    proximoGraznido: Math.max(ganso.proximoGraznido, reloj + GRAZNIDO_CADA_MINIMO),
-  };
+  return ganso.graznido > 0 ? ganso : graznar(ganso, reloj);
 }

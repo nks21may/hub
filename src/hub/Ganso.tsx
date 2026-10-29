@@ -35,8 +35,9 @@ interface Props {
 
 /**
  * El ganso que pasea por encima del hub (ADR-0014): un SVG fijo a la ventana que camina a un punto al
- * azar, se para un rato y vuelve a caminar. Pasados los 10 s puede llevarse un cursor quieto: el
- * puntero real no se mueve, se esconde, y lo que se lleva en el pico es una flecha dibujada. Apenas
+ * azar, se para un rato y vuelve a caminar. Pasados los 10 s puede perseguir el cursor, hasta 8 s, y
+ * si lo alcanza se lo lleva (ADR-0019): el puntero real no se mueve, se esconde, y lo que se lleva en
+ * el pico es una flecha dibujada. Si no lo alcanza, grazna y vuelve a pasear. Apenas
  * el mouse se mueve, la flecha vuelve al puntero real, el puntero reaparece y el ganso hace «¡JONK!».
  * También grazna cada tanto, con sonido desde el primer click, toque o tecla (ADR-0015).
  * Es decorado: queda fuera del árbol de accesibilidad y no ataja ningún click. Con movimiento
@@ -61,7 +62,6 @@ export function Ganso({idioma, azar = Math.random}: Props) {
     // El reloj del ganso cuenta sólo los segundos de pestaña a la vista: sin cuadros, no corre.
     let reloj = 0;
     let puntero: Punto | undefined;
-    let quietoDesde = 0;
     let vuelta = 0;
     let antes = performance.now();
     let cuadro = 0;
@@ -112,7 +112,6 @@ export function Ganso({idioma, azar = Math.random}: Props) {
       // cuenta: el que suelta el cursor es el visitante.
       if (puntero && nuevo.x === puntero.x && nuevo.y === puntero.y) return;
       puntero = nuevo;
-      quietoDesde = reloj;
       soltar(nuevo);
     }
 
@@ -147,7 +146,7 @@ export function Ganso({idioma, azar = Math.random}: Props) {
       const segundos = Math.min(Math.max((ahora - antes) / 1000, 0), 0.1);
       antes = ahora;
       reloj += segundos;
-      ganso = andar(ganso, {...medirVentana(), reloj, puntero, quietoDesde, fino}, segundos, azar);
+      ganso = andar(ganso, {...medirVentana(), reloj, puntero, fino}, segundos, azar);
       pintar();
       cuadro = requestAnimationFrame(paso);
     }
